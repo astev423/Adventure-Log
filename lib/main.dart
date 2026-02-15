@@ -10,10 +10,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Adventure Log',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: const Homepage(),
-    );
+    return MaterialApp(title: 'Adventure Log', home: const Homepage());
   }
 }
