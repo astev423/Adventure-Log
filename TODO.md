@@ -14,6 +14,7 @@
 # Optional
 -Let users add a photo of the place to location
 -Add accounts/auth so users can view their own ratings/ratings of others
+-Account page where users can see all their ratings and also look up ratings from others
 
 # For Android
 -Need to enable location permission in the android/app/src/main/AndroidManifest.xml

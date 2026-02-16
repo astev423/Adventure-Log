@@ -26,7 +26,7 @@ class Homepage extends StatelessWidget {
             Text(
               "Log and find amazing places!",
               style: TextStyle(
-                color: const Color(0xFF4C956C),
+                color: DARK_GREEN,
                 fontSize: responsiveFont(context, 8),
               ),
             ),
