@@ -10,9 +10,9 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFA4C3B2),
-      body: Center(
+      body: Align(
+        alignment: Alignment.topCenter,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               "Adventure Log",
@@ -22,7 +22,6 @@ class Homepage extends StatelessWidget {
                 fontWeight: FontWeight.w900,
               ),
             ),
-            SizedBox(height: 12, width: 12),
             Text(
               "Log and find amazing places!",
               style: TextStyle(
@@ -30,9 +29,7 @@ class Homepage extends StatelessWidget {
                 fontSize: responsiveFont(context, 8),
               ),
             ),
-            SizedBox(height: 80, width: 80),
             SelectPage(),
-            SizedBox(height: 160, width: 160),
           ],
         ),
       ),

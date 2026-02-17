@@ -6,33 +6,30 @@ class SelectPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ElevatedButton(
-          onPressed: () => print("hello"),
-          style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFFFC9B9)),
-          child: Text(
-            "Rate a place",
-            style: TextStyle(
-              color: const Color(0xFF4C956C),
-              fontSize: responsiveFont(context, 8),
-            ),
+    final textStyle = TextStyle(
+      color: const Color(0xFF4C956C),
+      fontWeight: .w400,
+      fontSize: responsiveFont(context, 10),
+    );
+
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.7,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ElevatedButton(
+            onPressed: () => print(""),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+            child: Text("Rate a place", style: textStyle),
           ),
-        ),
-        SizedBox(height: 12, width: 12),
-        ElevatedButton(
-          onPressed: () => print(""),
-          style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFFFC9B9)),
-          child: Text(
-            "View ratings for places",
-            style: TextStyle(
-              color: const Color(0xFF4C956C),
-              fontWeight: .w900,
-              fontSize: responsiveFont(context, 12),
-            ),
+          const SizedBox(height: 12),
+          ElevatedButton(
+            onPressed: () => print(""),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+            child: Text("View ratings", style: textStyle),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
