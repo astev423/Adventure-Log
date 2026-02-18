@@ -12,25 +12,28 @@ class Homepage extends StatelessWidget {
       backgroundColor: const Color(0xFFA4C3B2),
       body: Align(
         alignment: Alignment.topCenter,
-        child: Column(
-          children: [
-            Text(
-              "Adventure Log",
-              style: TextStyle(
-                color: DARK_GREEN,
-                fontSize: responsiveFont(context, 20),
-                fontWeight: FontWeight.w900,
+        child: Container(
+          child: Column(
+            children: [
+              Text(
+                "Adventure Log",
+                style: TextStyle(
+                  color: DARK_GREEN,
+                  fontSize: responsiveFont(context, 20),
+                  fontWeight: FontWeight.w900,
+                ),
               ),
-            ),
-            Text(
-              "Log and find amazing places!",
-              style: TextStyle(
-                color: DARK_GREEN,
-                fontSize: responsiveFont(context, 8),
+              Text(
+                "Log and find amazing places!",
+                style: TextStyle(
+                  color: DARK_GREEN,
+                  fontSize: responsiveFont(context, 8),
+                ),
               ),
-            ),
-            SelectPage(),
-          ],
+              responsiveBox(context, 10, 40),
+              SelectPage(),
+            ],
+          ),
         ),
       ),
     );
