@@ -9,10 +9,11 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFA4C3B2),
+      backgroundColor: TEAL,
       body: Align(
         alignment: Alignment.topCenter,
         child: Container(
+          color: Colors.yellow,
           child: Column(
             children: [
               Text(
@@ -30,8 +31,13 @@ class Homepage extends StatelessWidget {
                   fontSize: responsiveFont(context, 8),
                 ),
               ),
-              responsiveBox(context, 10, 40),
-              SelectPage(),
+              Expanded(
+                child: Container(
+                  width: responsiveWidth(context, 100),
+                  color: Colors.red,
+                  child: SelectPage(),
+                ),
+              ),
             ],
           ),
         ),

@@ -13,16 +13,16 @@ class SelectPage extends StatelessWidget {
     );
 
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.7,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 12,
+        mainAxisAlignment: .center,
+        crossAxisAlignment: .stretch,
         children: [
           ElevatedButton(
             onPressed: () => print(""),
             style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-            child: Text("Rate a place", style: textStyle),
+            child: Text("Rate aa place", style: textStyle),
           ),
-          const SizedBox(height: 12),
           ElevatedButton(
             onPressed: () => print(""),
             style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
