@@ -35,7 +35,7 @@ class Homepage extends StatelessWidget {
                 child: Container(
                   width: responsiveWidth(context, 100),
                   color: Colors.red,
-                  child: SelectPage(),
+                  child: Center(child: SelectPage()),
                 ),
               ),
             ],

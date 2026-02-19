@@ -15,7 +15,7 @@ class SelectPage extends StatelessWidget {
     return SizedBox(
       child: Column(
         spacing: 12,
-        mainAxisAlignment: .center,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: .stretch,
         children: [
           ElevatedButton(
