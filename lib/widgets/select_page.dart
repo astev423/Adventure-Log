@@ -19,6 +19,7 @@ class SelectPage extends StatelessWidget {
         crossAxisAlignment: .stretch,
         children: [
           ElevatedButton(
+            // TODO: Change print to router that brings us to right page
             onPressed: () => print(""),
             style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
             child: Text("Rate aa place", style: textStyle),
