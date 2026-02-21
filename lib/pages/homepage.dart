@@ -10,6 +10,7 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: TEAL,
+      // TODO: Add image of nature behind the UI, also add logo here
       body: Align(
         alignment: Alignment.topCenter,
         child: Container(
