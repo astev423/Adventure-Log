@@ -1,4 +1,5 @@
 # Beginning frontend stuff
+-MAKE USE OF BUILDERS TO AVOID REPETITION!!!!!!!
 -Add more decorations to homepage, like a logo, also add semi transparent image of a mountain
 -On homepage add the icons that link to first two pages, Rate a place, and View Ratings of Places
 -Do rate a place first
