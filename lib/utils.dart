@@ -18,7 +18,7 @@ SizedBox responsiveBox(BuildContext context, double size) {
 }
 
 double responsiveFontSize(BuildContext context, double base) {
-  return base * screenWidth(context) / 200;
+  return responsiveWidth(context, base);
 }
 
 double screenWidth(BuildContext context) {
@@ -30,7 +30,14 @@ double screenHeight(BuildContext context) {
 }
 
 double responsiveWidth(BuildContext context, double baseWidth) {
-  return baseWidth * (screenWidth(context) / 200);
+  final screenWidth = MediaQuery.of(context).size.width;
+  final isDesktop = screenWidth >= 800;
+
+  if (isDesktop) {
+    return baseWidth * (screenWidth / 1700);
+  } else {
+    return baseWidth * (screenWidth / 1500);
+  }
 }
 
 double responsiveHeight(BuildContext context, double baseHeight) {

@@ -10,34 +10,43 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: TEAL,
-      // TODO: Add image of nature behind the UI, also add logo here
       body: Align(
         alignment: Alignment.topCenter,
-        child: Container(
-          color: Colors.yellow,
-          child: Column(
+        child: SizedBox(
+          child: Stack(
+            fit: StackFit.expand,
             children: [
-              Text(
-                "Adventure Log",
-                style: TextStyle(
-                  color: DARK_GREEN,
-                  fontSize: responsiveFontSize(context, 20),
-                  fontWeight: FontWeight.w900,
+              Opacity(
+                opacity: 0.05,
+                child: Image.asset(
+                  'assets/images/lake-landscape.jpg',
+                  fit: BoxFit.cover,
                 ),
               ),
-              Text(
-                "Log and find amazing places!",
-                style: TextStyle(
-                  color: DARK_GREEN,
-                  fontSize: responsiveFontSize(context, 8),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  width: responsiveWidth(context, 100),
-                  color: Colors.red,
-                  child: Center(child: SelectPage()),
-                ),
+              Column(
+                children: [
+                  Text(
+                    "Adventure Log",
+                    style: TextStyle(
+                      color: DARK_GREEN,
+                      fontSize: responsiveFontSize(context, 160),
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  Text(
+                    "Log and find amazing places!",
+                    style: TextStyle(
+                      color: DARK_GREEN,
+                      fontSize: responsiveFontSize(context, 60),
+                    ),
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      width: responsiveWidth(context, 900),
+                      child: Center(child: SelectPage()),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
