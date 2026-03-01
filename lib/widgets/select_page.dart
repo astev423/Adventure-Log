@@ -3,15 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class SelectPage extends StatelessWidget {
-  final List<(String, VoidCallback)> pagesAndWayToGetThere = [
-    ("Explore", () => print("")),
-    ("See Reviews", () => print("")),
-    ("Add Review", () => print("")),
-    ("Profile", () => print("")),
-    ("Quit", () => SystemNavigator.pop()),
-  ];
-
-  SelectPage({super.key});
+  const SelectPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +12,13 @@ class SelectPage extends StatelessWidget {
       fontWeight: .w400,
       fontSize: responsiveFontSize(context, 60),
     );
+    final List<(String, VoidCallback)> pagesAndWayToGetThere = [
+      ("Explore", () => Navigator.pushNamed(context, '/explore')),
+      ("View Reviews", () => Navigator.pushNamed(context, '/view-reviews')),
+      ("Add Review", () => Navigator.pushNamed(context, '/add-review')),
+      ("Profile", () => Navigator.pushNamed(context, '/profile')),
+      ("Quit", () => SystemNavigator.pop()),
+    ];
 
     return SizedBox(
       child: Column(
