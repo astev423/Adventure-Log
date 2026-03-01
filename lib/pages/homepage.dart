@@ -21,7 +21,7 @@ class Homepage extends StatelessWidget {
                 "Adventure Log",
                 style: TextStyle(
                   color: DARK_GREEN,
-                  fontSize: responsiveFont(context, 20),
+                  fontSize: responsiveFontSize(context, 20),
                   fontWeight: FontWeight.w900,
                 ),
               ),
@@ -29,7 +29,7 @@ class Homepage extends StatelessWidget {
                 "Log and find amazing places!",
                 style: TextStyle(
                   color: DARK_GREEN,
-                  fontSize: responsiveFont(context, 8),
+                  fontSize: responsiveFontSize(context, 8),
                 ),
               ),
               Expanded(

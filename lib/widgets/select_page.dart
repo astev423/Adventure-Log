@@ -9,7 +9,7 @@ class SelectPage extends StatelessWidget {
     final textStyle = TextStyle(
       color: const Color(0xFF4C956C),
       fontWeight: .w400,
-      fontSize: responsiveFont(context, 10),
+      fontSize: responsiveFontSize(context, 10),
     );
 
     return SizedBox(
