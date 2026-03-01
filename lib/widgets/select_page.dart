@@ -1,13 +1,14 @@
 import 'package:adventure_log/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SelectPage extends StatelessWidget {
-  final List<String> pages = [
-    "Explore",
-    "See Reviews",
-    "Add Review",
-    "Profile",
-    "Quit",
+  final List<(String, VoidCallback)> pagesAndWayToGetThere = [
+    ("Explore", () => print("")),
+    ("See Reviews", () => print("")),
+    ("Add Review", () => print("")),
+    ("Profile", () => print("")),
+    ("Quit", () => SystemNavigator.pop()),
   ];
 
   SelectPage({super.key});
@@ -25,11 +26,11 @@ class SelectPage extends StatelessWidget {
         spacing: 10,
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: .stretch,
-        children: pages.map((page) {
+        children: pagesAndWayToGetThere.map((pageAndWayToGetThere) {
           return ElevatedButton(
-            onPressed: () => print(""),
+            onPressed: pageAndWayToGetThere.$2,
             style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-            child: Text(page, style: textStyle),
+            child: Text(pageAndWayToGetThere.$1, style: textStyle),
           );
         }).toList(),
       ),

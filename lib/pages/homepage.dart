@@ -12,44 +12,42 @@ class Homepage extends StatelessWidget {
       backgroundColor: TEAL,
       body: Align(
         alignment: Alignment.topCenter,
-        child: SizedBox(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Opacity(
-                opacity: 0.05,
-                child: Image.asset(
-                  'assets/images/lake-landscape.jpg',
-                  fit: BoxFit.cover,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Opacity(
+              opacity: 0.05,
+              child: Image.asset(
+                'assets/images/lake-landscape.jpg',
+                fit: BoxFit.cover,
+              ),
+            ),
+            Column(
+              children: [
+                Text(
+                  "Adventure Log",
+                  style: TextStyle(
+                    color: DARK_GREEN,
+                    fontSize: responsiveFontSize(context, 160),
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
-              ),
-              Column(
-                children: [
-                  Text(
-                    "Adventure Log",
-                    style: TextStyle(
-                      color: DARK_GREEN,
-                      fontSize: responsiveFontSize(context, 160),
-                      fontWeight: FontWeight.w900,
-                    ),
+                Text(
+                  "Log and find amazing places!",
+                  style: TextStyle(
+                    color: DARK_GREEN,
+                    fontSize: responsiveFontSize(context, 60),
                   ),
-                  Text(
-                    "Log and find amazing places!",
-                    style: TextStyle(
-                      color: DARK_GREEN,
-                      fontSize: responsiveFontSize(context, 60),
-                    ),
+                ),
+                Expanded(
+                  child: SizedBox(
+                    width: responsiveWidth(context, 900),
+                    child: Center(child: SelectPage()),
                   ),
-                  Expanded(
-                    child: SizedBox(
-                      width: responsiveWidth(context, 900),
-                      child: Center(child: SelectPage()),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
