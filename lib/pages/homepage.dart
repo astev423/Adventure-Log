@@ -8,8 +8,7 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: teal,
+    return const Scaffold(
       body: Align(
         alignment: Alignment.topCenter,
         child: Stack(

@@ -7,7 +7,6 @@ class ViewReviews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: teal,
       body: Center(
         child: ElevatedButton(
           onPressed: () => Navigator.pushNamed(context, '/'),

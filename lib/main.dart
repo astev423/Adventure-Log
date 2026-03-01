@@ -1,3 +1,4 @@
+import 'package:adventure_log/constants.dart';
 import 'package:adventure_log/pages/add_review.dart';
 import 'package:adventure_log/pages/explore.dart';
 import 'package:adventure_log/pages/homepage.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Adventure Log',
+      theme: ThemeData(scaffoldBackgroundColor: teal),
       initialRoute: '/',
       routes: {
         '/explore': (context) => const Explore(),

@@ -43,3 +43,11 @@ double responsiveWidth(BuildContext context, double baseWidth) {
 double responsiveHeight(BuildContext context, double baseHeight) {
   return baseHeight * (screenWidth(context) / 200);
 }
+
+String? requireNonEmptyString(String? v) {
+  if (v == null || v.trim().isEmpty) {
+    return 'Text required here';
+  }
+
+  return null;
+}
