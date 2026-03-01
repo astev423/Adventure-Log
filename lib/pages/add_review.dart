@@ -5,6 +5,13 @@ class AddReview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Text("add review page"));
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () => Navigator.pushNamed(context, '/'),
+          child: Text("Go back to home"),
+        ),
+      ),
+    );
   }
 }

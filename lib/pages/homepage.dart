@@ -9,47 +9,76 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: TEAL,
+      backgroundColor: teal,
       body: Align(
         alignment: Alignment.topCenter,
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Opacity(
-              opacity: 0.05,
-              child: Image.asset(
-                'assets/images/lake-landscape.jpg',
-                fit: BoxFit.cover,
-              ),
-            ),
+            BlurredMountainBackgroundImage(),
             Column(
-              children: [
-                Text(
-                  "Adventure Log",
-                  style: TextStyle(
-                    color: DARK_GREEN,
-                    fontSize: responsiveFontSize(context, 160),
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                Text(
-                  "Log and find amazing places!",
-                  style: TextStyle(
-                    color: DARK_GREEN,
-                    fontSize: responsiveFontSize(context, 60),
-                  ),
-                ),
-                Expanded(
-                  child: SizedBox(
-                    width: responsiveWidth(context, 900),
-                    child: Center(child: SelectPage()),
-                  ),
-                ),
-              ],
+              children: [AppTitle(), AppDescription(), NavigationButtons()],
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class NavigationButtons extends StatelessWidget {
+  const NavigationButtons({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SizedBox(
+        width: responsiveWidth(context, 900),
+        child: Center(child: SelectPage()),
+      ),
+    );
+  }
+}
+
+class AppDescription extends StatelessWidget {
+  const AppDescription({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "Log and find amazing places!",
+      style: TextStyle(
+        color: darkGreen,
+        fontSize: responsiveFontSize(context, 60),
+      ),
+    );
+  }
+}
+
+class AppTitle extends StatelessWidget {
+  const AppTitle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "Adventure Log",
+      style: TextStyle(
+        color: darkGreen,
+        fontSize: responsiveFontSize(context, 160),
+        fontWeight: FontWeight.w900,
+      ),
+    );
+  }
+}
+
+class BlurredMountainBackgroundImage extends StatelessWidget {
+  const BlurredMountainBackgroundImage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Opacity(
+      opacity: 0.05,
+      child: Image.asset('assets/images/lake-landscape.jpg', fit: BoxFit.cover),
     );
   }
 }

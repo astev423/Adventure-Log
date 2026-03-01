@@ -12,7 +12,7 @@ class SelectPage extends StatelessWidget {
       fontWeight: .w400,
       fontSize: responsiveFontSize(context, 60),
     );
-    final List<(String, VoidCallback)> pagesAndWayToGetThere = [
+    final List<(String, VoidCallback)> pagesAndRoutes = [
       ("Explore", () => Navigator.pushNamed(context, '/explore')),
       ("View Reviews", () => Navigator.pushNamed(context, '/view-reviews')),
       ("Add Review", () => Navigator.pushNamed(context, '/add-review')),
@@ -25,11 +25,11 @@ class SelectPage extends StatelessWidget {
         spacing: 10,
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: .stretch,
-        children: pagesAndWayToGetThere.map((pageAndWayToGetThere) {
+        children: pagesAndRoutes.map((pageAndRoute) {
           return ElevatedButton(
-            onPressed: pageAndWayToGetThere.$2,
+            onPressed: pageAndRoute.$2,
             style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-            child: Text(pageAndWayToGetThere.$1, style: textStyle),
+            child: Text(pageAndRoute.$1, style: textStyle),
           );
         }).toList(),
       ),
