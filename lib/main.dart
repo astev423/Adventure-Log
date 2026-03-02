@@ -1,9 +1,6 @@
 import 'package:adventure_log/constants.dart';
-import 'package:adventure_log/pages/add_review.dart';
-import 'package:adventure_log/pages/explore.dart';
 import 'package:adventure_log/pages/homepage.dart';
-import 'package:adventure_log/pages/profile.dart';
-import 'package:adventure_log/pages/view_reviews.dart';
+import 'package:adventure_log/pages/page_wrapper.dart' as wrapper;
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,10 +17,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(scaffoldBackgroundColor: teal),
       initialRoute: '/',
       routes: {
-        '/explore': (context) => const Explore(),
-        '/view-reviews': (context) => const ViewReviews(),
-        '/add-review': (context) => const AddReview(),
-        '/profile': (context) => const Profile(),
+        '/explore': (context) =>
+            const wrapper.PageWrapper(wrapper.Page.explore),
+        '/view-reviews': (context) =>
+            const wrapper.PageWrapper(wrapper.Page.viewReviews),
+        '/add-review': (context) =>
+            const wrapper.PageWrapper(wrapper.Page.addReview),
+        '/profile': (context) =>
+            const wrapper.PageWrapper(wrapper.Page.profile),
       },
       home: const Homepage(),
     );

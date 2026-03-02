@@ -1,5 +1,6 @@
 https://coolors.co/palette/6b9080-a4c3b2-cce3de-eaf4f4-f6fff8
 
+-Create base scaffold that has page as a child, that way we can put shared stuff in that like navbar without needing to manually add it to each page
 -Use debug mode for reload on save, use lightbulb to wrap or extract widgets
 -Trying to make UI for both android and web is taking too long, focus on just web and important features,
 try getting it to work on android near end instead

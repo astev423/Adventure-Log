@@ -13,6 +13,7 @@ class SelectPage extends StatelessWidget {
       fontSize: responsiveFontSize(context, 60),
     );
     final List<(String, VoidCallback)> pagesAndRoutes = [
+      // this should go to the pagewrapper instead
       ("Explore", () => Navigator.pushNamed(context, '/explore')),
       ("View Reviews", () => Navigator.pushNamed(context, '/view-reviews')),
       ("Add Review", () => Navigator.pushNamed(context, '/add-review')),
