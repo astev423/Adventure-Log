@@ -1,5 +1,6 @@
-import 'package:adventure_log/constants.dart';
-import 'package:adventure_log/utils.dart';
+import 'package:adventure_log/utils/constants.dart';
+import 'package:adventure_log/utils/responsiveness.dart';
+import 'package:adventure_log/utils/validators.dart';
 import 'package:flutter/material.dart';
 
 class AddReview extends StatelessWidget {

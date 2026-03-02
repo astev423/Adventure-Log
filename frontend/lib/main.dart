@@ -1,4 +1,4 @@
-import 'package:adventure_log/constants.dart';
+import 'package:adventure_log/utils/constants.dart';
 import 'package:adventure_log/pages/homepage.dart';
 import 'package:adventure_log/pages/page_wrapper.dart' as wrapper;
 import 'package:flutter/material.dart';

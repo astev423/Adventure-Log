@@ -1,0 +1,12 @@
+[project]
+name = "http-server-for-db-api"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]>=0.135.1",
+    "psycopg[binary,pool]>=3.3.3",
+    "sqlalchemy>=2.0.47",
+    "uvicorn[standard]>=0.41.0",
+]

@@ -1,4 +1,4 @@
-import 'package:adventure_log/utils.dart';
+import 'package:adventure_log/utils/responsiveness.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

@@ -1,4 +1,4 @@
-import 'package:adventure_log/constants.dart';
+import 'package:adventure_log/utils/constants.dart';
 import 'package:adventure_log/pages/add_review.dart';
 import 'package:adventure_log/pages/explore.dart';
 import 'package:adventure_log/pages/profile.dart';

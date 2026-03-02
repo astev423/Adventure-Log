@@ -1,5 +1,5 @@
-import 'package:adventure_log/constants.dart';
-import 'package:adventure_log/utils.dart';
+import 'package:adventure_log/utils/constants.dart';
+import 'package:adventure_log/utils/responsiveness.dart';
 import 'package:adventure_log/widgets/select_page.dart';
 import 'package:flutter/material.dart';
 
