@@ -1,1 +1,8 @@
-Originally for my Adventure Log project but this can be used as a template for any http API needs with FastAPI
+## How to run
+Simply type:
+
+` uv sync `
+
+and then
+
+` uv run python src/main.py `
