@@ -1,6 +1,9 @@
 https://coolors.co/palette/6b9080-a4c3b2-cce3de-eaf4f4-f6fff8
 
 -Use debug mode for reload on save, use lightbulb to wrap or extract widgets
+-Trying to make UI for both android and web is taking too long, focus on just web and important features,
+try getting it to work on android near end instead
+-Use scrollview for overflow so it works on mobile
 
 # For Android
 -Need to enable location permission in the android/app/src/main/AndroidManifest.xml

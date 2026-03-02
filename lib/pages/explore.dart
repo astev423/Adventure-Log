@@ -1,4 +1,3 @@
-import 'package:adventure_log/constants.dart';
 import 'package:flutter/material.dart';
 
 class Explore extends StatelessWidget {
