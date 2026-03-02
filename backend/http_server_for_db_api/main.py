@@ -3,7 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from database import get_db
-from models import Review, ReviewTable
+from models.tables import ReviewTable
+from models.types import Review
 
 app = FastAPI()
 
