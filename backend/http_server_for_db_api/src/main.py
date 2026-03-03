@@ -1,11 +1,10 @@
 import uvicorn
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-from db.db import get_db
-from db.models.tables import ReviewTable
-from db.models.types import Review
+from db.db import engine
+from db.models import Review
 
 # FastAPI makes ASGI app which we must be top level since uvicorn imports this file and if its in main
 # it wont' run
@@ -20,26 +19,22 @@ app.add_middleware(
 )
 
 
-@app.get("/health")
+@app.get("/")
 def health():
     return {"status": "Up and running!"}
 
 
-@app.post("/add-review")
-# Since get_db is a generator we use Depends so fastapi can handle calling .close() on it
-# Once FastAPI is done with generators it calls .close on them, which triggers the finally block
-# in my get_db function, which closes the db connection, this saves a lot of manual calling .close()
-# after every query, nice QOL feature
-def add_review(review: Review, db: Session = Depends(get_db)):
-    reviews = db.query(ReviewTable).all()
-    if not reviews:
-        return {"status": "failure", "errorMessage": "Couldn't find review in DB"}
-
-    return {
-        "status": "success",
-        "message": "Review added successfully",
-        "review": review,
-    }
+# Response model parameter is for even more validation on the return
+@app.post("/add-review", response_model=Review)
+def add_review(review: Review):
+    # Imported objects are stored in python cache so we can use like a static singleton
+    # Also we use with which will automatically close the session after its done
+    with Session(engine) as session:
+        session.add(review)
+        session.commit()
+        # Need to refresh to get fields, or else nothing returned
+        session.refresh(review)
+        return review
 
 
 # We must setup all the fastAPI stuff first since uvicorn depends on it, then run it down here

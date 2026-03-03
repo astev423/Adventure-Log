@@ -9,5 +9,6 @@ dependencies = [
     "psycopg2>=2.9.11",
     "psycopg[binary,pool]>=3.3.3",
     "sqlalchemy>=2.0.47",
+    "sqlmodel>=0.0.37",
     "uvicorn[standard]>=0.41.0",
 ]
