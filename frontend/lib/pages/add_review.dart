@@ -1,7 +1,9 @@
 import 'package:adventure_log/utils/constants.dart';
+import 'package:adventure_log/utils/http_reqs.dart';
 import 'package:adventure_log/utils/responsiveness.dart';
 import 'package:adventure_log/utils/validators.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AddReview extends StatelessWidget {
   const AddReview({super.key});
@@ -41,45 +43,64 @@ class _AddReviewFormState extends State<AddReviewForm> {
   final _locationCoordsCtl = TextEditingController();
   final _locationRatingCtl = TextEditingController();
   final _locationRatingReasonCtl = TextEditingController();
+  String? _response;
+  late final textFormFieldVariables = [
+    (
+      "Location Name:",
+      requireNonEmptyString,
+      _locationNameCtl,
+      "Enter the location name",
+    ),
+    (
+      "Location Coordinates:",
+      requireNonEmptyString,
+      _locationCoordsCtl,
+      "Enter the location coordinates",
+    ),
+    (
+      // Change this from text input to selecting stars
+      "Location Rating:",
+      (input) => requireNumber(input, singleDigit: true),
+      _locationRatingCtl,
+      "Enter the location rating out of five",
+    ),
+    (
+      "Reason For Rating:",
+      requireNonEmptyString,
+      _locationRatingReasonCtl,
+      "Justify your rating",
+    ),
+  ];
 
-  void submitForm() {
+  List<Widget> _buildTextFormFields() {
+    return textFormFieldVariables.map((formFieldVariables) {
+      return Column(
+        children: [
+          FormText(formFieldVariables.$1),
+          TextFormField(
+            validator: formFieldVariables.$2,
+            controller: formFieldVariables.$3,
+            decoration: InputDecoration(
+              hintText: formFieldVariables.$4,
+              hintStyle: TextStyle(fontSize: responsiveFontSize(context, 20)),
+            ),
+          ),
+        ],
+      );
+    }).toList();
+  }
+
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Sending Data')));
+      var response = await fetchReviews();
+      setState(() {
+        _response = response.body;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final textFormFieldVariables = [
-      (
-        "Location Name:",
-        requireNonEmptyString,
-        _locationNameCtl,
-        "Enter the location name",
-      ),
-      (
-        "Location Coordinates:",
-        requireNonEmptyString,
-        _locationCoordsCtl,
-        "Enter the location coordinates",
-      ),
-      (
-        // Change this from text input to selecting stars
-        "Location Rating:",
-        (input) => requireNumber(input, singleDigit: true),
-        _locationRatingCtl,
-        "Enter the location rating out of five",
-      ),
-      (
-        "Reason For Rating:",
-        requireNonEmptyString,
-        _locationRatingReasonCtl,
-        "Justify your rating",
-      ),
-    ];
-
     return Container(
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -89,28 +110,18 @@ class _AddReviewFormState extends State<AddReviewForm> {
       width: responsiveWidth(context, 700),
       child: Form(
         key: _formKey,
-        child: Column(
-          spacing: 30,
-          children: <Widget>[
-            ...textFormFieldVariables.map((formFieldVariables) {
-              return Column(
-                children: [
-                  Row(children: [FormText(context, formFieldVariables.$1)]),
-                  TextFormField(
-                    validator: formFieldVariables.$2,
-                    controller: formFieldVariables.$3,
-                    decoration: InputDecoration(
-                      hintText: formFieldVariables.$4,
-                      hintStyle: TextStyle(
-                        fontSize: responsiveFontSize(context, 20),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            }),
-            ElevatedButton(onPressed: submitForm, child: const Text('Submit')),
-          ],
+        child: SizedBox(
+          height: responsiveHeight(context, 1000),
+          child: ListView(
+            children: [
+              ..._buildTextFormFields(),
+              ElevatedButton(
+                onPressed: _submitForm,
+                child: const Text('Submit'),
+              ),
+              if (_response != null) Text(_response!),
+            ],
+          ),
         ),
       ),
     );
@@ -118,10 +129,9 @@ class _AddReviewFormState extends State<AddReviewForm> {
 }
 
 class FormText extends StatelessWidget {
-  const FormText(this.context, this.text, {super.key});
-
-  final BuildContext context;
   final String text;
+
+  const FormText(this.text, {super.key});
 
   @override
   Widget build(BuildContext context) {

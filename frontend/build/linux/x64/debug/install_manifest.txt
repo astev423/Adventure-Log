@@ -1,0 +1,15 @@
+/home/alex/projs/school/567/adventure_log/frontend/build/linux/x64/debug/bundle/adventure_log
+/home/alex/projs/school/567/adventure_log/frontend/build/linux/x64/debug/bundle/data/icudtl.dat
+/home/alex/projs/school/567/adventure_log/frontend/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so
+/home/alex/projs/school/567/adventure_log/frontend/build/linux/x64/debug/bundle/data/flutter_assets/FontManifest.json
+/home/alex/projs/school/567/adventure_log/frontend/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin
+/home/alex/projs/school/567/adventure_log/frontend/build/linux/x64/debug/bundle/data/flutter_assets/shaders/ink_sparkle.frag
+/home/alex/projs/school/567/adventure_log/frontend/build/linux/x64/debug/bundle/data/flutter_assets/shaders/stretch_effect.frag
+/home/alex/projs/school/567/adventure_log/frontend/build/linux/x64/debug/bundle/data/flutter_assets/packages/flutter_map/lib/assets/flutter_map_logo.png
+/home/alex/projs/school/567/adventure_log/frontend/build/linux/x64/debug/bundle/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+/home/alex/projs/school/567/adventure_log/frontend/build/linux/x64/debug/bundle/data/flutter_assets/NativeAssetsManifest.json
+/home/alex/projs/school/567/adventure_log/frontend/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z
+/home/alex/projs/school/567/adventure_log/frontend/build/linux/x64/debug/bundle/data/flutter_assets/assets/images/lake-landscape.jpg
+/home/alex/projs/school/567/adventure_log/frontend/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin
+/home/alex/projs/school/567/adventure_log/frontend/build/linux/x64/debug/bundle/data/flutter_assets/version.json
+/home/alex/projs/school/567/adventure_log/frontend/build/linux/x64/debug/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf

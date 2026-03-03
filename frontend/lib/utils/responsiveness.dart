@@ -47,5 +47,12 @@ double responsiveWidth(BuildContext context, double baseWidth) {
 }
 
 double responsiveHeight(BuildContext context, double baseHeight) {
-  return baseHeight * (screenWidth(context) / 200);
+  final screenHeight = MediaQuery.of(context).size.height;
+  final isDesktop = screenHeight >= 800;
+
+  if (isDesktop) {
+    return baseHeight * (screenHeight / 1300);
+  } else {
+    return baseHeight * (screenHeight / 1500);
+  }
 }
