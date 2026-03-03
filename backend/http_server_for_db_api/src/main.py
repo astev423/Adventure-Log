@@ -1,10 +1,11 @@
+from typing import List
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
 
-from db.db import engine
 from db.models import Review
+from db.queries import create_review_row, fetch_reviews
 
 # FastAPI makes ASGI app which we must be top level since uvicorn imports this file and if its in main
 # it wont' run
@@ -24,17 +25,15 @@ def health():
     return {"status": "Up and running!"}
 
 
-# Response model parameter is for even more validation on the return
+# Response model parameter is for validation on the return
+@app.get("/get-reviews", response_model=List[Review])
+def get_reviews():
+    return fetch_reviews()
+
+
 @app.post("/add-review", response_model=Review)
 def add_review(review: Review):
-    # Imported objects are stored in python cache so we can use like a static singleton
-    # Also we use with which will automatically close the session after its done
-    with Session(engine) as session:
-        session.add(review)
-        session.commit()
-        # Need to refresh to get fields, or else nothing returned
-        session.refresh(review)
-        return review
+    return create_review_row(review)
 
 
 # We must setup all the fastAPI stuff first since uvicorn depends on it, then run it down here
