@@ -1,0 +1,1 @@
+ /home/alex/projs/school/567/adventure_log/frontend/.dart_tool/flutter_build/84963d678ea4b161ba2494d624fbb7be/native_assets.json: 
