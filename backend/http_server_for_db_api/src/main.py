@@ -36,6 +36,5 @@ def add_review(review: Review):
     return create_review_row(review)
 
 
-# We must setup all the fastAPI stuff first since uvicorn depends on it, then run it down here
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

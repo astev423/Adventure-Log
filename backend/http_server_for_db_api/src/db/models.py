@@ -4,9 +4,6 @@ from sqlalchemy import CheckConstraint
 from sqlmodel import Field, SQLModel
 
 
-# ALSO, CONVERT THESE TO DART MODELS WITH OPENAPI CONVERSION CLI TOOL
-# Because we are using pydantic JSON reqs gets automatically converted to the models or returns error if
-# conversion is not possible
 class Review(SQLModel, table=True):
     # Table args is for validating sql, Field() is for pydantic
     __table_args__ = (

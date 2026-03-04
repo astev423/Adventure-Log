@@ -5,7 +5,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel
 
-# Load dotenv so we can run it without giving .env path in uv
 load_dotenv()
 
 DB_HOST = getenv("DB_HOST")
