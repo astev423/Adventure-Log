@@ -1,1 +1,0 @@
- /home/alex/projs/school/567/adventure_log/frontend/.dart_tool/flutter_build/84963d678ea4b161ba2494d624fbb7be/dart_build_result.json:  /home/alex/fvm/versions/stable/bin/cache/dart-sdk/version /home/alex/projs/school/567/adventure_log/frontend/.dart_tool/package_config.json /home/alex/projs/school/567/adventure_log/frontend/pubspec.yaml
