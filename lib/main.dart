@@ -1,9 +1,13 @@
 import 'package:adventure_log/controllers/utils/constants.dart';
+import 'package:adventure_log/firebase_options.dart';
 import 'package:adventure_log/views/pages/homepage.dart';
 import 'package:adventure_log/views/pages/page_wrapper.dart' as wrapper;
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 

@@ -1,7 +1,8 @@
 import 'package:adventure_log/controllers/utils/constants.dart';
-import 'package:adventure_log/controllers/utils/http_reqs.dart';
 import 'package:adventure_log/controllers/utils/responsiveness.dart';
 import 'package:adventure_log/controllers/utils/validators.dart';
+import 'package:adventure_log/data/firestore_queries.dart';
+import 'package:adventure_log/data/models/review.dart';
 import 'package:flutter/material.dart';
 
 class AddReview extends StatelessWidget {
@@ -97,10 +98,13 @@ class _AddReviewFormState extends State<AddReviewForm> {
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      var response = await fetchReviews();
-      setState(() {
-        _response = response.body;
-      });
+      Review review = Review(
+        _locationNameCtl.text,
+        _locationCoordsCtl.text,
+        int.tryParse(_locationRatingCtl.text)!,
+        _locationRatingReasonCtl.text,
+      );
+      addReview(review);
     }
   }
 

@@ -12,10 +12,12 @@ class Review {
   );
 
   /// Example req: final response = await http.post(url, headers, body: jsonEncode(model.toJson()));
-  Map<String, dynamic> toJson() => {
-    'locationName': locationName,
-    'locationCoordinates': locationCoordinates,
-    'locationRating': locationRating,
-    'reasonForRating': reasonForRating,
-  };
+  Map<String, dynamic> toJson() {
+    return {
+      'locationName': locationName,
+      'locationCoordinates': locationCoordinates,
+      'locationRating': locationRating,
+      'reasonForRating': reasonForRating,
+    };
+  }
 }

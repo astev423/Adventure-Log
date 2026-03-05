@@ -28,7 +28,7 @@ class SelectPage extends StatelessWidget {
             child: Text(
               pageAndRoute.$1,
               style: TextStyle(
-                color: teal,
+                color: darkGreen,
                 fontWeight: .w400,
                 fontSize: responsiveFontSize(context, 60),
               ),
