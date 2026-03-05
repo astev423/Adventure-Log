@@ -6,18 +6,18 @@ String? requireNonEmptyString(String? v) {
   return null;
 }
 
-String? requireNumber(String? v, {bool singleDigit = false}) {
+String? requireIntFrom1To5(String? v, {bool singleDigit = false}) {
   if (v == null || v.trim().isEmpty) {
     return 'Input required';
   }
 
-  var inputAsNum = num.tryParse(v);
+  var inputAsNum = int.tryParse(v);
   if (inputAsNum == null) {
-    return 'Must enter a valid number';
+    return 'Must enter a valid integer';
   }
 
-  if (singleDigit && (inputAsNum < 0 || inputAsNum > 9)) {
-    return 'Only enter one positive digit';
+  if (singleDigit && (inputAsNum < 1 || inputAsNum > 5)) {
+    return 'Only enter one positive digit between 1 and 5';
   }
 
   return null;

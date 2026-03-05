@@ -1,6 +1,6 @@
-import 'package:adventure_log/utils/constants.dart';
-import 'package:adventure_log/utils/responsiveness.dart';
-import 'package:adventure_log/widgets/select_page.dart';
+import 'package:adventure_log/controllers/utils/constants.dart';
+import 'package:adventure_log/controllers/utils/responsiveness.dart';
+import 'package:adventure_log/views/widgets/select_page.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatelessWidget {

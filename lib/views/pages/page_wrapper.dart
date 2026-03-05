@@ -1,8 +1,8 @@
-import 'package:adventure_log/utils/constants.dart';
-import 'package:adventure_log/pages/add_review.dart';
-import 'package:adventure_log/pages/explore.dart';
-import 'package:adventure_log/pages/profile.dart';
-import 'package:adventure_log/pages/view_reviews.dart';
+import 'package:adventure_log/controllers/utils/constants.dart';
+import 'package:adventure_log/views/pages/add_review.dart';
+import 'package:adventure_log/views/pages/explore.dart';
+import 'package:adventure_log/views/pages/profile.dart';
+import 'package:adventure_log/views/pages/view_reviews.dart';
 import 'package:flutter/material.dart';
 
 enum Page { explore, viewReviews, addReview, profile }

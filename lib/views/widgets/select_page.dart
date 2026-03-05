@@ -1,4 +1,5 @@
-import 'package:adventure_log/utils/responsiveness.dart';
+import 'package:adventure_log/controllers/utils/constants.dart';
+import 'package:adventure_log/controllers/utils/responsiveness.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,13 +8,7 @@ class SelectPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = TextStyle(
-      color: const Color(0xFF4C956C),
-      fontWeight: .w400,
-      fontSize: responsiveFontSize(context, 60),
-    );
     final List<(String, VoidCallback)> pagesAndRoutes = [
-      // this should go to the pagewrapper instead
       ("Explore", () => Navigator.pushNamed(context, '/explore')),
       ("View Reviews", () => Navigator.pushNamed(context, '/view-reviews')),
       ("Add Review", () => Navigator.pushNamed(context, '/add-review')),
@@ -30,7 +25,14 @@ class SelectPage extends StatelessWidget {
           return ElevatedButton(
             onPressed: pageAndRoute.$2,
             style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-            child: Text(pageAndRoute.$1, style: textStyle),
+            child: Text(
+              pageAndRoute.$1,
+              style: TextStyle(
+                color: teal,
+                fontWeight: .w400,
+                fontSize: responsiveFontSize(context, 60),
+              ),
+            ),
           );
         }).toList(),
       ),

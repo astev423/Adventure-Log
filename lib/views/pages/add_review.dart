@@ -1,9 +1,8 @@
-import 'package:adventure_log/utils/constants.dart';
-import 'package:adventure_log/utils/http_reqs.dart';
-import 'package:adventure_log/utils/responsiveness.dart';
-import 'package:adventure_log/utils/validators.dart';
+import 'package:adventure_log/controllers/utils/constants.dart';
+import 'package:adventure_log/controllers/utils/http_reqs.dart';
+import 'package:adventure_log/controllers/utils/responsiveness.dart';
+import 'package:adventure_log/controllers/utils/validators.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class AddReview extends StatelessWidget {
   const AddReview({super.key});
@@ -60,7 +59,7 @@ class _AddReviewFormState extends State<AddReviewForm> {
     (
       // Change this from text input to selecting stars
       "Location Rating:",
-      (input) => requireNumber(input, singleDigit: true),
+      (input) => requireIntFrom1To5(input, singleDigit: true),
       _locationRatingCtl,
       "Enter the location rating out of five",
     ),
@@ -76,7 +75,13 @@ class _AddReviewFormState extends State<AddReviewForm> {
     return textFormFieldVariables.map((formFieldVariables) {
       return Column(
         children: [
-          FormText(formFieldVariables.$1),
+          Text(
+            formFieldVariables.$1,
+            style: TextStyle(
+              color: darkGreen,
+              fontSize: responsiveFontSize(context, 30),
+            ),
+          ),
           TextFormField(
             validator: formFieldVariables.$2,
             controller: formFieldVariables.$3,
@@ -123,23 +128,6 @@ class _AddReviewFormState extends State<AddReviewForm> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class FormText extends StatelessWidget {
-  final String text;
-
-  const FormText(this.text, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: TextStyle(
-        color: darkGreen,
-        fontSize: responsiveFontSize(context, 30),
       ),
     );
   }

@@ -1,6 +1,6 @@
-import 'package:adventure_log/utils/constants.dart';
-import 'package:adventure_log/pages/homepage.dart';
-import 'package:adventure_log/pages/page_wrapper.dart' as wrapper;
+import 'package:adventure_log/controllers/utils/constants.dart';
+import 'package:adventure_log/views/pages/homepage.dart';
+import 'package:adventure_log/views/pages/page_wrapper.dart' as wrapper;
 import 'package:flutter/material.dart';
 
 void main() {
