@@ -20,4 +20,18 @@ class Review {
       'reasonForRating': reasonForRating,
     };
   }
+
+  static Review fromJSON(Map<String, dynamic> json) {
+    final locationName = json['locationName'];
+    final locationCoordinates = json['locationCoordinates'];
+    final locationRating = json['locationRating'];
+    final reasonForRating = json['reasonForRating'];
+
+    return Review(
+      locationName,
+      locationCoordinates,
+      locationRating,
+      reasonForRating,
+    );
+  }
 }
