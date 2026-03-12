@@ -1,10 +1,10 @@
-class Review {
+class ReviewInfo {
   final String locationName;
   final String locationCoordinates;
   final int locationRating;
   final String reasonForRating;
 
-  Review(
+  ReviewInfo(
     this.locationName,
     this.locationCoordinates,
     this.locationRating,
@@ -21,13 +21,13 @@ class Review {
     };
   }
 
-  static Review fromJSON(Map<String, dynamic> json) {
+  static ReviewInfo fromJSON(Map<String, dynamic> json) {
     final locationName = json['locationName'];
     final locationCoordinates = json['locationCoordinates'];
     final locationRating = json['locationRating'];
     final reasonForRating = json['reasonForRating'];
 
-    return Review(
+    return ReviewInfo(
       locationName,
       locationCoordinates,
       locationRating,

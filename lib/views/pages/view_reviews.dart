@@ -34,7 +34,7 @@ class ReviewsColumn extends StatefulWidget {
 }
 
 class _ReviewsColumnState extends State<ReviewsColumn> {
-  List<Review> _reviews = [];
+  List<ReviewInfo> _reviews = [];
 
   @override
   void initState() {
@@ -43,11 +43,9 @@ class _ReviewsColumnState extends State<ReviewsColumn> {
   }
 
   void fetchReviews() async {
-    var reviews = await fetchAllReviews();
+    List<ReviewInfo> reviews = await fetchAllReviews();
     setState(() {
-      if (reviews != null) {
-        _reviews = reviews;
-      }
+      _reviews = reviews;
     });
   }
 
@@ -57,9 +55,20 @@ class _ReviewsColumnState extends State<ReviewsColumn> {
     return Column(
       children: [
         Text("Reviews"),
-        if (_reviews.isNotEmpty) Text(_reviews[0].locationName),
+        if (_reviews.isNotEmpty) ..._reviews.map((review) => Review(review)),
         if (_reviews.isEmpty) Text("Can't find any ratings"),
       ],
     );
+  }
+}
+
+class Review extends StatelessWidget {
+  const Review(this.review, {super.key});
+
+  final ReviewInfo review;
+
+  @override
+  Widget build(BuildContext context) {
+    return Placeholder();
   }
 }

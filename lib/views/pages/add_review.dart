@@ -98,7 +98,7 @@ class _AddReviewFormState extends State<AddReviewForm> {
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      Review review = Review(
+      ReviewInfo review = ReviewInfo(
         _locationNameCtl.text,
         _locationCoordsCtl.text,
         int.tryParse(_locationRatingCtl.text)!,
