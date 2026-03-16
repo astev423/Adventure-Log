@@ -1,7 +1,7 @@
 import 'package:adventure_log/controllers/utils/constants.dart';
 import 'package:adventure_log/controllers/utils/responsiveness.dart';
 import 'package:adventure_log/data/firestore_queries.dart';
-import 'package:adventure_log/data/models/review.dart';
+import 'package:adventure_log/data/models/review_info.dart';
 import 'package:flutter/material.dart';
 
 class ViewReviews extends StatelessWidget {
@@ -15,11 +15,6 @@ class ViewReviews extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/'),
-              child: const Text("Go back to home"),
-            ),
-            SizedBox(height: 10),
             // Expanded tells listbuilder how big it will be as builder needs a size
             Expanded(
               child: SizedBox(

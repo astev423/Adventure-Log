@@ -1,4 +1,4 @@
-import 'package:adventure_log/data/models/review.dart';
+import 'package:adventure_log/data/models/review_info.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 void addReview(ReviewInfo review) async {

@@ -2,8 +2,9 @@ import 'package:adventure_log/controllers/utils/constants.dart';
 import 'package:adventure_log/controllers/utils/responsiveness.dart';
 import 'package:adventure_log/controllers/utils/validators.dart';
 import 'package:adventure_log/data/firestore_queries.dart';
-import 'package:adventure_log/data/models/review.dart';
+import 'package:adventure_log/data/models/review_info.dart';
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
 
 class AddReview extends StatelessWidget {
   const AddReview({super.key});
@@ -12,18 +13,7 @@ class AddReview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: teal,
-      body: Center(
-        child: Column(
-          spacing: 10,
-          children: [
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/'),
-              child: const Text("Go back to home"),
-            ),
-            AddReviewForm(),
-          ],
-        ),
-      ),
+      body: Center(child: AddReviewForm()),
     );
   }
 }
@@ -96,6 +86,16 @@ class _AddReviewFormState extends State<AddReviewForm> {
                 _locationCoordsCtl,
                 "Enter the location coordinates",
               ),
+              Center(
+                child: Text(
+                  "Location Image:",
+                  style: TextStyle(
+                    color: darkGreen,
+                    fontSize: responsiveFontSize(context, 30),
+                  ),
+                ),
+              ),
+              PickFileButton(),
               Column(
                 children: [
                   Text(
@@ -179,6 +179,49 @@ class ReviewTextFormField extends StatelessWidget {
             hintStyle: TextStyle(fontSize: responsiveFontSize(context, 20)),
           ),
         ),
+      ],
+    );
+  }
+}
+
+class PickFileButton extends StatefulWidget {
+  const PickFileButton({super.key});
+
+  @override
+  State<PickFileButton> createState() => _PickFileButtonState();
+}
+
+class _PickFileButtonState extends State<PickFileButton> {
+  PlatformFile? _selectedFile;
+
+  Future<void> _pickFile() async {
+    final FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result == null) {
+      return;
+    }
+
+    setState(() {
+      _selectedFile = result.files.first;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: _pickFile,
+            child: const Text('Pick a file'),
+          ),
+        ),
+        if (_selectedFile != null) ...[
+          const SizedBox(height: 12),
+          Text('Selected: ${_selectedFile!.name}'),
+        ],
       ],
     );
   }

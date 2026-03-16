@@ -5,13 +5,6 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () => Navigator.pushNamed(context, '/'),
-          child: Text("Go back to home"),
-        ),
-      ),
-    );
+    return Scaffold(body: Center(child: Placeholder()));
   }
 }
