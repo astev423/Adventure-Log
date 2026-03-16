@@ -51,7 +51,6 @@ class _ReviewsColumnState extends State<ReviewsColumn> {
 
   @override
   Widget build(BuildContext context) {
-    fetchReviews();
     return Column(
       children: [
         Text("Reviews"),
