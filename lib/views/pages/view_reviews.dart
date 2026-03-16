@@ -10,31 +10,32 @@ class ViewReviews extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: teal,
-      body: Center(
-        child: Column(
-          spacing: 10,
-          children: [
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/'),
-              child: const Text("Go back to home"),
-            ),
-            ReviewsColumn(),
-          ],
-        ),
+      body: Column(
+        children: [
+          SizedBox(height: 40),
+          ElevatedButton(
+            onPressed: () => Navigator.pushNamed(context, '/'),
+            child: const Text("Go back to home"),
+          ),
+          SizedBox(height: 10),
+          // Expanded tells listbuilder how big it will be as builder needs a size
+          Expanded(child: ReviewsList()),
+        ],
       ),
     );
   }
 }
 
-class ReviewsColumn extends StatefulWidget {
-  const ReviewsColumn({super.key});
+class ReviewsList extends StatefulWidget {
+  const ReviewsList({super.key});
 
   @override
-  State<ReviewsColumn> createState() => _ReviewsColumnState();
+  State<ReviewsList> createState() => _ReviewsListState();
 }
 
-class _ReviewsColumnState extends State<ReviewsColumn> {
+class _ReviewsListState extends State<ReviewsList> {
   List<ReviewInfo> _reviews = [];
+  bool _fetchDone = false;
 
   @override
   void initState() {
@@ -46,28 +47,64 @@ class _ReviewsColumnState extends State<ReviewsColumn> {
     List<ReviewInfo> reviews = await fetchAllReviews();
     setState(() {
       _reviews = reviews;
+      _fetchDone = true;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text("Reviews"),
-        if (_reviews.isNotEmpty) ..._reviews.map((review) => Review(review)),
-        if (_reviews.isEmpty) Text("Can't find any ratings"),
-      ],
+    if (_reviews.isEmpty && _fetchDone) {
+      return Center(child: Text("Can't find any ratings"));
+    }
+
+    return ListView.builder(
+      itemCount: _reviews.length + 1,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return Center(child: Text("Reviews", style: TextStyle(fontSize: 40)));
+        }
+
+        final review = _reviews[index - 1];
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: ReviewCard(review),
+        );
+      },
     );
   }
 }
 
-class Review extends StatelessWidget {
-  const Review(this.review, {super.key});
+class ReviewCard extends StatelessWidget {
+  const ReviewCard(this.review, {super.key});
 
   final ReviewInfo review;
 
   @override
   Widget build(BuildContext context) {
-    return Placeholder();
+    return Container(
+      width: 600,
+      padding: EdgeInsets.all(20),
+      color: Colors.white,
+      child: Column(
+        children: [
+          Text(review.locationName),
+          Text(review.locationCoordinates),
+          StarRating(review.locationRating),
+          Text(review.reasonForRating),
+        ],
+      ),
+    );
+  }
+}
+
+class StarRating extends StatelessWidget {
+  const StarRating(int ratingOutOfFive, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      mainAxisSize: .min,
+      children: [Icon(Icons.star, color: Colors.amber, size: 24.0)],
+    );
   }
 }
