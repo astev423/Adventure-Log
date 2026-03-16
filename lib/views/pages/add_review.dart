@@ -54,6 +54,18 @@ class _AddReviewFormState extends State<AddReviewForm> {
         _locationRatingReasonCtl.text,
       );
       addReview(review);
+      setState(() {
+        _locationCoordsCtl.text = "";
+        _locationNameCtl.text = "";
+        _locationRating = 0;
+        _locationRatingReasonCtl.text = "";
+      });
+      const snackBar = SnackBar(
+        content: Text('Your review was successfully submitted!'),
+        duration: Duration(seconds: 5),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
