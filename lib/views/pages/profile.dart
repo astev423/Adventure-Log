@@ -1,3 +1,5 @@
+import 'package:adventure_log/controllers/utils/constants.dart';
+import 'package:adventure_log/controllers/utils/responsiveness.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -6,31 +8,44 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SignOutButton());
+    return Scaffold(body: AccountInfo());
   }
 }
 
-class SignOutButton extends StatelessWidget {
-  const SignOutButton({super.key});
+class AccountInfo extends StatelessWidget {
+  final accountInfo = FirebaseAuth.instance.currentUser!;
 
-  Future<void> _signOut(BuildContext context) async {
-    try {
-      await FirebaseAuth.instance.signOut();
-    } catch (e) {
-      if (!context.mounted) return;
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Sign out failed: $e')));
-    }
+  AccountInfo({super.key});
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () => _signOut(context),
-      icon: const Icon(Icons.logout),
-      tooltip: 'Sign out',
+    return Center(
+      child: Container(
+        color: Colors.white,
+        padding: EdgeInsets.all(10),
+        child: Column(
+          mainAxisSize: .min,
+          spacing: 40,
+          children: [
+            headerText("Account information", context),
+            Text(
+              "Username: ${accountInfo.displayName}",
+              style: TextStyle(fontSize: responsiveFontSize(context, 30)),
+            ),
+            Text(
+              "Email: ${accountInfo.email}",
+              style: TextStyle(fontSize: responsiveFontSize(context, 30)),
+            ),
+            ElevatedButton(
+              onPressed: _signOut,
+              child: Text("Click here to sign out"),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

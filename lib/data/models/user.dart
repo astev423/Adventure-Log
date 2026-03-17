@@ -10,7 +10,7 @@ class UserInfo {
   }
 
   static UserInfo fromJSON(Map<String, dynamic> json) {
-    final username = json['username'];
+    final username = json['displayName'];
     final email = json['email'];
 
     return UserInfo(username, email);

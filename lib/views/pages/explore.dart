@@ -1,3 +1,4 @@
+import 'package:adventure_log/controllers/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class Explore extends StatelessWidget {
@@ -5,6 +6,6 @@ class Explore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Placeholder()));
+    return Scaffold(body: Center(child: headerText("Explore", context)));
   }
 }

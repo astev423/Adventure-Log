@@ -68,7 +68,7 @@ class _AddReviewFormState extends State<AddReviewForm> {
         borderRadius: BorderRadius.circular(25),
         color: Colors.white,
       ),
-      width: responsiveWidth(context, 700),
+      width: responsiveWidth(context, 900),
       child: Form(
         key: _formKey,
         child: ListView(

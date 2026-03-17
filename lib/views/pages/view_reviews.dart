@@ -57,21 +57,17 @@ class _ReviewsListState extends State<ReviewsList> {
   @override
   Widget build(BuildContext context) {
     if (!_fetchDone) {
-      return Center(
-        child: Text("Loading reviews...", style: TextStyle(fontSize: 40)),
-      );
+      return Center(child: headerText("Loading reviews...", context));
     }
     if (_reviews.isEmpty) {
-      return Center(
-        child: Text("Can't find any ratings", style: TextStyle(fontSize: 40)),
-      );
+      return Center(child: headerText("Can't find any ratings", context));
     }
 
     return ListView.builder(
       itemCount: _reviews.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
-          return Center(child: Text("Reviews", style: TextStyle(fontSize: 40)));
+          return Center(child: headerText("Reviews", context));
         }
 
         final review = _reviews[index - 1];
