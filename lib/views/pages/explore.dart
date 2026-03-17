@@ -1,42 +1,66 @@
 import 'package:adventure_log/controllers/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class Explore extends StatelessWidget {
+class Explore extends StatefulWidget {
   const Explore({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            headerText("Explore", context),
-            SizedBox(width: 400, height: 400, child: MapPage()),
-          ],
-        ),
-      ),
-    );
-  }
+  State<Explore> createState() => _ExploreState();
 }
 
-class MapPage extends StatelessWidget {
-  const MapPage({super.key});
+class _ExploreState extends State<Explore> {
+  bool _isLocationVisible = false;
+  Position? _coordinates;
+  LocationPermission? _permission;
 
-  static const CameraPosition _initialPosition = CameraPosition(
-    target: LatLng(37.7749, -122.4194),
-    zoom: 12,
-  );
+  void _checkLocation() async {
+    _permission = await Geolocator.checkPermission();
+    if (_permission == LocationPermission.denied) {
+      _permission = await Geolocator.requestPermission();
+    }
+
+    if (_permission == LocationPermission.always ||
+        _permission == LocationPermission.whileInUse) {
+      _coordinates = await Geolocator.getCurrentPosition();
+      _isLocationVisible = true;
+    }
+
+    setState(() {
+      _permission = _permission;
+      _coordinates = _coordinates;
+      _isLocationVisible = _isLocationVisible;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Google Map')),
-      body: const GoogleMap(
-        initialCameraPosition: _initialPosition,
-        myLocationButtonEnabled: false,
-        zoomControlsEnabled: true,
-      ),
+    _checkLocation();
+    if (!_isLocationVisible) {
+      return Text("You must enable location services to see this page");
+    }
+
+    return EmbeddedMap(_coordinates);
+  }
+}
+
+class EmbeddedMap extends StatelessWidget {
+  final Position? _coordinates;
+
+  const EmbeddedMap(this._coordinates, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    CameraPosition cameraPosition = CameraPosition(
+      target: LatLng(_coordinates!.latitude, _coordinates!.longitude),
+      zoom: 16,
+    );
+
+    return GoogleMap(
+      initialCameraPosition: cameraPosition,
+      myLocationButtonEnabled: false,
+      zoomControlsEnabled: true,
     );
   }
 }
