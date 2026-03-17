@@ -1,17 +1,17 @@
 class ReviewInfo {
   final String locationName;
   final String locationCoordinates;
-  final String? imageURL;
   final int locationRating;
-  final String reasonForRating;
+  final String? imageURL;
+  final String? reasonForRating;
 
   ReviewInfo(
     this.locationName,
     this.locationCoordinates,
-    this.locationRating,
-    this.reasonForRating, [
+    this.locationRating, {
     this.imageURL,
-  ]);
+    this.reasonForRating,
+  });
 
   /// Example req: final response = await http.post(url, headers, body: jsonEncode(model.toJson()));
   Map<String, dynamic> toJson() {
@@ -35,8 +35,8 @@ class ReviewInfo {
       locationName,
       locationCoordinates,
       locationRating,
-      reasonForRating,
-      imageURL,
+      reasonForRating: reasonForRating,
+      imageURL: imageURL,
     );
   }
 }

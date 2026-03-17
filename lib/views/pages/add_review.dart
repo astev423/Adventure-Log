@@ -29,11 +29,11 @@ class AddReviewForm extends StatefulWidget {
 
 class _AddReviewFormState extends State<AddReviewForm> {
   final _formKey = GlobalKey<FormState>();
+
   final _locationNameCtl = TextEditingController();
   final _locationCoordsCtl = TextEditingController();
-  int _locationRating = 0;
   final _locationRatingReasonCtl = TextEditingController();
-  String? _response;
+  int _locationRating = 0;
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
@@ -41,7 +41,7 @@ class _AddReviewFormState extends State<AddReviewForm> {
         _locationNameCtl.text,
         _locationCoordsCtl.text,
         _locationRating,
-        _locationRatingReasonCtl.text,
+        reasonForRating: _locationRatingReasonCtl.text,
       );
       addReview(review);
       setState(() {
@@ -62,6 +62,7 @@ class _AddReviewFormState extends State<AddReviewForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: responsiveHeight(context, 1300),
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
@@ -70,85 +71,90 @@ class _AddReviewFormState extends State<AddReviewForm> {
       width: responsiveWidth(context, 700),
       child: Form(
         key: _formKey,
-        child: SizedBox(
-          height: responsiveHeight(context, 1000),
-          child: ListView(
-            children: [
-              ReviewTextFormField(
-                "Location Name:",
-                requireNonEmptyString,
-                _locationNameCtl,
-                "Enter the location name",
-              ),
-              ReviewTextFormField(
-                "Location Coordinates:",
-                requireNonEmptyString,
-                _locationCoordsCtl,
-                "Enter the location coordinates",
-              ),
-              Center(
-                child: Text(
-                  "Location Image:",
-                  style: TextStyle(
-                    color: darkGreen,
-                    fontSize: responsiveFontSize(context, 30),
-                  ),
-                ),
-              ),
-              PickFileButton(),
-              Column(
-                children: [
-                  Text(
-                    "Location Rating:",
-                    style: TextStyle(
-                      color: darkGreen,
-                      fontSize: responsiveFontSize(context, 30),
-                    ),
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: List.generate(5, (index) {
-                      final starNumber = index + 1;
-                      return IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _locationRating = starNumber;
-                          });
-                        },
-                        icon: Icon(
-                          starNumber <= _locationRating
-                              ? Icons.star
-                              : Icons.star_border,
-                          color: Colors.amber,
-                          size: responsiveWidth(context, 32),
-                        ),
-                      );
-                    }),
-                  ),
-                ],
-              ),
-              ReviewTextFormField(
-                "Reason For Rating:",
-                requireNonEmptyString,
-                _locationRatingReasonCtl,
-                "Justify your rating",
-              ),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: const Text('Submit'),
-              ),
-              if (_response != null) Text(_response!),
-            ],
-          ),
+        child: ListView(
+          children: [
+            ReviewTextFormField(
+              "Location Name:",
+              requireNonEmptyString,
+              _locationNameCtl,
+              "Enter the location name",
+            ),
+            responsiveBox(context, 6),
+            ReviewTextFormField(
+              "Location Coordinates:",
+              requireNonEmptyString,
+              _locationCoordsCtl,
+              "Enter the location coordinates",
+            ),
+            responsiveBox(context, 6),
+            ...imagePicker(context),
+            responsiveBox(context, 6),
+            StarRating(
+              rating: _locationRating,
+              onChanged: (newRating) {
+                setState(() {
+                  _locationRating = newRating;
+                });
+              },
+            ),
+            responsiveBox(context, 6),
+            ReviewTextFormField(
+              "Reason For Rating:",
+              null,
+              _locationRatingReasonCtl,
+              "Justify your rating",
+            ),
+            responsiveBox(context, 6),
+            ElevatedButton(onPressed: _submitForm, child: const Text('Submit')),
+          ],
         ),
       ),
+    );
+  }
+
+  List<Widget> imagePicker(BuildContext context) {
+    return [
+      Center(child: Text("Location Image:", style: formBoldText(context))),
+      PickFileButton(),
+    ];
+  }
+}
+
+class StarRating extends StatelessWidget {
+  final int rating;
+  // We need callback here but not for the text forms as the controller is shared and updates
+  // parents controller.text aswell on change
+  final ValueChanged<int> onChanged;
+
+  const StarRating({super.key, required this.rating, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text("Location Rating:", style: formBoldText(context)),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(5, (index) {
+            final starNumber = index + 1;
+            return IconButton(
+              onPressed: () => onChanged(starNumber),
+              icon: Icon(
+                starNumber <= rating ? Icons.star : Icons.star_border,
+                color: Colors.amber,
+                size: responsiveWidth(context, 32),
+              ),
+            );
+          }),
+        ),
+      ],
     );
   }
 }
 
 class ReviewTextFormField extends StatelessWidget {
   final String _locationName;
-  final String? Function(String?) _validator;
+  final String? Function(String?)? _validator;
   final TextEditingController _controller;
   final String _hintText;
 
@@ -164,13 +170,7 @@ class ReviewTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          _locationName,
-          style: TextStyle(
-            color: darkGreen,
-            fontSize: responsiveFontSize(context, 30),
-          ),
-        ),
+        Text(_locationName, style: formBoldText(context)),
         TextFormField(
           validator: _validator,
           controller: _controller,
@@ -209,15 +209,8 @@ class _PickFileButtonState extends State<PickFileButton> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: _pickFile,
-            child: const Text('Pick a file'),
-          ),
-        ),
+        ElevatedButton(onPressed: _pickFile, child: const Text('Pick a file')),
         if (_selectedFile != null) ...[
           const SizedBox(height: 12),
           Text('Selected: ${_selectedFile!.name}'),
@@ -225,4 +218,8 @@ class _PickFileButtonState extends State<PickFileButton> {
       ],
     );
   }
+}
+
+TextStyle formBoldText(BuildContext context) {
+  return TextStyle(color: darkGreen, fontSize: responsiveFontSize(context, 30));
 }

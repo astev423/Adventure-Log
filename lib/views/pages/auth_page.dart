@@ -20,14 +20,6 @@ class _AuthPageState extends State<AuthPage> {
   bool _isLoading = false;
   String? _error;
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _nameController.dispose();
-    super.dispose();
-  }
-
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
 

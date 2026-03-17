@@ -104,7 +104,7 @@ class ReviewCard extends StatelessWidget {
               child: Image(image: NetworkImage(review.imageURL!)),
             ),
           StarRating(review.locationRating),
-          Text(review.reasonForRating),
+          if (review.reasonForRating != null) Text(review.reasonForRating!),
         ],
       ),
     );

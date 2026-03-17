@@ -1,5 +1,4 @@
 # Expected
--Add signout option
 -Add profile page using auth info
 -Add button to show only user's reviews in view reviews page
 -Explore page with google maps integration
@@ -13,4 +12,3 @@
 
 
 # Refactor/not as important
--Reorganize the add_review page and make review description optional
