@@ -92,7 +92,14 @@ class ReviewCard extends StatelessWidget {
       color: Colors.white,
       child: Column(
         children: [
-          Text(review.locationName),
+          Text(
+            review.locationName,
+            style: TextStyle(
+              fontSize: responsiveFontSize(context, 20),
+              fontWeight: .bold,
+            ),
+          ),
+          Text("Review by: ${review.posterUsername}"),
           Text(review.locationCoordinates),
           if (review.imageURL != null)
             ConstrainedBox(

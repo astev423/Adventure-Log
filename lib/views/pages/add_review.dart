@@ -3,6 +3,7 @@ import 'package:adventure_log/controllers/utils/responsiveness.dart';
 import 'package:adventure_log/controllers/utils/validators.dart';
 import 'package:adventure_log/data/firestore_queries.dart';
 import 'package:adventure_log/data/models/review_info.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -38,6 +39,7 @@ class _AddReviewFormState extends State<AddReviewForm> {
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       ReviewInfo review = ReviewInfo(
+        FirebaseAuth.instance.currentUser!.displayName!,
         _locationNameCtl.text,
         _locationCoordsCtl.text,
         _locationRating,
