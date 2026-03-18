@@ -12,3 +12,4 @@
 
 
 # Refactor/not as important
+-Refactor/make auth simpler

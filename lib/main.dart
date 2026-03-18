@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Adventure Log',
       theme: ThemeData(scaffoldBackgroundColor: teal),
-      home: const AuthGate(),
+      home: ProtectedPage(child: Homepage()),
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/explore':
@@ -53,7 +53,9 @@ class MyApp extends StatelessWidget {
             );
 
           default:
-            return MaterialPageRoute(builder: (_) => const AuthGate());
+            return MaterialPageRoute(
+              builder: (_) => const ProtectedPage(child: Homepage()),
+            );
         }
       },
     );
@@ -78,30 +80,6 @@ class ProtectedPage extends StatelessWidget {
 
         if (snapshot.hasData) {
           return child;
-        }
-
-        return const AuthPage();
-      },
-    );
-  }
-}
-
-class AuthGate extends StatelessWidget {
-  const AuthGate({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
-
-        if (snapshot.hasData) {
-          return const Homepage();
         }
 
         return const AuthPage();

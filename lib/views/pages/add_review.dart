@@ -84,7 +84,7 @@ class _AddReviewFormState extends State<AddReviewForm> {
             responsiveBox(context, 6),
             ReviewTextFormField(
               "Location Coordinates:",
-              requireNonEmptyString,
+              requireCoordsWithSixDecimals,
               _locationCoordsCtl,
               "Enter the location coordinates",
             ),
