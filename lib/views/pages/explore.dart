@@ -1,3 +1,7 @@
+import 'package:adventure_log/controllers/utils/constants.dart';
+import 'package:adventure_log/controllers/utils/utils.dart';
+import 'package:adventure_log/data/firestore_queries.dart';
+import 'package:adventure_log/data/models/review_info.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -13,6 +17,28 @@ class _ExploreState extends State<Explore> {
   bool _isLocationVisible = false;
   Position? _coordinates;
   LocationPermission? _permission;
+  List<ReviewInfo> _reviews = [];
+  List<String> _coords = [];
+  bool _isFetchingDone = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getMarkersForMap();
+  }
+
+  void getMarkersForMap() async {
+    _reviews = await fetchAllReviews();
+    for (ReviewInfo review in _reviews) {
+      _coords.add(review.locationCoordinates);
+    }
+
+    setState(() {
+      _coords = _coords;
+      _reviews = _reviews;
+      _isFetchingDone = true;
+    });
+  }
 
   void _checkLocation() async {
     _permission = await Geolocator.checkPermission();
@@ -36,18 +62,26 @@ class _ExploreState extends State<Explore> {
   @override
   Widget build(BuildContext context) {
     _checkLocation();
+    Set<Marker> markers = convertCoordsToMarkers(_coords);
     if (!_isLocationVisible) {
-      return Text("You must enable location services to see this page");
+      return headerText(
+        "You must enable location services to see this page",
+        context,
+      );
+    }
+    if (!_isFetchingDone) {
+      return headerText("Loading...", context);
     }
 
-    return EmbeddedMap(_coordinates);
+    return EmbeddedMap(_coordinates, markers);
   }
 }
 
 class EmbeddedMap extends StatelessWidget {
   final Position? _coordinates;
+  final Set<Marker> _markers;
 
-  const EmbeddedMap(this._coordinates, {super.key});
+  const EmbeddedMap(this._coordinates, this._markers, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +94,7 @@ class EmbeddedMap extends StatelessWidget {
       initialCameraPosition: cameraPosition,
       myLocationButtonEnabled: false,
       zoomControlsEnabled: true,
+      markers: _markers,
     );
   }
 }
