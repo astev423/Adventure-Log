@@ -3,9 +3,11 @@ import 'package:adventure_log/controllers/utils/responsiveness.dart';
 import 'package:adventure_log/controllers/utils/validators.dart';
 import 'package:adventure_log/data/firestore_queries.dart';
 import 'package:adventure_log/data/models/review_info.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:adventure_log/views/widgets/upload_image.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 
 class AddReview extends StatelessWidget {
   const AddReview({super.key});
@@ -14,47 +16,71 @@ class AddReview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: teal,
-      body: Center(child: AddReviewForm()),
+      body: Center(child: _AddReviewForm()),
     );
   }
 }
 
-class AddReviewForm extends StatefulWidget {
-  const AddReviewForm({super.key});
-
+class _AddReviewForm extends StatefulWidget {
   @override
-  State<AddReviewForm> createState() {
+  State<_AddReviewForm> createState() {
     return _AddReviewFormState();
   }
 }
 
-class _AddReviewFormState extends State<AddReviewForm> {
+class _AddReviewFormState extends State<_AddReviewForm> {
   final _formKey = GlobalKey<FormState>();
 
   final _locationNameCtl = TextEditingController();
   final _locationCoordsCtl = TextEditingController();
   final _locationRatingReasonCtl = TextEditingController();
   int _locationRating = 0;
+  PlatformFile? _selectedFile;
+
+  void _onFileAttached(PlatformFile file) {
+    setState(() {
+      _selectedFile = file;
+    });
+  }
+
+  Future<String> _uploadImageAndGetUrl(PlatformFile file) async {
+    final fileName = '${DateTime.now().millisecondsSinceEpoch}_${file.name}';
+    final ref = FirebaseStorage.instance.ref().child(fileName);
+    final metadata = SettableMetadata(
+      contentType: 'image/${file.extension ?? 'jpeg'}',
+    );
+
+    await ref.putData(file.bytes!, metadata);
+
+    final url = await ref.getDownloadURL();
+    return url;
+  }
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
+      String? imageURL = _selectedFile != null
+          ? await _uploadImageAndGetUrl(_selectedFile!)
+          : null;
       ReviewInfo review = ReviewInfo(
         FirebaseAuth.instance.currentUser!.displayName!,
         _locationNameCtl.text,
         _locationCoordsCtl.text,
         _locationRating,
         reasonForRating: _locationRatingReasonCtl.text,
+        imageURL: imageURL,
       );
       addReview(review);
 
       _formKey.currentState!.reset();
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Your review was successfully submitted!'),
-          duration: Duration(seconds: 5),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Your review was successfully submitted!'),
+            duration: Duration(seconds: 5),
+          ),
+        );
+      }
     }
   }
 
@@ -72,23 +98,27 @@ class _AddReviewFormState extends State<AddReviewForm> {
         key: _formKey,
         child: ListView(
           children: [
-            ReviewTextFormField(
+            _ReviewTextFormField(
               "Location Name:",
               requireNonEmptyString,
               _locationNameCtl,
               "Enter the location name",
             ),
             responsiveBox(context, 6),
-            ReviewTextFormField(
+
+            _ReviewTextFormField(
               "Location Coordinates:",
               requireCoordsWithSixDecimals,
               _locationCoordsCtl,
               "Enter the location coordinates",
             ),
             responsiveBox(context, 6),
-            ...imagePicker(context),
+
+            UploadImage(_onFileAttached),
+
             responsiveBox(context, 6),
-            StarRating(
+
+            _StarRating(
               rating: _locationRating,
               onChanged: (newRating) {
                 setState(() {
@@ -96,40 +126,37 @@ class _AddReviewFormState extends State<AddReviewForm> {
                 });
               },
             ),
+
             responsiveBox(context, 6),
-            ReviewTextFormField(
+
+            _ReviewTextFormField(
               "Reason For Rating:",
               null,
               _locationRatingReasonCtl,
               "Justify your rating",
             ),
+
             responsiveBox(context, 6),
+
             ElevatedButton(onPressed: _submitForm, child: const Text('Submit')),
           ],
         ),
       ),
     );
   }
-
-  List<Widget> imagePicker(BuildContext context) {
-    return [
-      Center(child: Text("Location Image:", style: formBoldText(context))),
-      PickFileButton(),
-    ];
-  }
 }
 
-class StarRating extends StatelessWidget {
+class _StarRating extends StatelessWidget {
   final int rating;
   final ValueChanged<int> onChanged;
 
-  const StarRating({super.key, required this.rating, required this.onChanged});
+  const _StarRating({required this.rating, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text("Location Rating:", style: formBoldText(context)),
+        Text("Location Rating:", style: _formBoldText(context)),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: List.generate(5, (index) {
@@ -149,25 +176,24 @@ class StarRating extends StatelessWidget {
   }
 }
 
-class ReviewTextFormField extends StatelessWidget {
+class _ReviewTextFormField extends StatelessWidget {
   final String _locationName;
   final String? Function(String?)? _validator;
   final TextEditingController _controller;
   final String _hintText;
 
-  const ReviewTextFormField(
+  const _ReviewTextFormField(
     this._locationName,
     this._validator,
     this._controller,
-    this._hintText, {
-    super.key,
-  });
+    this._hintText,
+  );
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(_locationName, style: formBoldText(context)),
+        Text(_locationName, style: _formBoldText(context)),
         TextFormField(
           validator: _validator,
           controller: _controller,
@@ -181,42 +207,6 @@ class ReviewTextFormField extends StatelessWidget {
   }
 }
 
-class PickFileButton extends StatefulWidget {
-  const PickFileButton({super.key});
-
-  @override
-  State<PickFileButton> createState() => _PickFileButtonState();
-}
-
-class _PickFileButtonState extends State<PickFileButton> {
-  PlatformFile? _selectedFile;
-
-  Future<void> _pickFile() async {
-    final FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-    if (result == null) {
-      return;
-    }
-
-    setState(() {
-      _selectedFile = result.files.first;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ElevatedButton(onPressed: _pickFile, child: const Text('Pick a file')),
-        if (_selectedFile != null) ...[
-          const SizedBox(height: 12),
-          Text('Selected: ${_selectedFile!.name}'),
-        ],
-      ],
-    );
-  }
-}
-
-TextStyle formBoldText(BuildContext context) {
+TextStyle _formBoldText(BuildContext context) {
   return TextStyle(color: darkGreen, fontSize: responsiveFontSize(context, 30));
 }

@@ -28,7 +28,7 @@ class ReviewCard extends StatelessWidget {
               constraints: BoxConstraints(maxWidth: 600, maxHeight: 400),
               child: Image(image: NetworkImage(review.imageURL!)),
             ),
-          StarRating(review.locationRating),
+          _StarRating(review.locationRating),
           if (review.reasonForRating != null) Text(review.reasonForRating!),
         ],
       ),
@@ -36,9 +36,9 @@ class ReviewCard extends StatelessWidget {
   }
 }
 
-class StarRating extends StatelessWidget {
+class _StarRating extends StatelessWidget {
   final int _ratingOutOfFive;
-  const StarRating(this._ratingOutOfFive, {super.key});
+  const _StarRating(this._ratingOutOfFive);
 
   @override
   Widget build(BuildContext context) {

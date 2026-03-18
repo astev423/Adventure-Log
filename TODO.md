@@ -7,4 +7,5 @@
 
 
 # Refactor/not as important
+-Refactor ListView in add_review to use scrollable column with spacing instead of sizedboxes
 -Refactor/make auth simpler
