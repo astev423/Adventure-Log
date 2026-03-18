@@ -46,18 +46,15 @@ class _AddReviewFormState extends State<AddReviewForm> {
         reasonForRating: _locationRatingReasonCtl.text,
       );
       addReview(review);
-      setState(() {
-        _locationCoordsCtl.text = "";
-        _locationNameCtl.text = "";
-        _locationRating = 0;
-        _locationRatingReasonCtl.text = "";
-      });
-      const snackBar = SnackBar(
-        content: Text('Your review was successfully submitted!'),
-        duration: Duration(seconds: 5),
-      );
 
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      _formKey.currentState!.reset();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Your review was successfully submitted!'),
+          duration: Duration(seconds: 5),
+        ),
+      );
     }
   }
 
@@ -124,8 +121,6 @@ class _AddReviewFormState extends State<AddReviewForm> {
 
 class StarRating extends StatelessWidget {
   final int rating;
-  // We need callback here but not for the text forms as the controller is shared and updates
-  // parents controller.text aswell on change
   final ValueChanged<int> onChanged;
 
   const StarRating({super.key, required this.rating, required this.onChanged});

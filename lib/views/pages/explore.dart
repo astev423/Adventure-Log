@@ -23,6 +23,7 @@ class _ExploreState extends State<Explore> {
   @override
   void initState() {
     super.initState();
+    _checkLocation();
     getReviewsForMap();
   }
 
@@ -55,9 +56,7 @@ class _ExploreState extends State<Explore> {
 
   @override
   Widget build(BuildContext context) {
-    _checkLocation();
-    Set<Marker> markers = convertReviewsToMarkers(_reviews, context);
-    if (!_isLocationVisible) {
+    if (!_isLocationVisible || _coordinates == null) {
       return headerText(
         "You must enable location services to see this page",
         context,
@@ -67,7 +66,10 @@ class _ExploreState extends State<Explore> {
       return headerText("Loading...", context);
     }
 
-    return EmbeddedMap(_coordinates, markers);
+    return EmbeddedMap(
+      _coordinates,
+      convertReviewsToMarkers(_reviews, context),
+    );
   }
 }
 

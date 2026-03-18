@@ -2,7 +2,7 @@ import 'package:adventure_log/controllers/auth/require_login_for_page_wrapper.da
 import 'package:adventure_log/controllers/utils/constants.dart';
 import 'package:adventure_log/data/models/review_info.dart';
 import 'package:adventure_log/firebase_options.dart';
-import 'package:adventure_log/views/pages/homepage.dart';
+import 'package:adventure_log/views/pages/home.dart';
 import 'package:adventure_log/views/pages/page_wrapper.dart' as wrapper;
 import 'package:adventure_log/views/pages/view_review.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -49,6 +49,13 @@ MaterialPageRoute _handleRoute(RouteSettings settings) {
             ProtectedPage(child: ViewReview(settings.arguments as ReviewInfo)),
       );
 
+    case '/add-review':
+      return MaterialPageRoute(
+        builder: (_) => const ProtectedPage(
+          child: wrapper.PageWrapper(wrapper.Page.addReview),
+        ),
+      );
+
     case '/profile':
       return MaterialPageRoute(
         builder: (_) => const ProtectedPage(
@@ -58,7 +65,7 @@ MaterialPageRoute _handleRoute(RouteSettings settings) {
 
     default:
       return MaterialPageRoute(
-        builder: (_) => const ProtectedPage(child: Homepage()),
+        builder: (_) => const ProtectedPage(child: Home()),
       );
   }
 }

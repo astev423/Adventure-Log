@@ -39,7 +39,7 @@ class ReviewsList extends StatefulWidget {
 
 class _ReviewsListState extends State<ReviewsList> {
   List<ReviewInfo> _reviews = [];
-  bool _fetchDone = false;
+  bool _isFetchDone = false;
 
   @override
   void initState() {
@@ -51,13 +51,13 @@ class _ReviewsListState extends State<ReviewsList> {
     List<ReviewInfo> reviews = await fetchAllReviews();
     setState(() {
       _reviews = reviews;
-      _fetchDone = true;
+      _isFetchDone = true;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_fetchDone) {
+    if (!_isFetchDone) {
       return Center(child: headerText("Loading reviews...", context));
     }
     if (_reviews.isEmpty) {
