@@ -1,9 +1,10 @@
+import 'package:adventure_log/controllers/auth/require_login_for_page_wrapper.dart';
 import 'package:adventure_log/controllers/utils/constants.dart';
+import 'package:adventure_log/data/models/review_info.dart';
 import 'package:adventure_log/firebase_options.dart';
-import 'package:adventure_log/views/pages/auth_page.dart';
 import 'package:adventure_log/views/pages/homepage.dart';
 import 'package:adventure_log/views/pages/page_wrapper.dart' as wrapper;
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:adventure_log/views/pages/view_review.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -21,69 +22,43 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Adventure Log',
       theme: ThemeData(scaffoldBackgroundColor: teal),
-      home: ProtectedPage(child: Homepage()),
-      onGenerateRoute: (settings) {
-        switch (settings.name) {
-          case '/explore':
-            return MaterialPageRoute(
-              builder: (_) => const ProtectedPage(
-                child: wrapper.PageWrapper(wrapper.Page.explore),
-              ),
-            );
-
-          case '/view-reviews':
-            return MaterialPageRoute(
-              builder: (_) => const ProtectedPage(
-                child: wrapper.PageWrapper(wrapper.Page.viewReviews),
-              ),
-            );
-
-          case '/add-review':
-            return MaterialPageRoute(
-              builder: (_) => const ProtectedPage(
-                child: wrapper.PageWrapper(wrapper.Page.addReview),
-              ),
-            );
-
-          case '/profile':
-            return MaterialPageRoute(
-              builder: (_) => const ProtectedPage(
-                child: wrapper.PageWrapper(wrapper.Page.profile),
-              ),
-            );
-
-          default:
-            return MaterialPageRoute(
-              builder: (_) => const ProtectedPage(child: Homepage()),
-            );
-        }
-      },
+      onGenerateRoute: _handleRoute,
     );
   }
 }
 
-class ProtectedPage extends StatelessWidget {
-  final Widget child;
+MaterialPageRoute _handleRoute(RouteSettings settings) {
+  switch (settings.name) {
+    case '/explore':
+      return MaterialPageRoute(
+        builder: (_) => const ProtectedPage(
+          child: wrapper.PageWrapper(wrapper.Page.explore),
+        ),
+      );
 
-  const ProtectedPage({super.key, required this.child});
+    case '/view-reviews':
+      return MaterialPageRoute(
+        builder: (_) => const ProtectedPage(
+          child: wrapper.PageWrapper(wrapper.Page.viewReviews),
+        ),
+      );
 
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
+    case '/view-review':
+      return MaterialPageRoute(
+        builder: (_) =>
+            ProtectedPage(child: ViewReview(settings.arguments as ReviewInfo)),
+      );
 
-        if (snapshot.hasData) {
-          return child;
-        }
+    case '/profile':
+      return MaterialPageRoute(
+        builder: (_) => const ProtectedPage(
+          child: wrapper.PageWrapper(wrapper.Page.profile),
+        ),
+      );
 
-        return const AuthPage();
-      },
-    );
+    default:
+      return MaterialPageRoute(
+        builder: (_) => const ProtectedPage(child: Homepage()),
+      );
   }
 }

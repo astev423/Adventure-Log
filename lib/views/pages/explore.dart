@@ -18,23 +18,17 @@ class _ExploreState extends State<Explore> {
   Position? _coordinates;
   LocationPermission? _permission;
   List<ReviewInfo> _reviews = [];
-  List<String> _coords = [];
   bool _isFetchingDone = false;
 
   @override
   void initState() {
     super.initState();
-    getMarkersForMap();
+    getReviewsForMap();
   }
 
-  void getMarkersForMap() async {
+  void getReviewsForMap() async {
     _reviews = await fetchAllReviews();
-    for (ReviewInfo review in _reviews) {
-      _coords.add(review.locationCoordinates);
-    }
-
     setState(() {
-      _coords = _coords;
       _reviews = _reviews;
       _isFetchingDone = true;
     });
@@ -62,7 +56,7 @@ class _ExploreState extends State<Explore> {
   @override
   Widget build(BuildContext context) {
     _checkLocation();
-    Set<Marker> markers = convertCoordsToMarkers(_coords);
+    Set<Marker> markers = convertReviewsToMarkers(_reviews, context);
     if (!_isLocationVisible) {
       return headerText(
         "You must enable location services to see this page",

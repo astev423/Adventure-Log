@@ -61,11 +61,9 @@ class _AuthPageState extends State<AuthPage> {
         _error = 'Something went wrong';
       });
     } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
