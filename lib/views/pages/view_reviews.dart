@@ -37,39 +37,36 @@ class _ReviewsList extends StatefulWidget {
 }
 
 class _ReviewsListState extends State<_ReviewsList> {
-  List<ReviewInfo> _reviews = [];
-  bool _isFetchDone = false;
+  late Future<List<ReviewInfo>> _reviews;
 
   @override
   void initState() {
     super.initState();
-    fetchReviews();
-  }
-
-  void fetchReviews() async {
-    List<ReviewInfo> reviews = await fetchAllReviews();
-    setState(() {
-      _reviews = reviews;
-      _isFetchDone = true;
-    });
+    _reviews = fetchAllReviews();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_isFetchDone) {
-      return Center(child: headerText("Loading reviews...", context));
-    }
-    if (_reviews.isEmpty) {
-      return Center(child: headerText("Can't find any ratings", context));
-    }
+    return FutureBuilder(
+      future: _reviews,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return headerText("An error occured while fetching reviews", context);
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-    return ListView.separated(
-      itemCount: _reviews.length,
-      separatorBuilder: (context, index) {
-        return responsiveBox(context, 10);
-      },
-      itemBuilder: (context, index) {
-        return ReviewCard(_reviews[index]);
+        final reviews = snapshot.data ?? [];
+
+        return ListView.separated(
+          itemCount: reviews.length,
+          separatorBuilder: (context, index) {
+            return SizedBox(height: responsiveHeight(context, 10));
+          },
+          itemBuilder: (context, index) {
+            return ReviewCard(reviews[index]);
+          },
+        );
       },
     );
   }
