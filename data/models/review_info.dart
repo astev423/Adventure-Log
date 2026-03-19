@@ -18,22 +18,22 @@ class ReviewInfo {
   /// Example req: final response = await http.post(url, headers, body: jsonEncode(model.toJson()));
   Map<String, dynamic> toJson() {
     return {
-      'posterUsername': posterUsername,
-      'locationName': locationName,
-      'locationCoordinates': locationCoordinates,
-      'imageURL': imageURL,
-      'locationRating': locationRating,
-      'reasonForRating': reasonForRating,
+      "posterUsername": posterUsername,
+      "locationName": locationName,
+      "locationCoordinates": locationCoordinates,
+      "imageURL": imageURL,
+      "locationRating": locationRating,
+      "reasonForRating": reasonForRating,
     };
   }
 
   static ReviewInfo fromJSON(Map<String, dynamic> json) {
-    final posterUsername = json['posterUsername'];
-    final locationName = json['locationName'];
-    final locationCoordinates = json['locationCoordinates'];
-    final locationRating = json['locationRating'];
-    final reasonForRating = json['reasonForRating'];
-    final imageURL = json['imageURL'];
+    final posterUsername = json["posterUsername"] as String;
+    final locationName = json["locationName"] as String;
+    final locationCoordinates = json["locationCoordinates"] as String;
+    final locationRating = json["locationRating"] as int;
+    final reasonForRating = json["reasonForRating"] as String;
+    final imageURL = json["imageURL"] as String;
 
     return ReviewInfo(
       posterUsername,

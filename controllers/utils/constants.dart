@@ -1,5 +1,5 @@
-import 'package:adventure_log/controllers/utils/responsiveness.dart';
-import 'package:flutter/material.dart';
+import "responsiveness.dart";
+import "package:flutter/material.dart";
 
 const darkGreen = Color(0xFF2C6E49);
 const teal = Color(0xFFA4C3B2);

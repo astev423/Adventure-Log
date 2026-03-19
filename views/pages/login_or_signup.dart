@@ -1,9 +1,9 @@
-import 'package:adventure_log/controllers/utils/constants.dart';
-import 'package:adventure_log/controllers/utils/responsiveness.dart';
-import 'package:adventure_log/controllers/utils/validators.dart';
-import 'package:adventure_log/data/firestore_queries.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import "../../controllers/utils/constants.dart";
+import "../../controllers/utils/responsiveness.dart";
+import "../../controllers/utils/validators.dart";
+import "../../data/firestore_queries.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/material.dart";
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -49,7 +49,7 @@ class _AuthPageState extends State<AuthPage> {
       }
     } catch (_) {
       setState(() {
-        _error = 'Something went wrong, probably incorrect password/email';
+        _error = "Something went wrong, probably incorrect password/email";
       });
     }
   }
@@ -82,22 +82,22 @@ class _AuthPageState extends State<AuthPage> {
                       TextFormField(
                         controller: _nameController,
                         decoration: const InputDecoration(
-                          labelText: 'Display name',
+                          labelText: "Display name",
                         ),
                         validator: requireNonEmptyString,
                       ),
                     TextFormField(
                       controller: _emailController,
-                      decoration: const InputDecoration(labelText: 'Email'),
+                      decoration: const InputDecoration(labelText: "Email"),
                       validator: requireNonEmptyString,
                     ),
                     TextFormField(
                       controller: _passwordController,
-                      decoration: const InputDecoration(labelText: 'Password'),
+                      decoration: const InputDecoration(labelText: "Password"),
                       obscureText: true,
                       validator: (value) {
                         if (value == null || value.length < 6) {
-                          return 'Password must be at least 6 characters';
+                          return "Password must be at least 6 characters";
                         }
 
                         return null;
@@ -107,14 +107,14 @@ class _AuthPageState extends State<AuthPage> {
                       Text(_error!, style: const TextStyle(color: Colors.red)),
                     ElevatedButton(
                       onPressed: _submit,
-                      child: Text(_isSignedIn ? 'Sign In' : 'Sign Up'),
+                      child: Text(_isSignedIn ? "Sign In" : "Sign Up"),
                     ),
                     TextButton(
                       onPressed: _toggleMode,
                       child: Text(
                         _isSignedIn
-                            ? 'No account? Sign up'
-                            : 'Already have an account? Sign in',
+                            ? "No account? Sign up"
+                            : "Already have an account? Sign in",
                       ),
                     ),
                   ],

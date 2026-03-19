@@ -1,7 +1,7 @@
-import 'package:adventure_log/controllers/utils/constants.dart';
-import 'package:adventure_log/controllers/utils/responsiveness.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import "../../controllers/utils/constants.dart";
+import "../../controllers/utils/responsiveness.dart";
+import "package:flutter/material.dart";
+import "package:firebase_auth/firebase_auth.dart";
 
 class Profile extends StatelessWidget {
   const Profile({super.key});

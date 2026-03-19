@@ -1,13 +1,13 @@
-import 'package:adventure_log/controllers/utils/constants.dart';
-import 'package:adventure_log/controllers/utils/responsiveness.dart';
-import 'package:adventure_log/controllers/utils/validators.dart';
-import 'package:adventure_log/data/firestore_queries.dart';
-import 'package:adventure_log/data/models/review_info.dart';
-import 'package:adventure_log/views/widgets/upload_image.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
+import "../../controllers/utils/constants.dart";
+import "../../controllers/utils/responsiveness.dart";
+import "../../controllers/utils/validators.dart";
+import "../../data/firestore_queries.dart";
+import "../../data/models/review_info.dart";
+import "../widgets/upload_image.dart";
+import "package:file_picker/file_picker.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:firebase_storage/firebase_storage.dart";
+import "package:flutter/material.dart";
 
 class AddReview extends StatelessWidget {
   const AddReview({super.key});
@@ -44,7 +44,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
   }
 
   Future<String> _uploadImageAndGetUrl(PlatformFile file) async {
-    final fileName = '${DateTime.now().millisecondsSinceEpoch}_${file.name}';
+    final fileName = "${DateTime.now().millisecondsSinceEpoch}_${file.name}";
     final ref = FirebaseStorage.instance.ref().child(fileName);
     final metadata = SettableMetadata(
       contentType: 'image/${file.extension ?? 'jpeg'}',
@@ -79,7 +79,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Your review was successfully submitted!'),
+          content: Text("Your review was successfully submitted!"),
           duration: Duration(seconds: 5),
         ),
       );
@@ -116,7 +116,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
         _locationRatingReasonCtl,
         "Justify your rating",
       ),
-      ElevatedButton(onPressed: _submitForm, child: const Text('Submit')),
+      ElevatedButton(onPressed: _submitForm, child: const Text("Submit")),
     ];
 
     return Container(

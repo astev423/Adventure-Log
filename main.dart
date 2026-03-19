@@ -1,12 +1,12 @@
-import 'package:adventure_log/controllers/auth/require_login_for_page_wrapper.dart';
-import 'package:adventure_log/controllers/utils/constants.dart';
-import 'package:adventure_log/data/models/review_info.dart';
-import 'package:adventure_log/firebase_options.dart';
-import 'package:adventure_log/views/pages/home.dart';
-import 'package:adventure_log/views/pages/page_wrapper.dart' as wrapper;
-import 'package:adventure_log/views/pages/view_review.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
+import "controllers/auth/require_login_for_page_wrapper.dart";
+import "controllers/utils/constants.dart";
+import "data/models/review_info.dart";
+import "firebase_options.dart";
+import "views/pages/home.dart";
+import "views/pages/page_wrapper.dart" as wrapper;
+import "views/pages/view_review.dart";
+import "package:firebase_core/firebase_core.dart";
+import "package:flutter/material.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Adventure Log',
+      title: "Adventure Log",
       theme: ThemeData(scaffoldBackgroundColor: teal),
       onGenerateRoute: _handleRoute,
     );
@@ -29,34 +29,34 @@ class MyApp extends StatelessWidget {
 
 MaterialPageRoute _handleRoute(RouteSettings settings) {
   switch (settings.name) {
-    case '/explore':
+    case "/explore":
       return MaterialPageRoute(
         builder: (_) => const ProtectedPage(
           child: wrapper.PageWrapper(wrapper.Page.explore),
         ),
       );
 
-    case '/view-reviews':
+    case "/view-reviews":
       return MaterialPageRoute(
         builder: (_) => const ProtectedPage(
           child: wrapper.PageWrapper(wrapper.Page.viewReviews),
         ),
       );
 
-    case '/view-review':
+    case "/view-review":
       return MaterialPageRoute(
         builder: (_) =>
             ProtectedPage(child: ViewReview(settings.arguments as ReviewInfo)),
       );
 
-    case '/add-review':
+    case "/add-review":
       return MaterialPageRoute(
         builder: (_) => const ProtectedPage(
           child: wrapper.PageWrapper(wrapper.Page.addReview),
         ),
       );
 
-    case '/profile':
+    case "/profile":
       return MaterialPageRoute(
         builder: (_) => const ProtectedPage(
           child: wrapper.PageWrapper(wrapper.Page.profile),

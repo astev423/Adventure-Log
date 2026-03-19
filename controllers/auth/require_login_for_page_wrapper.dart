@@ -1,6 +1,6 @@
-import 'package:adventure_log/views/pages/login_or_signup.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import "../../views/pages/login_or_signup.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/material.dart";
 
 class ProtectedPage extends StatelessWidget {
   final Widget child;

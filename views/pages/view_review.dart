@@ -1,8 +1,8 @@
-import 'package:adventure_log/controllers/utils/constants.dart';
-import 'package:adventure_log/controllers/utils/responsiveness.dart';
-import 'package:adventure_log/data/models/review_info.dart';
-import 'package:adventure_log/views/widgets/review_card.dart';
-import 'package:flutter/material.dart';
+import "../../controllers/utils/constants.dart";
+import "../../controllers/utils/responsiveness.dart";
+import "../../data/models/review_info.dart";
+import "../widgets/review_card.dart";
+import "package:flutter/material.dart";
 
 class ViewReview extends StatelessWidget {
   final ReviewInfo review;
@@ -26,7 +26,7 @@ class ViewReview extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     child: Text(
-                      'Click here to go back!',
+                      "Click here to go back!",
                       style: TextStyle(
                         fontSize: responsiveFontSize(context, 30),
                       ),

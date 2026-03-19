@@ -1,5 +1,5 @@
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
+import "package:file_picker/file_picker.dart";
+import "package:flutter/material.dart";
 
 class UploadImage extends StatefulWidget {
   final Function onFileAttached;
@@ -35,10 +35,10 @@ class _UploadImageState extends State<UploadImage> {
     return Column(
       children: [
         Center(child: Text("Location Image:")),
-        ElevatedButton(onPressed: _pickFile, child: const Text('Pick a file')),
+        ElevatedButton(onPressed: _pickFile, child: const Text("Pick a file")),
         if (_selectedFile != null) ...[
           const SizedBox(height: 12),
-          Text('Selected: ${_selectedFile!.name}'),
+          Text("Selected: ${_selectedFile!.name}"),
         ],
       ],
     );

@@ -1,6 +1,6 @@
-import 'package:adventure_log/controllers/utils/responsiveness.dart';
-import 'package:adventure_log/data/models/review_info.dart';
-import 'package:flutter/material.dart';
+import "../../controllers/utils/responsiveness.dart";
+import "../../data/models/review_info.dart";
+import "package:flutter/material.dart";
 
 class ReviewCard extends StatelessWidget {
   const ReviewCard(this.review, {super.key});
