@@ -29,22 +29,22 @@ class AccountInfo extends StatelessWidget {
           headerText("Account information", context),
           Container(
             color: Colors.white,
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Column(
               mainAxisSize: .min,
               spacing: 40,
               children: [
                 Text(
                   "Username: ${accountInfo.displayName}",
-                  style: TextStyle(fontSize: responsiveFontSize(context, 30)),
+                  style: TextStyle(fontSize: responsiveFontSize(context, 20)),
                 ),
                 Text(
                   "Email: ${accountInfo.email}",
-                  style: TextStyle(fontSize: responsiveFontSize(context, 30)),
+                  style: TextStyle(fontSize: responsiveFontSize(context, 20)),
                 ),
                 ElevatedButton(
                   onPressed: _signOut,
-                  child: Text("Click here to sign out"),
+                  child: const Text("Click here to sign out"),
                 ),
               ],
             ),

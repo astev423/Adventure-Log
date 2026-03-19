@@ -22,45 +22,6 @@ class _AuthPageState extends State<AuthPage> {
   bool _isSignedIn = true;
   String? _error;
 
-  Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    setState(() {
-      _error = null;
-    });
-
-    try {
-      if (_isSignedIn) {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
-        );
-      } else {
-        final credential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-              email: _emailController.text.trim(),
-              password: _passwordController.text.trim(),
-            );
-
-        final user = credential.user;
-        if (user != null) {
-          addUserToFirestore(user, _nameController.text.trim());
-        }
-      }
-    } catch (_) {
-      setState(() {
-        _error = "Something went wrong, probably incorrect password/email";
-      });
-    }
-  }
-
-  void _toggleMode() {
-    setState(() {
-      _isSignedIn = !_isSignedIn;
-      _error = null;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,11 +34,12 @@ class _AuthPageState extends State<AuthPage> {
               headerText("You must sign in to access this app", context),
               Container(
                 width: responsiveWidth(context, 800),
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 color: Colors.white,
                 child: Column(
                   spacing: 20,
                   children: [
+                    const SizedBox(height: 20),
                     if (!_isSignedIn)
                       TextFormField(
                         controller: _nameController,
@@ -125,5 +87,44 @@ class _AuthPageState extends State<AuthPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() {
+      _error = null;
+    });
+
+    try {
+      if (_isSignedIn) {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
+      } else {
+        final credential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim(),
+            );
+
+        final user = credential.user;
+        if (user != null) {
+          addUserToFirestore(user, _nameController.text.trim());
+        }
+      }
+    } catch (_) {
+      setState(() {
+        _error = "Something went wrong, probably incorrect password/email";
+      });
+    }
+  }
+
+  void _toggleMode() {
+    setState(() {
+      _isSignedIn = !_isSignedIn;
+      _error = null;
+    });
   }
 }

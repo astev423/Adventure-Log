@@ -14,13 +14,19 @@ class ViewReviews extends StatelessWidget {
       backgroundColor: teal,
       body: Center(
         child: Column(
-          spacing: responsiveHeight(context, 20),
           children: [
             headerText("Reviews", context),
+            Text(
+              "Click on a review to see it in more detail",
+              style: TextStyle(
+                color: darkGreen,
+                fontSize: responsiveFontSize(context, 20),
+              ),
+            ),
             SizedBox(
-              width: responsiveWidth(context, 1200),
-              height: responsiveHeight(context, 1100),
-              child: _ReviewsList(),
+              width: responsiveWidth(context, 800),
+              height: responsiveHeight(context, 500),
+              child: const _ReviewsList(),
             ),
           ],
         ),
@@ -64,7 +70,16 @@ class _ReviewsListState extends State<_ReviewsList> {
             return SizedBox(height: responsiveHeight(context, 10));
           },
           itemBuilder: (context, index) {
-            return ReviewCard(reviews[index]);
+            final review = reviews[index];
+
+            return InkWell(
+              onTap: () => Navigator.pushNamed(
+                context,
+                "/view-review",
+                arguments: review,
+              ),
+              child: ReviewCard(review),
+            );
           },
         );
       },

@@ -18,10 +18,10 @@ class PageWrapper extends StatefulWidget {
 
 class _PageWrapperState extends State<PageWrapper> {
   final List<Widget> _pages = [
-    Explore(),
-    ViewReviews(),
-    AddReview(),
-    Profile(),
+    const Explore(),
+    const ViewReviews(),
+    const AddReview(),
+    const Profile(),
   ];
 
   @override

@@ -13,6 +13,20 @@ class UploadImage extends StatefulWidget {
 class _UploadImageState extends State<UploadImage> {
   PlatformFile? _selectedFile;
 
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Center(child: Text("Location Image:")),
+        ElevatedButton(onPressed: _pickFile, child: const Text("Pick a file")),
+        if (_selectedFile != null) ...[
+          const SizedBox(height: 12),
+          Text("Selected: ${_selectedFile!.name}"),
+        ],
+      ],
+    );
+  }
+
   Future<void> _pickFile() async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.image,
@@ -28,19 +42,5 @@ class _UploadImageState extends State<UploadImage> {
     });
 
     widget.onFileAttached(_selectedFile);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Center(child: Text("Location Image:")),
-        ElevatedButton(onPressed: _pickFile, child: const Text("Pick a file")),
-        if (_selectedFile != null) ...[
-          const SizedBox(height: 12),
-          Text("Selected: ${_selectedFile!.name}"),
-        ],
-      ],
-    );
   }
 }

@@ -1,7 +1,7 @@
 import "controllers/auth/require_login_for_page_wrapper.dart";
 import "controllers/utils/constants.dart";
 import "data/models/review_info.dart";
-import "firebase_options.dart";
+import "../firebase_options.dart";
 import "views/pages/home.dart";
 import "views/pages/page_wrapper.dart" as wrapper;
 import "views/pages/view_review.dart";
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-MaterialPageRoute _handleRoute(RouteSettings settings) {
+MaterialPageRoute<dynamic> _handleRoute(RouteSettings settings) {
   switch (settings.name) {
     case "/explore":
       return MaterialPageRoute(

@@ -28,14 +28,14 @@ class ViewReview extends StatelessWidget {
                     child: Text(
                       "Click here to go back!",
                       style: TextStyle(
-                        fontSize: responsiveFontSize(context, 30),
+                        fontSize: responsiveFontSize(context, 20),
                       ),
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: responsiveHeight(context, 1300),
+                height: responsiveHeight(context, 500),
                 child: SingleChildScrollView(child: ReviewCard(review)),
               ),
             ],

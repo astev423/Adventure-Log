@@ -36,6 +36,73 @@ class _AddReviewFormState extends State<_AddReviewForm> {
   final _locationRatingReasonCtl = TextEditingController();
   int _locationRating = 0;
   PlatformFile? _selectedFile;
+  late final List<Widget> _formFields;
+
+  @override
+  void initState() {
+    super.initState();
+    _setFormFields();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      spacing: 20,
+      children: [
+        headerText("Add a review", context),
+        Container(
+          height: responsiveHeight(context, 560),
+          width: responsiveWidth(context, 800),
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+            color: Colors.white,
+          ),
+          child: Form(
+            key: _formKey,
+            child: ListView.separated(
+              itemCount: _formFields.length,
+              separatorBuilder: (context, index) => const SizedBox(height: 10),
+              itemBuilder: (context, index) => _formFields[index],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _setFormFields() {
+    _formFields = [
+      _ReviewTextFormField(
+        "Location Name:",
+        requireNonEmptyString,
+        _locationNameCtl,
+        "Enter the location name",
+      ),
+      _ReviewTextFormField(
+        "Location Coordinates:",
+        requireCoordsWithSixDecimals,
+        _locationCoordsCtl,
+        "Enter the location coordinates",
+      ),
+      UploadImage(_onFileAttached),
+      _StarRatingInteraction(
+        rating: _locationRating,
+        onChanged: (newRating) {
+          setState(() {
+            _locationRating = newRating;
+          });
+        },
+      ),
+      _ReviewTextFormField(
+        "Reason For Rating:",
+        null,
+        _locationRatingReasonCtl,
+        "Justify your rating",
+      ),
+      ElevatedButton(onPressed: _submitForm, child: const Text("Submit")),
+    ];
+  }
 
   void _onFileAttached(PlatformFile file) {
     setState(() {
@@ -78,72 +145,20 @@ class _AddReviewFormState extends State<_AddReviewForm> {
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Your review was successfully submitted!"),
           duration: Duration(seconds: 5),
         ),
       );
     }
   }
-
-  @override
-  Widget build(BuildContext context) {
-    final formFields = [
-      _ReviewTextFormField(
-        "Location Name:",
-        requireNonEmptyString,
-        _locationNameCtl,
-        "Enter the location name",
-      ),
-      _ReviewTextFormField(
-        "Location Coordinates:",
-        requireCoordsWithSixDecimals,
-        _locationCoordsCtl,
-        "Enter the location coordinates",
-      ),
-      UploadImage(_onFileAttached),
-      _StarRating(
-        rating: _locationRating,
-        onChanged: (newRating) {
-          setState(() {
-            _locationRating = newRating;
-          });
-        },
-      ),
-      _ReviewTextFormField(
-        "Reason For Rating:",
-        null,
-        _locationRatingReasonCtl,
-        "Justify your rating",
-      ),
-      ElevatedButton(onPressed: _submitForm, child: const Text("Submit")),
-    ];
-
-    return Container(
-      height: responsiveHeight(context, 1300),
-      width: responsiveWidth(context, 900),
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        color: Colors.white,
-      ),
-      child: Form(
-        key: _formKey,
-        child: ListView.separated(
-          itemCount: formFields.length,
-          separatorBuilder: (context, index) => SizedBox(height: 10),
-          itemBuilder: (context, index) => formFields[index],
-        ),
-      ),
-    );
-  }
 }
 
-class _StarRating extends StatelessWidget {
+class _StarRatingInteraction extends StatelessWidget {
   final int rating;
   final ValueChanged<int> onChanged;
 
-  const _StarRating({required this.rating, required this.onChanged});
+  const _StarRatingInteraction({required this.rating, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -201,5 +216,5 @@ class _ReviewTextFormField extends StatelessWidget {
 }
 
 TextStyle _formBoldText(BuildContext context) {
-  return TextStyle(color: darkGreen, fontSize: responsiveFontSize(context, 30));
+  return TextStyle(color: darkGreen, fontSize: responsiveFontSize(context, 20));
 }

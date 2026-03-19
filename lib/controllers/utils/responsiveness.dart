@@ -1,15 +1,7 @@
 import "package:flutter/material.dart";
 
-double screenWidth(BuildContext context) {
-  return MediaQuery.sizeOf(context).width;
-}
-
-double screenHeight(BuildContext context) {
-  return MediaQuery.sizeOf(context).height;
-}
-
 double responsiveFontSize(BuildContext context, double base) {
-  final isDesktop = screenWidth(context) >= 800;
+  final isDesktop = MediaQuery.sizeOf(context).width >= 800;
 
   if (isDesktop) {
     return responsiveWidth(context, base);
@@ -19,9 +11,9 @@ double responsiveFontSize(BuildContext context, double base) {
 }
 
 double responsiveWidth(BuildContext context, double baseWidth) {
-  return screenWidth(context) * baseWidth;
+  return (MediaQuery.sizeOf(context).width * baseWidth) / 1370;
 }
 
 double responsiveHeight(BuildContext context, double baseHeight) {
-  return screenHeight(context) * baseHeight;
+  return (MediaQuery.sizeOf(context).height * baseHeight) / 770;
 }

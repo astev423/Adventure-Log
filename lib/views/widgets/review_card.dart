@@ -3,14 +3,14 @@ import "../../data/models/review_info.dart";
 import "package:flutter/material.dart";
 
 class ReviewCard extends StatelessWidget {
-  const ReviewCard(this.review, {super.key});
-
   final ReviewInfo review;
+
+  const ReviewCard(this.review, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 20, bottom: 20, left: 80, right: 80),
+      padding: const EdgeInsets.only(top: 20, bottom: 20, left: 80, right: 80),
       color: Colors.white,
       child: Column(
         children: [
@@ -25,7 +25,7 @@ class ReviewCard extends StatelessWidget {
           Text(review.locationCoordinates),
           if (review.imageURL != null)
             ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600, maxHeight: 400),
+              constraints: const BoxConstraints(maxWidth: 600, maxHeight: 400),
               child: Image(image: NetworkImage(review.imageURL!)),
             ),
           _StarRating(review.locationRating),

@@ -14,14 +14,14 @@ class Home extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            _BlurredMountainBackgroundImage(),
+            const _BlurredMountainBackgroundImage(),
             Column(
               children: [
                 Text(
                   "Adventure Log",
                   style: TextStyle(
                     color: darkGreen,
-                    fontSize: responsiveFontSize(context, 160),
+                    fontSize: responsiveFontSize(context, 70),
                     fontWeight: FontWeight.w900,
                   ),
                 ),
@@ -29,10 +29,10 @@ class Home extends StatelessWidget {
                   "Log and find amazing places!",
                   style: TextStyle(
                     color: darkGreen,
-                    fontSize: responsiveFontSize(context, 60),
+                    fontSize: responsiveFontSize(context, 40),
                   ),
                 ),
-                _NavigationButtons(),
+                const _NavigationButtons(),
               ],
             ),
           ],
@@ -50,7 +50,7 @@ class _NavigationButtons extends StatelessWidget {
     return Expanded(
       child: SizedBox(
         width: responsiveWidth(context, 900),
-        child: Center(child: _SelectPage()),
+        child: const Center(child: _SelectPage()),
       ),
     );
   }
@@ -83,7 +83,7 @@ class _SelectPage extends StatelessWidget {
               style: TextStyle(
                 color: darkGreen,
                 fontWeight: .w400,
-                fontSize: responsiveFontSize(context, 60),
+                fontSize: responsiveFontSize(context, 40),
               ),
             ),
           );
