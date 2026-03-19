@@ -13,6 +13,7 @@ class ReviewCard extends StatelessWidget {
       padding: const EdgeInsets.only(top: 20, bottom: 20, left: 80, right: 80),
       color: Colors.white,
       child: Column(
+        mainAxisSize: .min,
         children: [
           Text(
             review.locationName,
@@ -29,7 +30,8 @@ class ReviewCard extends StatelessWidget {
               child: Image(image: NetworkImage(review.imageURL!)),
             ),
           _StarRating(review.locationRating),
-          if (review.reasonForRating != null) Text(review.reasonForRating!),
+          if (review.reasonForRating != null)
+            Text(review.reasonForRating!, overflow: TextOverflow.ellipsis),
         ],
       ),
     );

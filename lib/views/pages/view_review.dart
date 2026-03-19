@@ -17,7 +17,7 @@ class ViewReview extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Center(
           child: Column(
-            spacing: 10,
+            spacing: 20,
             children: [
               Row(
                 children: [
@@ -28,7 +28,7 @@ class ViewReview extends StatelessWidget {
                     child: Text(
                       "Click here to go back!",
                       style: TextStyle(
-                        fontSize: responsiveFontSize(context, 20),
+                        fontSize: responsiveFontSize(context, 30),
                       ),
                     ),
                   ),
@@ -36,6 +36,7 @@ class ViewReview extends StatelessWidget {
               ),
               SizedBox(
                 height: responsiveHeight(context, 500),
+                width: responsiveWidth(context, 800),
                 child: SingleChildScrollView(child: ReviewCard(review)),
               ),
             ],

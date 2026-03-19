@@ -24,7 +24,7 @@ class ViewReviews extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: responsiveWidth(context, 800),
+              width: responsiveWidth(context, 900),
               height: responsiveHeight(context, 500),
               child: const _ReviewsList(),
             ),
@@ -72,13 +72,19 @@ class _ReviewsListState extends State<_ReviewsList> {
           itemBuilder: (context, index) {
             final review = reviews[index];
 
-            return InkWell(
-              onTap: () => Navigator.pushNamed(
-                context,
-                "/view-review",
-                arguments: review,
+            return ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: responsiveWidth(context, 800),
+                maxHeight: responsiveHeight(context, 600),
               ),
-              child: ReviewCard(review),
+              child: InkWell(
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  "/view-review",
+                  arguments: review,
+                ),
+                child: ReviewCard(review),
+              ),
             );
           },
         );
