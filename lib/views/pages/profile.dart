@@ -23,28 +23,33 @@ class AccountInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        color: Colors.white,
-        padding: EdgeInsets.all(10),
-        child: Column(
-          mainAxisSize: .min,
-          spacing: 40,
-          children: [
-            headerText("Account information", context),
-            Text(
-              "Username: ${accountInfo.displayName}",
-              style: TextStyle(fontSize: responsiveFontSize(context, 30)),
+      child: Column(
+        spacing: 20,
+        children: [
+          headerText("Account information", context),
+          Container(
+            color: Colors.white,
+            padding: EdgeInsets.all(10),
+            child: Column(
+              mainAxisSize: .min,
+              spacing: 40,
+              children: [
+                Text(
+                  "Username: ${accountInfo.displayName}",
+                  style: TextStyle(fontSize: responsiveFontSize(context, 30)),
+                ),
+                Text(
+                  "Email: ${accountInfo.email}",
+                  style: TextStyle(fontSize: responsiveFontSize(context, 30)),
+                ),
+                ElevatedButton(
+                  onPressed: _signOut,
+                  child: Text("Click here to sign out"),
+                ),
+              ],
             ),
-            Text(
-              "Email: ${accountInfo.email}",
-              style: TextStyle(fontSize: responsiveFontSize(context, 30)),
-            ),
-            ElevatedButton(
-              onPressed: _signOut,
-              child: Text("Click here to sign out"),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -14,14 +14,13 @@ class ViewReviews extends StatelessWidget {
       backgroundColor: teal,
       body: Center(
         child: Column(
+          spacing: responsiveHeight(context, 20),
           children: [
-            SizedBox(height: 40),
-            // Expanded tells listbuilder how big it will be as builder needs a size
-            Expanded(
-              child: SizedBox(
-                width: responsiveWidth(context, 1200),
-                child: ReviewsList(),
-              ),
+            headerText("Reviews", context),
+            SizedBox(
+              width: responsiveWidth(context, 1200),
+              height: responsiveHeight(context, 1100),
+              child: _ReviewsList(),
             ),
           ],
         ),
@@ -30,14 +29,14 @@ class ViewReviews extends StatelessWidget {
   }
 }
 
-class ReviewsList extends StatefulWidget {
-  const ReviewsList({super.key});
+class _ReviewsList extends StatefulWidget {
+  const _ReviewsList();
 
   @override
-  State<ReviewsList> createState() => _ReviewsListState();
+  State<_ReviewsList> createState() => _ReviewsListState();
 }
 
-class _ReviewsListState extends State<ReviewsList> {
+class _ReviewsListState extends State<_ReviewsList> {
   List<ReviewInfo> _reviews = [];
   bool _isFetchDone = false;
 
@@ -64,18 +63,13 @@ class _ReviewsListState extends State<ReviewsList> {
       return Center(child: headerText("Can't find any ratings", context));
     }
 
-    return ListView.builder(
-      itemCount: _reviews.length + 1,
+    return ListView.separated(
+      itemCount: _reviews.length,
+      separatorBuilder: (context, index) {
+        return responsiveBox(context, 10);
+      },
       itemBuilder: (context, index) {
-        if (index == 0) {
-          return Center(child: headerText("Reviews", context));
-        }
-
-        final review = _reviews[index - 1];
-        return Padding(
-          padding: EdgeInsets.only(bottom: 20),
-          child: ReviewCard(review),
-        );
+        return ReviewCard(_reviews[index]);
       },
     );
   }

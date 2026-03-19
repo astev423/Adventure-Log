@@ -57,89 +57,82 @@ class _AddReviewFormState extends State<_AddReviewForm> {
   }
 
   void _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      String? imageURL = _selectedFile != null
-          ? await _uploadImageAndGetUrl(_selectedFile!)
-          : null;
-      ReviewInfo review = ReviewInfo(
-        FirebaseAuth.instance.currentUser!.displayName!,
-        _locationNameCtl.text,
-        _locationCoordsCtl.text,
-        _locationRating,
-        reasonForRating: _locationRatingReasonCtl.text,
-        imageURL: imageURL,
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    String? imageURL = _selectedFile != null
+        ? await _uploadImageAndGetUrl(_selectedFile!)
+        : null;
+    ReviewInfo review = ReviewInfo(
+      FirebaseAuth.instance.currentUser!.displayName!,
+      _locationNameCtl.text,
+      _locationCoordsCtl.text,
+      _locationRating,
+      reasonForRating: _locationRatingReasonCtl.text,
+      imageURL: imageURL,
+    );
+    addReview(review);
+
+    _formKey.currentState!.reset();
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Your review was successfully submitted!'),
+          duration: Duration(seconds: 5),
+        ),
       );
-      addReview(review);
-
-      _formKey.currentState!.reset();
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Your review was successfully submitted!'),
-            duration: Duration(seconds: 5),
-          ),
-        );
-      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final formFields = [
+      _ReviewTextFormField(
+        "Location Name:",
+        requireNonEmptyString,
+        _locationNameCtl,
+        "Enter the location name",
+      ),
+      _ReviewTextFormField(
+        "Location Coordinates:",
+        requireCoordsWithSixDecimals,
+        _locationCoordsCtl,
+        "Enter the location coordinates",
+      ),
+      UploadImage(_onFileAttached),
+      _StarRating(
+        rating: _locationRating,
+        onChanged: (newRating) {
+          setState(() {
+            _locationRating = newRating;
+          });
+        },
+      ),
+      _ReviewTextFormField(
+        "Reason For Rating:",
+        null,
+        _locationRatingReasonCtl,
+        "Justify your rating",
+      ),
+      ElevatedButton(onPressed: _submitForm, child: const Text('Submit')),
+    ];
+
     return Container(
       height: responsiveHeight(context, 1300),
+      width: responsiveWidth(context, 900),
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
         color: Colors.white,
       ),
-      width: responsiveWidth(context, 900),
       child: Form(
         key: _formKey,
-        child: ListView(
-          children: [
-            _ReviewTextFormField(
-              "Location Name:",
-              requireNonEmptyString,
-              _locationNameCtl,
-              "Enter the location name",
-            ),
-            responsiveBox(context, 6),
-
-            _ReviewTextFormField(
-              "Location Coordinates:",
-              requireCoordsWithSixDecimals,
-              _locationCoordsCtl,
-              "Enter the location coordinates",
-            ),
-            responsiveBox(context, 6),
-
-            UploadImage(_onFileAttached),
-
-            responsiveBox(context, 6),
-
-            _StarRating(
-              rating: _locationRating,
-              onChanged: (newRating) {
-                setState(() {
-                  _locationRating = newRating;
-                });
-              },
-            ),
-
-            responsiveBox(context, 6),
-
-            _ReviewTextFormField(
-              "Reason For Rating:",
-              null,
-              _locationRatingReasonCtl,
-              "Justify your rating",
-            ),
-
-            responsiveBox(context, 6),
-
-            ElevatedButton(onPressed: _submitForm, child: const Text('Submit')),
-          ],
+        child: ListView.separated(
+          itemCount: formFields.length,
+          separatorBuilder: (context, index) => SizedBox(height: 10),
+          itemBuilder: (context, index) => formFields[index],
         ),
       ),
     );
