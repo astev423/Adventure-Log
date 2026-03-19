@@ -15,7 +15,12 @@ class ViewReviews extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            headerText("Reviews", context),
+            Row(
+              children: [
+                appThemedButton(() => print(""), "Filter reviews"),
+                headerText("Reviews", context),
+              ],
+            ),
             Text(
               "Click on a review to see it in more detail",
               style: TextStyle(

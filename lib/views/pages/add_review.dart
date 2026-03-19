@@ -56,7 +56,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            color: Colors.white,
+            color: mint,
           ),
           child: Form(
             key: _formKey,
@@ -100,7 +100,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
         _locationRatingReasonCtl,
         "Justify your rating",
       ),
-      ElevatedButton(onPressed: _submitForm, child: const Text("Submit")),
+      appThemedButton(_submitForm, "Submit"),
     ];
   }
 
@@ -216,5 +216,9 @@ class _ReviewTextFormField extends StatelessWidget {
 }
 
 TextStyle _formBoldText(BuildContext context) {
-  return TextStyle(color: darkGreen, fontSize: responsiveFontSize(context, 20));
+  return TextStyle(
+    color: darkGreen,
+    fontWeight: .w600,
+    fontSize: responsiveFontSize(context, 20),
+  );
 }

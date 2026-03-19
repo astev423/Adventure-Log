@@ -77,7 +77,7 @@ class _SelectPage extends StatelessWidget {
         children: pagesAndRoutes.map((pageAndRoute) {
           return ElevatedButton(
             onPressed: pageAndRoute.$2,
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+            style: ElevatedButton.styleFrom(backgroundColor: mint),
             child: Text(
               pageAndRoute.$1,
               style: TextStyle(

@@ -21,21 +21,14 @@ class ViewReview extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      "Click here to go back!",
-                      style: TextStyle(
-                        fontSize: responsiveFontSize(context, 30),
-                      ),
-                    ),
+                  appThemedButton(
+                    () => Navigator.pop(context),
+                    "Click here to go back!",
                   ),
                 ],
               ),
               SizedBox(
-                height: responsiveHeight(context, 500),
+                height: responsiveHeight(context, 600),
                 width: responsiveWidth(context, 800),
                 child: SingleChildScrollView(child: ReviewCard(review)),
               ),

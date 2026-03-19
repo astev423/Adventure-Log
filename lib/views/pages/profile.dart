@@ -28,7 +28,10 @@ class AccountInfo extends StatelessWidget {
         children: [
           headerText("Account information", context),
           Container(
-            color: Colors.white,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              color: mint,
+            ),
             padding: const EdgeInsets.all(10),
             child: Column(
               mainAxisSize: .min,
@@ -42,10 +45,7 @@ class AccountInfo extends StatelessWidget {
                   "Email: ${accountInfo.email}",
                   style: TextStyle(fontSize: responsiveFontSize(context, 20)),
                 ),
-                ElevatedButton(
-                  onPressed: _signOut,
-                  child: const Text("Click here to sign out"),
-                ),
+                appThemedButton(_signOut, "Click here to sign out"),
               ],
             ),
           ),

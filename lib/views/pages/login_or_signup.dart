@@ -35,7 +35,7 @@ class _AuthPageState extends State<AuthPage> {
               Container(
                 width: responsiveWidth(context, 800),
                 padding: const EdgeInsets.all(20),
-                color: Colors.white,
+                color: mint,
                 child: Column(
                   spacing: 20,
                   children: [
@@ -67,9 +67,9 @@ class _AuthPageState extends State<AuthPage> {
                     ),
                     if (_error != null)
                       Text(_error!, style: const TextStyle(color: Colors.red)),
-                    ElevatedButton(
-                      onPressed: _submit,
-                      child: Text(_isSignedIn ? "Sign In" : "Sign Up"),
+                    appThemedButton(
+                      _submit,
+                      _isSignedIn ? "Sign In" : "Sign Up",
                     ),
                     TextButton(
                       onPressed: _toggleMode,

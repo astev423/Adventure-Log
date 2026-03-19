@@ -1,3 +1,5 @@
+import "package:adventure_log/controllers/utils/constants.dart";
+
 import "../../controllers/utils/responsiveness.dart";
 import "../../data/models/review_info.dart";
 import "package:flutter/material.dart";
@@ -11,7 +13,7 @@ class ReviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 20, bottom: 20, left: 80, right: 80),
-      color: Colors.white,
+      color: mint,
       child: Column(
         mainAxisSize: .min,
         children: [
