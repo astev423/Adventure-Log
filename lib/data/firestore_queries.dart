@@ -11,9 +11,16 @@ Future<List<ReviewInfo>> fetchAllReviews() async {
       .collection("reviews")
       .get();
 
-  if (querySnapshot.docs.isEmpty) {
-    return [];
-  }
+  return querySnapshot.docs
+      .map((doc) => ReviewInfo.fromJSON(doc.data()))
+      .toList();
+}
+
+Future<List<ReviewInfo>> fetchAllReviewsFromUser(String username) async {
+  var querySnapshot = await FirebaseFirestore.instance
+      .collection("reviews")
+      .where("posterUsername", isEqualTo: username)
+      .get();
 
   return querySnapshot.docs
       .map((doc) => ReviewInfo.fromJSON(doc.data()))
