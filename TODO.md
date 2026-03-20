@@ -5,9 +5,7 @@
 -Tap on empty spot which will bring up add review page with that location coordinates filled in
 -Hide reviews which hides them in both maps and reviews page
 -Keep list of hidden reviews, let users unhide them if they want
--Add sort by closest location (coordinate math)
 -Sort by saved reviews
+-Add ability to sort from reviews highest to lowest
 
 # Refactor
--Reduce repition among view filter reviews and other view pages, maybe extract some common widgets and
-put multiple public widgets in reviews.dart

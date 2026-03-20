@@ -1,6 +1,6 @@
-import "package:adventure_log/views/pages/view_filtered_reviews.dart";
-import "package:adventure_log/views/pages/view_reviews.dart";
-
+import "package:adventure_log/views/pages/view_closest_reviews.dart";
+import "package:adventure_log/views/pages/view_newest_reviews_first.dart";
+import "package:adventure_log/views/pages/view_specific_user_reviews.dart";
 import "controllers/auth/require_login_for_page_wrapper.dart";
 import "controllers/utils/constants.dart";
 import "data/models/review_info.dart";
@@ -46,13 +46,20 @@ MaterialPageRoute<dynamic> _handleRoute(RouteSettings settings) {
         ),
       );
 
-    case "/view-filtered-reviews":
-      final args =
-          settings.arguments
-              as (ReviewsToSee reviewsToSee, String? usernameToSeePostsFrom);
+    case "/view-newest-reviews":
       return MaterialPageRoute(
-        builder: (_) =>
-            ProtectedPage(child: ViewFilteredReviews(args.$1, args.$2)),
+        builder: (_) => const ProtectedPage(child: ViewNewestReviews()),
+      );
+
+    case "/view-closest-reviews":
+      return MaterialPageRoute(
+        builder: (_) => const ProtectedPage(child: ViewClosestReviews()),
+      );
+
+    case "/view-specific-user-reviews":
+      final username = settings.arguments as String;
+      return MaterialPageRoute(
+        builder: (_) => ProtectedPage(child: ViewSpecificUserReviews(username)),
       );
 
     case "/view-review":

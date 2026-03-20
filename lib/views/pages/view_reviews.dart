@@ -1,10 +1,8 @@
+import "package:adventure_log/views/widgets/reviews_list.dart";
 import "package:firebase_auth/firebase_auth.dart";
-
 import "../../controllers/utils/constants.dart";
 import "../../controllers/utils/responsiveness.dart";
 import "../../data/firestore_queries.dart";
-import "../../data/models/review_info.dart";
-import "../widgets/review_card.dart";
 import "package:flutter/material.dart";
 
 class ViewReviews extends StatelessWidget {
@@ -30,7 +28,7 @@ class ViewReviews extends StatelessWidget {
               SizedBox(
                 width: responsiveWidth(context, 900),
                 height: responsiveHeight(context, 500),
-                child: const _ReviewsList(),
+                child: ReviewsList(fetchAllReviews()),
               ),
             ],
           ),
@@ -114,8 +112,8 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
 
                 Navigator.pushNamed(
                   context,
-                  "/view-filtered-reviews",
-                  arguments: (ReviewsToSee.specificUser, username),
+                  "/view-specific-user-reviews",
+                  arguments: username,
                 );
               },
               child: const Text("My reviews"),
@@ -130,8 +128,8 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
                 if (username != null && username.isNotEmpty) {
                   Navigator.pushNamed(
                     context,
-                    "/view-filtered-reviews",
-                    arguments: (ReviewsToSee.specificUser, username),
+                    "/view-specific-user-reviews",
+                    arguments: username,
                   );
                 }
               },
@@ -144,7 +142,7 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
               onPressed: () => {
                 Navigator.pushNamed(
                   context,
-                  "/view-filtered-reviews",
+                  "/view-closest-reviews",
                   arguments: (ReviewsToSee.closestFirst, null),
                 ),
               },
@@ -157,7 +155,7 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
               onPressed: () => {
                 Navigator.pushNamed(
                   context,
-                  "/view-filtered-reviews",
+                  "/view-newest-reviews",
                   arguments: (ReviewsToSee.newestFirst, null),
                 ),
               },
@@ -187,62 +185,4 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
       ],
     ),
   );
-}
-
-class _ReviewsList extends StatefulWidget {
-  const _ReviewsList();
-
-  @override
-  State<_ReviewsList> createState() => _ReviewsListState();
-}
-
-class _ReviewsListState extends State<_ReviewsList> {
-  late Future<List<ReviewInfo>> _reviews;
-
-  @override
-  void initState() {
-    super.initState();
-    _reviews = fetchAllReviews();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _reviews,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return headerText("An error occured while fetching reviews", context);
-        } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        final reviews = snapshot.data ?? [];
-
-        return ListView.separated(
-          itemCount: reviews.length,
-          separatorBuilder: (context, index) {
-            return SizedBox(height: responsiveHeight(context, 10));
-          },
-          itemBuilder: (context, index) {
-            final review = reviews[index];
-
-            return ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: responsiveWidth(context, 800),
-                maxHeight: responsiveHeight(context, 600),
-              ),
-              child: InkWell(
-                onTap: () => Navigator.pushNamed(
-                  context,
-                  "/view-review",
-                  arguments: review,
-                ),
-                child: ReviewCard(review),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
 }
