@@ -27,6 +27,17 @@ Future<List<ReviewInfo>> fetchAllReviewsFromUser(String username) async {
       .toList();
 }
 
+Future<List<ReviewInfo>> fetchReviewsNewestFirst() async {
+  var querySnapshot = await FirebaseFirestore.instance
+      .collection("reviews")
+      .orderBy("timePosted", descending: true)
+      .get();
+
+  return querySnapshot.docs
+      .map((doc) => ReviewInfo.fromJSON(doc.data()))
+      .toList();
+}
+
 void addUserToFirestore(User user, String username) async {
   await user.updateDisplayName(username);
 

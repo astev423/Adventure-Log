@@ -20,6 +20,7 @@ class ViewFilteredReviews extends StatelessWidget {
   Widget build(BuildContext context) {
     String headerText = switch (reviewsToSee) {
       ReviewsToSee.specificUser => "Reviews by: $usernameToSeePostsFrom",
+      ReviewsToSee.newestFirst => "Most recent reviews:",
       _ => "Reviews by: $usernameToSeePostsFrom",
     };
 

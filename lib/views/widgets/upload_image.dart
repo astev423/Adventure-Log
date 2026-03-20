@@ -21,7 +21,7 @@ class _UploadImageState extends State<UploadImage> {
       children: [
         Center(
           child: Text(
-            "Location Image:",
+            "Location Image (optional):",
             style: TextStyle(
               color: darkGreen,
               fontWeight: .w600,

@@ -95,7 +95,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
         },
       ),
       _ReviewTextFormField(
-        "Reason For Rating:",
+        "Reason For Rating (optional):",
         null,
         _locationRatingReasonCtl,
         "Justify your rating",
@@ -136,6 +136,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
       _locationNameCtl.text,
       _locationCoordsCtl.text,
       _locationRating,
+      DateTime.now().toUtc(),
       reasonForRating: _locationRatingReasonCtl.text,
       imageURL: imageURL,
     );

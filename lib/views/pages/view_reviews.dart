@@ -141,21 +141,39 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => {},
+              onPressed: () => {
+                Navigator.pushNamed(
+                  context,
+                  "/view-filtered-reviews",
+                  arguments: (ReviewsToSee.closestFirst),
+                ),
+              },
               child: const Text("Closest to me"),
             ),
           ),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => {},
+              onPressed: () => {
+                Navigator.pushNamed(
+                  context,
+                  "/view-filtered-reviews",
+                  arguments: (ReviewsToSee.newestFirst),
+                ),
+              },
               child: const Text("Date posted"),
             ),
           ),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => {},
+              onPressed: () => {
+                Navigator.pushNamed(
+                  context,
+                  "/view-filtered-reviews",
+                  arguments: (ReviewsToSee.saved),
+                ),
+              },
               child: const Text("Saved reviews"),
             ),
           ),
