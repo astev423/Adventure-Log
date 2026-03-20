@@ -49,7 +49,7 @@ MaterialPageRoute<dynamic> _handleRoute(RouteSettings settings) {
     case "/view-filtered-reviews":
       final args =
           settings.arguments
-              as (ReviewsToSee reviewsToSee, String usernameToSeePostsFrom);
+              as (ReviewsToSee reviewsToSee, String? usernameToSeePostsFrom);
       return MaterialPageRoute(
         builder: (_) =>
             ProtectedPage(child: ViewFilteredReviews(args.$1, args.$2)),

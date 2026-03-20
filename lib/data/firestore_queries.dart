@@ -7,7 +7,7 @@ void addReview(ReviewInfo review) async {
 }
 
 Future<List<ReviewInfo>> fetchAllReviews() async {
-  var querySnapshot = await FirebaseFirestore.instance
+  final querySnapshot = await FirebaseFirestore.instance
       .collection("reviews")
       .get();
 
@@ -17,7 +17,7 @@ Future<List<ReviewInfo>> fetchAllReviews() async {
 }
 
 Future<List<ReviewInfo>> fetchAllReviewsFromUser(String username) async {
-  var querySnapshot = await FirebaseFirestore.instance
+  final querySnapshot = await FirebaseFirestore.instance
       .collection("reviews")
       .where("posterUsername", isEqualTo: username)
       .get();
@@ -28,7 +28,7 @@ Future<List<ReviewInfo>> fetchAllReviewsFromUser(String username) async {
 }
 
 Future<List<ReviewInfo>> fetchReviewsNewestFirst() async {
-  var querySnapshot = await FirebaseFirestore.instance
+  final querySnapshot = await FirebaseFirestore.instance
       .collection("reviews")
       .orderBy("timePosted", descending: true)
       .get();
@@ -36,6 +36,19 @@ Future<List<ReviewInfo>> fetchReviewsNewestFirst() async {
   return querySnapshot.docs
       .map((doc) => ReviewInfo.fromJSON(doc.data()))
       .toList();
+}
+
+Future<List<ReviewInfo>> fetchReviewsClosestFirst(String userCoords) async {
+  final querySnapshot = await FirebaseFirestore.instance
+      .collection("reviews")
+      .get();
+
+  final reviews = querySnapshot.docs
+      .map((doc) => ReviewInfo.fromJSON(doc.data()))
+      .toList();
+
+  // TODO: Add sorting logic
+  return reviews;
 }
 
 void addUserToFirestore(User user, String username) async {

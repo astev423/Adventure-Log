@@ -1,9 +1,11 @@
+import "package:cloud_firestore/cloud_firestore.dart";
+
 class ReviewInfo {
   final String posterUsername;
   final String locationName;
   final String locationCoordinates;
   final int locationRating;
-  DateTime timePosted;
+  Timestamp timePosted;
   final String? imageURL;
   final String? reasonForRating;
 
@@ -31,22 +33,14 @@ class ReviewInfo {
   }
 
   static ReviewInfo fromJSON(Map<String, dynamic> json) {
-    final posterUsername = json["posterUsername"] as String;
-    final locationName = json["locationName"] as String;
-    final locationCoordinates = json["locationCoordinates"] as String;
-    final locationRating = json["locationRating"] as int;
-    final timePosted = json["timePosted"] as DateTime;
-    final reasonForRating = json["reasonForRating"] as String;
-    final imageURL = json["imageURL"] as String;
-
     return ReviewInfo(
-      posterUsername,
-      locationName,
-      locationCoordinates,
-      locationRating,
-      timePosted,
-      reasonForRating: reasonForRating,
-      imageURL: imageURL,
+      json["posterUsername"] as String,
+      json["locationName"] as String,
+      json["locationCoordinates"] as String,
+      (json["locationRating"] as num).toInt(),
+      json["timePosted"] as Timestamp,
+      imageURL: json["imageURL"] as String?,
+      reasonForRating: json["reasonForRating"] as String?,
     );
   }
 }

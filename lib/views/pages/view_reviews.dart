@@ -145,7 +145,7 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
                 Navigator.pushNamed(
                   context,
                   "/view-filtered-reviews",
-                  arguments: (ReviewsToSee.closestFirst),
+                  arguments: (ReviewsToSee.closestFirst, null),
                 ),
               },
               child: const Text("Closest to me"),
@@ -158,10 +158,10 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
                 Navigator.pushNamed(
                   context,
                   "/view-filtered-reviews",
-                  arguments: (ReviewsToSee.newestFirst),
+                  arguments: (ReviewsToSee.newestFirst, null),
                 ),
               },
-              child: const Text("Date posted"),
+              child: const Text("Newest posts first"),
             ),
           ),
           SizedBox(
@@ -171,7 +171,7 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
                 Navigator.pushNamed(
                   context,
                   "/view-filtered-reviews",
-                  arguments: (ReviewsToSee.saved),
+                  arguments: (ReviewsToSee.saved, null),
                 ),
               },
               child: const Text("Saved reviews"),

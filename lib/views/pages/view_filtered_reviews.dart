@@ -81,8 +81,8 @@ class _ReviewsListState extends State<_ReviewsList> {
       ReviewsToSee.specificUser => fetchAllReviewsFromUser(
         widget.usernameToSeePostsFrom!,
       ),
-      ReviewsToSee.closestFirst => fetchAllReviews(),
-      ReviewsToSee.newestFirst => fetchAllReviews(),
+      ReviewsToSee.closestFirst => fetchReviewsClosestFirst("coords"),
+      ReviewsToSee.newestFirst => fetchReviewsNewestFirst(),
       ReviewsToSee.saved => fetchAllReviews(),
     };
   }

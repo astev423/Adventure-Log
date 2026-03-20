@@ -1,3 +1,5 @@
+import "package:cloud_firestore/cloud_firestore.dart";
+
 import "../../controllers/utils/constants.dart";
 import "../../controllers/utils/responsiveness.dart";
 import "../../controllers/utils/validators.dart";
@@ -136,7 +138,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
       _locationNameCtl.text,
       _locationCoordsCtl.text,
       _locationRating,
-      DateTime.now().toUtc(),
+      Timestamp.now(),
       reasonForRating: _locationRatingReasonCtl.text,
       imageURL: imageURL,
     );
