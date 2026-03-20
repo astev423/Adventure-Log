@@ -1,3 +1,5 @@
+import "package:adventure_log/controllers/utils/helpers.dart";
+import "package:geolocator/geolocator.dart";
 import "models/review_info.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
@@ -38,7 +40,7 @@ Future<List<ReviewInfo>> fetchReviewsNewestFirst() async {
       .toList();
 }
 
-Future<List<ReviewInfo>> fetchReviewsClosestFirst(String userCoords) async {
+Future<List<ReviewInfo>> fetchReviewsClosestFirst(Position userCoords) async {
   final querySnapshot = await FirebaseFirestore.instance
       .collection("reviews")
       .get();
@@ -47,8 +49,7 @@ Future<List<ReviewInfo>> fetchReviewsClosestFirst(String userCoords) async {
       .map((doc) => ReviewInfo.fromJSON(doc.data()))
       .toList();
 
-  // TODO: Add sorting logic
-  return reviews;
+  return sortReviewsByClosestToUser(userCoords, reviews);
 }
 
 void addUserToFirestore(User user, String username) async {

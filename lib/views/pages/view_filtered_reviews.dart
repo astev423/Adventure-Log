@@ -5,6 +5,7 @@ import "package:adventure_log/data/models/review_info.dart";
 import "package:adventure_log/views/pages/view_reviews.dart";
 import "package:adventure_log/views/widgets/review_card.dart";
 import "package:flutter/material.dart";
+import "package:geolocator/geolocator.dart";
 
 class ViewFilteredReviews extends StatelessWidget {
   final ReviewsToSee reviewsToSee;
@@ -21,6 +22,7 @@ class ViewFilteredReviews extends StatelessWidget {
     String headerText = switch (reviewsToSee) {
       ReviewsToSee.specificUser => "Reviews by: $usernameToSeePostsFrom",
       ReviewsToSee.newestFirst => "Most recent reviews:",
+      ReviewsToSee.closestFirst => "Closest reviews:",
       _ => "Reviews by: $usernameToSeePostsFrom",
     };
 
@@ -71,7 +73,9 @@ class _ReviewsList extends StatefulWidget {
 }
 
 class _ReviewsListState extends State<_ReviewsList> {
-  late Future<List<ReviewInfo>> _reviews;
+  late Future<List<ReviewInfo>?> _reviews;
+  Position? _userLocation;
+  LocationPermission? _permission;
 
   @override
   void initState() {
@@ -81,7 +85,7 @@ class _ReviewsListState extends State<_ReviewsList> {
       ReviewsToSee.specificUser => fetchAllReviewsFromUser(
         widget.usernameToSeePostsFrom!,
       ),
-      ReviewsToSee.closestFirst => fetchReviewsClosestFirst("coords"),
+      ReviewsToSee.closestFirst => _getPosAndFetchClosestReviews(),
       ReviewsToSee.newestFirst => fetchReviewsNewestFirst(),
       ReviewsToSee.saved => fetchAllReviews(),
     };
@@ -99,6 +103,9 @@ class _ReviewsListState extends State<_ReviewsList> {
           );
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
+        } else if (_permission == LocationPermission.denied ||
+            _permission == LocationPermission.deniedForever) {
+          return const Text("Location services must be enabled");
         }
 
         final reviews = snapshot.data ?? [];
@@ -129,5 +136,28 @@ class _ReviewsListState extends State<_ReviewsList> {
         );
       },
     );
+  }
+
+  Future<List<ReviewInfo>?> _getPosAndFetchClosestReviews() async {
+    _permission = await Geolocator.checkPermission();
+    if (_permission == LocationPermission.denied) {
+      _permission = await Geolocator.requestPermission();
+    }
+
+    if (_permission == LocationPermission.always ||
+        _permission == LocationPermission.whileInUse) {
+      _userLocation = await Geolocator.getCurrentPosition();
+    }
+
+    setState(() {
+      _permission = _permission;
+      _userLocation = _userLocation;
+    });
+
+    if (_userLocation == null) {
+      return null;
+    }
+
+    return fetchReviewsClosestFirst(_userLocation!);
   }
 }
