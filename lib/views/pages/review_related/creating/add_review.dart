@@ -1,15 +1,15 @@
 import "package:adventure_log/controllers/auth/utils.dart";
+import "package:adventure_log/controllers/utils/constants.dart";
 import "package:adventure_log/controllers/utils/helpers.dart";
+import "package:adventure_log/controllers/utils/responsiveness.dart";
+import "package:adventure_log/controllers/utils/validators.dart";
 import "package:adventure_log/data/cloud_storage_funcs.dart";
+import "package:adventure_log/data/models/review_info.dart";
 import "package:adventure_log/data/review_queries.dart";
 import "package:adventure_log/data/user_queries.dart";
+import "package:adventure_log/views/widgets/upload_image.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:geolocator/geolocator.dart";
-import "../../../../controllers/utils/constants.dart";
-import "../../../../controllers/utils/responsiveness.dart";
-import "../../../../controllers/utils/validators.dart";
-import "../../../../data/models/review_info.dart";
-import "../../../widgets/upload_image.dart";
 import "package:file_picker/file_picker.dart";
 import "package:flutter/material.dart";
 
@@ -20,12 +20,21 @@ class AddReview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: teal,
-      body: Center(child: _AddReviewForm()),
+      body: Center(
+        child: Column(
+          children: [
+            headerText("Add a review", context),
+            const _AddReviewForm(),
+          ],
+        ),
+      ),
     );
   }
 }
 
 class _AddReviewForm extends StatefulWidget {
+  const _AddReviewForm();
+
   @override
   State<_AddReviewForm> createState() {
     return _AddReviewFormState();
@@ -46,27 +55,22 @@ class _AddReviewFormState extends State<_AddReviewForm> {
   Widget build(BuildContext context) {
     final formFields = _getFormFields();
 
-    return Column(
-      children: [
-        headerText("Add a review", context),
-        Container(
-          height: responsiveHeight(context, 550),
-          width: responsiveWidth(context, 800),
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            color: mint,
-          ),
-          child: Form(
-            key: _formKey,
-            child: ListView.separated(
-              itemCount: formFields.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 10),
-              itemBuilder: (context, index) => formFields[index],
-            ),
-          ),
+    return Container(
+      height: responsiveHeight(context, 550),
+      width: responsiveWidth(context, 800),
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        color: mint,
+      ),
+      child: Form(
+        key: _formKey,
+        child: ListView.separated(
+          itemCount: formFields.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 10),
+          itemBuilder: (context, index) => formFields[index],
         ),
-      ],
+      ),
     );
   }
 
@@ -78,42 +82,11 @@ class _AddReviewFormState extends State<_AddReviewForm> {
         _locationNameCtl,
         "Enter the location name",
       ),
-      Column(
-        children: [
-          Text("Location Coordinates", style: _formBoldText(context)),
-          appThemedButton(() async {
-            try {
-              final curLocation = await Geolocator.getCurrentPosition();
-              _locationCoordsCtl.text = getCoordsStrFromPos(curLocation);
-            } catch (_) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("You must enable location services!"),
-                  duration: Duration(seconds: 5),
-                ),
-              );
-            }
-          }, "Use my current location (need location services enabled)"),
-          TextFormField(
-            validator: requireCoordsWithSixDecimals,
-            controller: _locationCoordsCtl,
-            decoration: InputDecoration(
-              hintText: "Enter the location coordinates",
-              hintStyle: TextStyle(fontSize: responsiveFontSize(context, 15)),
-            ),
-          ),
-        ],
+      _LocationCoordsField(
+        context: context,
+        locationCoordsCtl: _locationCoordsCtl,
       ),
-      Center(
-        child: Text(
-          "Location Image (optional):",
-          style: TextStyle(
-            color: darkGreen,
-            fontWeight: .w600,
-            fontSize: responsiveFontSize(context, 15),
-          ),
-        ),
-      ),
+      _locationImageText(),
       UploadImage(_onFileAttached),
       _StarRatingInteraction(
         rating: _locationRating,
@@ -129,31 +102,22 @@ class _AddReviewFormState extends State<_AddReviewForm> {
         _locationRatingReasonCtl,
         "Justify your rating",
       ),
-      Row(
-        mainAxisAlignment: .center,
-        children: [
-          Text("Make review public?", style: _formBoldText(context)),
-          Checkbox(
-            checkColor: Colors.white,
-            fillColor: WidgetStateProperty.resolveWith<Color>((
-              Set<WidgetState> states,
-            ) {
-              if (states.contains(WidgetState.selected)) {
-                return darkGreen;
-              }
-              return Colors.transparent;
-            }),
-            value: _isReviewPublic,
-            onChanged: (bool? value) {
-              setState(() {
-                _isReviewPublic = value!;
-              });
-            },
-          ),
-        ],
-      ),
+      _MakeReviewPrivateOption((boxValue) => _isReviewPublic = boxValue!),
       appThemedButton(_submitForm, "Submit"),
     ];
+  }
+
+  Center _locationImageText() {
+    return Center(
+      child: Text(
+        "Location Image (optional):",
+        style: TextStyle(
+          color: darkGreen,
+          fontWeight: .w600,
+          fontSize: responsiveFontSize(context, 15),
+        ),
+      ),
+    );
   }
 
   void _onFileAttached(PlatformFile file) {
@@ -197,6 +161,76 @@ class _AddReviewFormState extends State<_AddReviewForm> {
         ),
       );
     }
+  }
+}
+
+class _MakeReviewPrivateOption extends StatelessWidget {
+  final bool _isReviewPublic = true;
+  final ValueChanged<bool?> _onBoxClicked;
+
+  const _MakeReviewPrivateOption(this._onBoxClicked);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: .center,
+      children: [
+        Text("Make review public?", style: _formBoldText(context)),
+        Checkbox(
+          checkColor: Colors.white,
+          fillColor: WidgetStateProperty.resolveWith<Color>((
+            Set<WidgetState> states,
+          ) {
+            if (states.contains(WidgetState.selected)) {
+              return darkGreen;
+            }
+            return Colors.transparent;
+          }),
+          value: _isReviewPublic,
+          onChanged: _onBoxClicked,
+        ),
+      ],
+    );
+  }
+}
+
+class _LocationCoordsField extends StatelessWidget {
+  final BuildContext context;
+  final TextEditingController locationCoordsCtl;
+
+  const _LocationCoordsField({
+    required this.context,
+    required this.locationCoordsCtl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text("Location Coordinates", style: _formBoldText(context)),
+        appThemedButton(() async {
+          try {
+            final curLocation = await Geolocator.getCurrentPosition();
+            locationCoordsCtl.text = getCoordsStrFromPos(curLocation);
+          } catch (_) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("You must enable location services!"),
+                duration: Duration(seconds: 5),
+              ),
+            );
+          }
+        }, "Use my current location (need location services enabled)"),
+        TextFormField(
+          validator: requireCoordsWithSixDecimals,
+          controller: locationCoordsCtl,
+          decoration: InputDecoration(
+            hintText: "Enter the location coordinates",
+            hintStyle: TextStyle(fontSize: responsiveFontSize(context, 15)),
+          ),
+        ),
+      ],
+    );
   }
 }
 
