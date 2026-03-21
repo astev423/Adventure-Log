@@ -57,3 +57,17 @@ List<ReviewInfo> sortReviewsByClosestToUser(
 
   return (latitude, longitude);
 }
+
+String getCoordsStrFromPos(Position pos) {
+  final latitude = pos.latitude;
+  final longitude = pos.longitude;
+
+  // Only want 6 digits after the decimal
+  final latitudeCut = (latitude * 1000000).truncate() / 1000000;
+  final longitudeCut = (longitude * 1000000).truncate() / 1000000;
+
+  final latitudeStr = latitudeCut.toStringAsFixed(6);
+  final longitudeStr = longitudeCut.toStringAsFixed(6);
+
+  return "$latitudeStr, $longitudeStr";
+}

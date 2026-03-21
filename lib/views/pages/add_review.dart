@@ -1,4 +1,6 @@
+import "package:adventure_log/controllers/utils/helpers.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
+import "package:geolocator/geolocator.dart";
 
 import "../../controllers/utils/constants.dart";
 import "../../controllers/utils/responsiveness.dart";
@@ -38,16 +40,11 @@ class _AddReviewFormState extends State<_AddReviewForm> {
   final _locationRatingReasonCtl = TextEditingController();
   int _locationRating = 0;
   PlatformFile? _selectedFile;
-  late final List<Widget> _formFields;
-
-  @override
-  void initState() {
-    super.initState();
-    _setFormFields();
-  }
 
   @override
   Widget build(BuildContext context) {
+    final formFields = _getFormFields();
+
     return Column(
       spacing: 20,
       children: [
@@ -63,9 +60,9 @@ class _AddReviewFormState extends State<_AddReviewForm> {
           child: Form(
             key: _formKey,
             child: ListView.separated(
-              itemCount: _formFields.length,
+              itemCount: formFields.length,
               separatorBuilder: (context, index) => const SizedBox(height: 10),
-              itemBuilder: (context, index) => _formFields[index],
+              itemBuilder: (context, index) => formFields[index],
             ),
           ),
         ),
@@ -73,19 +70,39 @@ class _AddReviewFormState extends State<_AddReviewForm> {
     );
   }
 
-  void _setFormFields() {
-    _formFields = [
+  List<Widget> _getFormFields() {
+    return [
       _ReviewTextFormField(
         "Location Name:",
         requireNonEmptyString,
         _locationNameCtl,
         "Enter the location name",
       ),
-      _ReviewTextFormField(
-        "Location Coordinates:",
-        requireCoordsWithSixDecimals,
-        _locationCoordsCtl,
-        "Enter the location coordinates",
+      Column(
+        children: [
+          Text("Location Coordinates", style: _formBoldText(context)),
+          appThemedButton(() async {
+            try {
+              final curLocation = await Geolocator.getCurrentPosition();
+              _locationCoordsCtl.text = getCoordsStrFromPos(curLocation);
+            } catch (_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("You must enable location services!"),
+                  duration: Duration(seconds: 5),
+                ),
+              );
+            }
+          }, "Use my current location (need location services enabled)"),
+          TextFormField(
+            validator: requireCoordsWithSixDecimals,
+            controller: _locationCoordsCtl,
+            decoration: InputDecoration(
+              hintText: "Enter the location coordinates",
+              hintStyle: TextStyle(fontSize: responsiveFontSize(context, 20)),
+            ),
+          ),
+        ],
       ),
       UploadImage(_onFileAttached),
       _StarRatingInteraction(

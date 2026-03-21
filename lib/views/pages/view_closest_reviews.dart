@@ -70,7 +70,10 @@ class _NeedLocationReviewsListState extends State<_NeedLocationReviewsList> {
   Widget build(BuildContext context) {
     if (_permission == LocationPermission.denied ||
         _permission == LocationPermission.deniedForever) {
-      return const Text("Location services must be enabled");
+      return constants.headerText(
+        "Location services must be enabled to continue",
+        context,
+      );
     }
 
     return ReviewsList(_reviews);
