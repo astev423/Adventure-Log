@@ -72,16 +72,25 @@ class _AddProfilePicture extends StatefulWidget {
 }
 
 class _AddProfilePictureState extends State<_AddProfilePicture> {
-  PlatformFile? _profilePicture;
+  PlatformFile? _newProfilePicFile;
+  NetworkImage? _profilePic;
+
+  @override
+  void initState() {
+    super.initState();
+    _tryFetchProfilePic();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        if (_profilePic != null) const Text("Current Profile picture:"),
+        if (_profilePic != null) Image(image: _profilePic!),
         UploadImage(_onFileAttached),
         ElevatedButton(
           onPressed: () async {
-            if (_profilePicture == null) {
+            if (_newProfilePicFile == null) {
               return;
             }
 
@@ -92,7 +101,7 @@ class _AddProfilePictureState extends State<_AddProfilePicture> {
                 .limit(1)
                 .get();
 
-            final profPicURL = await uploadImageAndGetUrl(_profilePicture!);
+            final profPicURL = await uploadImageAndGetUrl(_newProfilePicFile!);
             await userQuery.docs.first.reference.update({
               "profilePictureURL": profPicURL,
             });
@@ -105,7 +114,22 @@ class _AddProfilePictureState extends State<_AddProfilePicture> {
 
   void _onFileAttached(PlatformFile file) {
     setState(() {
-      _profilePicture = file;
+      _newProfilePicFile = file;
+    });
+  }
+
+  void _tryFetchProfilePic() async {
+    final displayName = FirebaseAuth.instance.currentUser?.displayName;
+    final userQuery = await FirebaseFirestore.instance
+        .collection("users")
+        .where("displayName", isEqualTo: displayName)
+        .limit(1)
+        .get();
+
+    setState(() {
+      _profilePic = NetworkImage(
+        userQuery.docs.first.get("profilePictureURL") as String,
+      );
     });
   }
 }
