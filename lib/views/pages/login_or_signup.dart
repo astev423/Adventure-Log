@@ -1,7 +1,7 @@
+import "package:adventure_log/data/user_queries.dart";
 import "../../controllers/utils/constants.dart";
 import "../../controllers/utils/responsiveness.dart";
 import "../../controllers/utils/validators.dart";
-import "../../data/firestore_queries.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 
@@ -111,7 +111,7 @@ class _AuthPageState extends State<AuthPage> {
 
         final user = credential.user;
         if (user != null) {
-          addUserToFirestore(user, _nameController.text.trim());
+          addUserToFirestore(_nameController.text.trim());
         }
       }
     } catch (_) {

@@ -1,6 +1,7 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 
 class ReviewInfo {
+  final String? id;
   final String posterUsername;
   final String locationName;
   final String locationCoordinates;
@@ -22,6 +23,7 @@ class ReviewInfo {
     this.imageURL,
     this.reasonForRating,
     this.profilePictureURL,
+    this.id,
   });
 
   /// Example req: final response = await http.post(url, headers, body: jsonEncode(model.toJson()));
@@ -39,7 +41,7 @@ class ReviewInfo {
     };
   }
 
-  static ReviewInfo fromJSON(Map<String, dynamic> json) {
+  static ReviewInfo fromJSON(Map<String, dynamic> json, String id) {
     return ReviewInfo(
       json["posterUsername"] as String,
       json["locationName"] as String,

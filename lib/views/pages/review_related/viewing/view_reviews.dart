@@ -1,8 +1,8 @@
+import "package:adventure_log/controllers/auth/utils.dart";
 import "package:adventure_log/views/widgets/reviews_list.dart";
-import "package:firebase_auth/firebase_auth.dart";
 import "../../../../controllers/utils/constants.dart";
 import "../../../../controllers/utils/responsiveness.dart";
-import "../../../../data/firestore_queries.dart";
+import "package:adventure_log/data/review_queries.dart";
 import "package:flutter/material.dart";
 
 class ViewReviews extends StatelessWidget {
@@ -28,7 +28,7 @@ class ViewReviews extends StatelessWidget {
               SizedBox(
                 width: responsiveWidth(context, 900),
                 height: responsiveHeight(context, 500),
-                child: ReviewsList(fetchAllPublicReviews()),
+                child: ReviewsList(fetchAllVisibleReviewsForCurUser()),
               ),
             ],
           ),
@@ -107,8 +107,7 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () async {
-                final username =
-                    FirebaseAuth.instance.currentUser!.displayName!;
+                final username = getCurUserAuth();
 
                 Navigator.pushNamed(
                   context,

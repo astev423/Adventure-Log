@@ -1,8 +1,8 @@
+import "package:adventure_log/controllers/auth/utils.dart";
 import "package:adventure_log/data/cloud_storage_funcs.dart";
+import "package:adventure_log/data/user_queries.dart";
 import "package:adventure_log/views/widgets/upload_image.dart";
-import "package:cloud_firestore/cloud_firestore.dart";
 import "package:file_picker/file_picker.dart";
-
 import "../../controllers/utils/constants.dart";
 import "../../controllers/utils/responsiveness.dart";
 import "package:flutter/material.dart";
@@ -18,7 +18,7 @@ class Profile extends StatelessWidget {
 }
 
 class AccountInfo extends StatelessWidget {
-  final accountInfo = FirebaseAuth.instance.currentUser!;
+  final _userAuthInfo = getCurUserAuth();
 
   AccountInfo({super.key});
   Future<void> _signOut() async {
@@ -43,11 +43,11 @@ class AccountInfo extends StatelessWidget {
               spacing: 40,
               children: [
                 Text(
-                  "Username: ${accountInfo.displayName}",
+                  "Username: ${_userAuthInfo.displayName}",
                   style: TextStyle(fontSize: responsiveFontSize(context, 20)),
                 ),
                 Text(
-                  "Email: ${accountInfo.email}",
+                  "Email: ${_userAuthInfo.email}",
                   style: TextStyle(fontSize: responsiveFontSize(context, 20)),
                 ),
                 Text(
@@ -102,16 +102,9 @@ class _AddProfilePictureState extends State<_AddProfilePicture> {
               return;
             }
 
-            final displayName = FirebaseAuth.instance.currentUser?.displayName;
-            final userQuery = await FirebaseFirestore.instance
-                .collection("users")
-                .where("displayName", isEqualTo: displayName)
-                .limit(1)
-                .get();
-
-            final profPicURL = await uploadImageAndGetUrl(_newProfilePicFile!);
-            await userQuery.docs.first.reference.update({
-              "profilePictureURL": profPicURL,
+            final url = await uploadImageAndGetUrl(_newProfilePicFile!);
+            await updateUserProfile(getCurUserAuth(), {
+              "profilePictureURL": url,
             });
             _tryFetchProfilePic();
           },
@@ -128,19 +121,13 @@ class _AddProfilePictureState extends State<_AddProfilePicture> {
   }
 
   void _tryFetchProfilePic() async {
-    final displayName = FirebaseAuth.instance.currentUser?.displayName;
-    final userQuery = await FirebaseFirestore.instance
-        .collection("users")
-        .where("displayName", isEqualTo: displayName)
-        .limit(1)
-        .get();
-    final profPicUrl = userQuery.docs.first.get("profilePictureURL") as String?;
-    if (profPicUrl == null) {
+    final curUserData = await getCurUserData();
+    if (curUserData.profilePictureURL == null) {
       return;
     }
 
     setState(() {
-      _profilePic = NetworkImage(profPicUrl);
+      _profilePic = NetworkImage(curUserData.profilePictureURL!);
     });
   }
 }

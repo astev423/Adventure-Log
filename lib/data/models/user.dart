@@ -1,9 +1,9 @@
-class UserInfo {
+class User {
   final String username;
   final String email;
   final String? profilePictureURL;
 
-  UserInfo(this.username, this.email, {this.profilePictureURL});
+  User(this.username, this.email, {this.profilePictureURL});
 
   /// Example req: final response = await http.post(url, headers, body: jsonEncode(model.toJson()));
   Map<String, dynamic> toJson() {
@@ -14,8 +14,8 @@ class UserInfo {
     };
   }
 
-  static UserInfo fromJSON(Map<String, dynamic> json) {
-    return UserInfo(
+  static User fromJSON(Map<String, dynamic> json) {
+    return User(
       json["displayName"] as String,
       json["email"] as String,
       profilePictureURL: json["profilePictureURL"] as String?,

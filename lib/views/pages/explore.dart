@@ -1,5 +1,5 @@
+import "package:adventure_log/data/review_queries.dart";
 import "../../controllers/utils/constants.dart";
-import "../../data/firestore_queries.dart";
 import "../../data/models/review_info.dart";
 import "package:flutter/material.dart";
 import "package:geolocator/geolocator.dart";
@@ -45,7 +45,7 @@ class _ExploreState extends State<Explore> {
   }
 
   void _getReviewsForMap() async {
-    _reviews = await fetchAllPublicReviews();
+    _reviews = await fetchAllVisibleReviewsForCurUser();
     setState(() {
       _reviews = _reviews;
       _isFetchingDone = true;

@@ -1,15 +1,16 @@
+import "package:adventure_log/controllers/auth/utils.dart";
 import "package:adventure_log/controllers/utils/helpers.dart";
 import "package:adventure_log/data/cloud_storage_funcs.dart";
+import "package:adventure_log/data/review_queries.dart";
+import "package:adventure_log/data/user_queries.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:geolocator/geolocator.dart";
 import "../../../../controllers/utils/constants.dart";
 import "../../../../controllers/utils/responsiveness.dart";
 import "../../../../controllers/utils/validators.dart";
-import "../../../../data/firestore_queries.dart";
 import "../../../../data/models/review_info.dart";
 import "../../../widgets/upload_image.dart";
 import "package:file_picker/file_picker.dart";
-import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 
 class AddReview extends StatelessWidget {
@@ -37,6 +38,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
   final _locationNameCtl = TextEditingController();
   final _locationCoordsCtl = TextEditingController();
   final _locationRatingReasonCtl = TextEditingController();
+  bool _isReviewPrivate = false;
   int _locationRating = 0;
   PlatformFile? _selectedFile;
 
@@ -98,7 +100,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
             controller: _locationCoordsCtl,
             decoration: InputDecoration(
               hintText: "Enter the location coordinates",
-              hintStyle: TextStyle(fontSize: responsiveFontSize(context, 20)),
+              hintStyle: TextStyle(fontSize: responsiveFontSize(context, 15)),
             ),
           ),
         ],
@@ -109,7 +111,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
           style: TextStyle(
             color: darkGreen,
             fontWeight: .w600,
-            fontSize: responsiveFontSize(context, 20),
+            fontSize: responsiveFontSize(context, 15),
           ),
         ),
       ),
@@ -128,6 +130,29 @@ class _AddReviewFormState extends State<_AddReviewForm> {
         _locationRatingReasonCtl,
         "Justify your rating",
       ),
+      Row(
+        mainAxisAlignment: .center,
+        children: [
+          Text("Make review private?", style: _formBoldText(context)),
+          Checkbox(
+            checkColor: Colors.white,
+            fillColor: WidgetStateProperty.resolveWith<Color>((
+              Set<WidgetState> states,
+            ) {
+              if (states.contains(WidgetState.selected)) {
+                return darkGreen;
+              }
+              return Colors.transparent;
+            }),
+            value: _isReviewPrivate,
+            onChanged: (bool? value) {
+              setState(() {
+                _isReviewPrivate = value!;
+              });
+            },
+          ),
+        ],
+      ),
       appThemedButton(_submitForm, "Submit"),
     ];
   }
@@ -143,17 +168,20 @@ class _AddReviewFormState extends State<_AddReviewForm> {
       return;
     }
 
-    String? imageURL = _selectedFile != null
+    final imageURL = _selectedFile != null
         ? await uploadImageAndGetUrl(_selectedFile!)
         : null;
+    final user = await getCurUserData();
     ReviewInfo review = ReviewInfo(
-      FirebaseAuth.instance.currentUser!.displayName!,
+      getCurUserAuth().displayName!,
       _locationNameCtl.text,
       _locationCoordsCtl.text,
       _locationRating,
+      _isReviewPrivate,
       Timestamp.now(),
       reasonForRating: _locationRatingReasonCtl.text,
       imageURL: imageURL,
+      profilePictureURL: user.profilePictureURL,
     );
     addReview(review);
 
@@ -223,7 +251,7 @@ class _ReviewTextFormField extends StatelessWidget {
           controller: _controller,
           decoration: InputDecoration(
             hintText: _hintText,
-            hintStyle: TextStyle(fontSize: responsiveFontSize(context, 20)),
+            hintStyle: TextStyle(fontSize: responsiveFontSize(context, 15)),
           ),
         ),
       ],
@@ -235,6 +263,6 @@ TextStyle _formBoldText(BuildContext context) {
   return TextStyle(
     color: darkGreen,
     fontWeight: .w600,
-    fontSize: responsiveFontSize(context, 20),
+    fontSize: responsiveFontSize(context, 15),
   );
 }
