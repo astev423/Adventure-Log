@@ -5,8 +5,8 @@ import "../../../../controllers/utils/responsiveness.dart";
 import "package:adventure_log/data/review_queries.dart";
 import "package:flutter/material.dart";
 
-class ViewReviews extends StatelessWidget {
-  const ViewReviews({super.key});
+class Reviews extends StatelessWidget {
+  const Reviews({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -137,11 +137,7 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () => {
-                Navigator.pushNamed(
-                  context,
-                  "/view-closest-reviews",
-                  arguments: (ReviewsToSee.closestFirst, null),
-                ),
+                Navigator.pushNamed(context, "/view-closest-reviews"),
               },
               child: const Text("Closest to me"),
             ),
@@ -150,11 +146,7 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () => {
-                Navigator.pushNamed(
-                  context,
-                  "/view-newest-reviews",
-                  arguments: (ReviewsToSee.newestFirst, null),
-                ),
+                Navigator.pushNamed(context, "/view-newest-reviews"),
               },
               child: const Text("Newest posts first"),
             ),
@@ -163,13 +155,9 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () => {
-                Navigator.pushNamed(
-                  context,
-                  "/view-filtered-reviews",
-                  arguments: (ReviewsToSee.saved, null),
-                ),
+                Navigator.pushNamed(context, "/view-highest-rated-reviews"),
               },
-              child: const Text("Saved reviews"),
+              child: const Text("Highest rated reviews"),
             ),
           ),
         ],

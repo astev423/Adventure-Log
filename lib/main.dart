@@ -1,13 +1,14 @@
-import "package:adventure_log/views/pages/review_related/viewing/view_closest_reviews.dart";
-import "package:adventure_log/views/pages/review_related/viewing/view_newest_reviews_first.dart";
-import "package:adventure_log/views/pages/review_related/viewing/view_specific_user_reviews.dart";
+import "package:adventure_log/views/pages/review_related/viewing/closest_reviews.dart";
+import "package:adventure_log/views/pages/review_related/viewing/highest_rated_reviews.dart";
+import "package:adventure_log/views/pages/review_related/viewing/newest_reviews_first.dart";
+import "package:adventure_log/views/pages/review_related/viewing/specific_user_reviews.dart";
 import "controllers/auth/require_login_for_page_wrapper.dart";
 import "controllers/utils/constants.dart";
 import "data/models/review_info.dart";
 import "../firebase_options.dart";
 import "views/pages/home.dart";
 import "views/pages/page_wrapper.dart" as wrapper;
-import "views/pages/review_related/viewing/view_review.dart";
+import "views/pages/review_related/viewing/review.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
 
@@ -48,24 +49,29 @@ MaterialPageRoute<dynamic> _handleRoute(RouteSettings settings) {
 
     case "/view-newest-reviews":
       return MaterialPageRoute(
-        builder: (_) => const ProtectedPage(child: ViewNewestReviews()),
+        builder: (_) => const ProtectedPage(child: NewestReviews()),
+      );
+
+    case "/view-highest-rated-reviews":
+      return MaterialPageRoute(
+        builder: (_) => const ProtectedPage(child: HighestRatedReviews()),
       );
 
     case "/view-closest-reviews":
       return MaterialPageRoute(
-        builder: (_) => const ProtectedPage(child: ViewClosestReviews()),
+        builder: (_) => const ProtectedPage(child: ClosestReviews()),
       );
 
     case "/view-specific-user-reviews":
       final username = settings.arguments as String;
       return MaterialPageRoute(
-        builder: (_) => ProtectedPage(child: ViewSpecificUserReviews(username)),
+        builder: (_) => ProtectedPage(child: SpecificUserReviews(username)),
       );
 
     case "/view-review":
       return MaterialPageRoute(
         builder: (_) =>
-            ProtectedPage(child: ViewReview(settings.arguments as ReviewInfo)),
+            ProtectedPage(child: Review(settings.arguments as ReviewInfo)),
       );
 
     case "/add-review":

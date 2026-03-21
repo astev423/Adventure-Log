@@ -77,3 +77,9 @@ List<ReviewInfo> sortReviewsByNewestFirst(List<ReviewInfo> reviews) {
   sortedReviews.sort((a, b) => b.timePosted.compareTo(a.timePosted));
   return sortedReviews;
 }
+
+List<ReviewInfo> sortReviewsByHighestRatedFirst(List<ReviewInfo> reviews) {
+  final sortedReviews = List<ReviewInfo>.from(reviews);
+  sortedReviews.sort((a, b) => b.locationRating.compareTo(a.locationRating));
+  return sortedReviews;
+}

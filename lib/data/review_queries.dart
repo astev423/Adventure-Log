@@ -31,8 +31,7 @@ Future<List<ReviewInfo>> fetchAllReviewsFromUser(String username) async {
 }
 
 Future<List<ReviewInfo>> fetchReviewsNewestFirst() async {
-  final querySnapshot = await _queryOfAllVisibleReviewsToCurUser().get();
-  final reviews = _turnReviewSnapshotIntoList(querySnapshot);
+  final reviews = await fetchAllVisibleReviewsForCurUser();
 
   return sortReviewsByNewestFirst(reviews);
 }
@@ -41,6 +40,12 @@ Future<List<ReviewInfo>> fetchReviewsClosestFirst(Position userCoords) async {
   final reviews = await fetchAllVisibleReviewsForCurUser();
 
   return sortReviewsByClosestToUser(userCoords, reviews);
+}
+
+Future<List<ReviewInfo>> fetchReviewsHighestRatedFirst() async {
+  final reviews = await fetchAllVisibleReviewsForCurUser();
+
+  return sortReviewsByHighestRatedFirst(reviews);
 }
 
 CollectionReference<Map<String, dynamic>> _fetchReviewsCollection() {

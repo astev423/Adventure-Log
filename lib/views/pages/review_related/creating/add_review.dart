@@ -38,7 +38,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
   final _locationNameCtl = TextEditingController();
   final _locationCoordsCtl = TextEditingController();
   final _locationRatingReasonCtl = TextEditingController();
-  bool _isReviewPrivate = false;
+  bool _isReviewPublic = true;
   int _locationRating = 0;
   PlatformFile? _selectedFile;
 
@@ -47,11 +47,10 @@ class _AddReviewFormState extends State<_AddReviewForm> {
     final formFields = _getFormFields();
 
     return Column(
-      spacing: 20,
       children: [
         headerText("Add a review", context),
         Container(
-          height: responsiveHeight(context, 560),
+          height: responsiveHeight(context, 550),
           width: responsiveWidth(context, 800),
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -133,7 +132,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
       Row(
         mainAxisAlignment: .center,
         children: [
-          Text("Make review private?", style: _formBoldText(context)),
+          Text("Make review public?", style: _formBoldText(context)),
           Checkbox(
             checkColor: Colors.white,
             fillColor: WidgetStateProperty.resolveWith<Color>((
@@ -144,10 +143,10 @@ class _AddReviewFormState extends State<_AddReviewForm> {
               }
               return Colors.transparent;
             }),
-            value: _isReviewPrivate,
+            value: _isReviewPublic,
             onChanged: (bool? value) {
               setState(() {
-                _isReviewPrivate = value!;
+                _isReviewPublic = value!;
               });
             },
           ),
@@ -177,7 +176,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
       _locationNameCtl.text,
       _locationCoordsCtl.text,
       _locationRating,
-      _isReviewPrivate,
+      _isReviewPublic,
       Timestamp.now(),
       reasonForRating: _locationRatingReasonCtl.text,
       imageURL: imageURL,
@@ -221,7 +220,7 @@ class _StarRatingInteraction extends StatelessWidget {
               icon: Icon(
                 starNumber <= rating ? Icons.star : Icons.star_border,
                 color: Colors.amber,
-                size: responsiveWidth(context, 32),
+                size: responsiveWidth(context, 22),
               ),
             );
           }),

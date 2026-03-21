@@ -1,5 +1,4 @@
 import "package:adventure_log/controllers/utils/constants.dart";
-
 import "../../controllers/utils/responsiveness.dart";
 import "../../data/models/review_info.dart";
 import "package:flutter/material.dart";
@@ -17,12 +16,23 @@ class ReviewCard extends StatelessWidget {
       child: Column(
         mainAxisSize: .min,
         children: [
-          Text(
-            review.locationName,
-            style: TextStyle(
-              fontSize: responsiveFontSize(context, 20),
-              fontWeight: .bold,
-            ),
+          Row(
+            spacing: 10,
+            mainAxisAlignment: .center,
+            children: [
+              Text(
+                review.locationName,
+                style: TextStyle(
+                  fontSize: responsiveFontSize(context, 20),
+                  fontWeight: .bold,
+                ),
+              ),
+              if (!review.isPublic)
+                const Tooltip(
+                  message: "Private: Only you can see this review",
+                  child: Icon(Icons.lock),
+                ),
+            ],
           ),
           Text("Review by: ${review.posterUsername}"),
           Text(review.locationCoordinates),

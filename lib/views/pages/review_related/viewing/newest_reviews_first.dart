@@ -4,10 +4,8 @@ import "package:adventure_log/data/review_queries.dart";
 import "package:adventure_log/views/widgets/reviews_list.dart";
 import "package:flutter/material.dart";
 
-class ViewSpecificUserReviews extends StatelessWidget {
-  final String usernameToSeePostsFrom;
-
-  const ViewSpecificUserReviews(this.usernameToSeePostsFrom, {super.key});
+class NewestReviews extends StatelessWidget {
+  const NewestReviews({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +28,14 @@ class ViewSpecificUserReviews extends StatelessWidget {
                   ),
                   Align(
                     alignment: .topCenter,
-                    child: constants.headerText(
-                      "Reviews by: $usernameToSeePostsFrom",
-                      context,
-                    ),
+                    child: constants.headerText("Newest reviews:", context),
                   ),
                 ],
               ),
               SizedBox(
                 height: responsiveHeight(context, 600),
                 width: responsiveWidth(context, 800),
-                child: ReviewsList(
-                  fetchAllReviewsFromUser(usernameToSeePostsFrom),
-                ),
+                child: ReviewsList(fetchReviewsNewestFirst()),
               ),
             ],
           ),

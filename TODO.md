@@ -1,12 +1,6 @@
 # Stretch
--Fetch and display private reviews from the user but make those reviews look different, maybe
-different color and lock icon that says only visible to you, also make query fetch those
-private reviews from the user as well instead of just public reviews
--Hide reviews which hides them in both maps and reviews page
--Keep list of hidden reviews, let users unhide them if they want
--Sort by saved reviews
--Add ability to sort from reviews highest to lowest
--Let users change account email and username
+-Keep list of saved reviews, allow viewing only saved reviews
+-Keep list of hidden reviews, hides them in both maps and reviews page let users unhide them if they want
 
 # Refactor
 -Split up add_review into many separate private classes, too bloated right now

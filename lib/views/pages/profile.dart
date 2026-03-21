@@ -33,30 +33,33 @@ class AccountInfo extends StatelessWidget {
         children: [
           headerText("Account information", context),
           Container(
+            height: responsiveHeight(context, 470),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
               color: mint,
             ),
             padding: const EdgeInsets.all(10),
-            child: Column(
-              mainAxisSize: .min,
-              spacing: 40,
-              children: [
-                Text(
-                  "Username: ${_userAuthInfo.displayName}",
-                  style: TextStyle(fontSize: responsiveFontSize(context, 20)),
-                ),
-                Text(
-                  "Email: ${_userAuthInfo.email}",
-                  style: TextStyle(fontSize: responsiveFontSize(context, 20)),
-                ),
-                Text(
-                  "Upload a profile picture",
-                  style: TextStyle(fontSize: responsiveFontSize(context, 20)),
-                ),
-                const _AddProfilePicture(),
-                appThemedButton(_signOut, "Click here to sign out"),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: .min,
+                spacing: 25,
+                children: [
+                  Text(
+                    "Username: ${_userAuthInfo.displayName}",
+                    style: TextStyle(fontSize: responsiveFontSize(context, 20)),
+                  ),
+                  Text(
+                    "Email: ${_userAuthInfo.email}",
+                    style: TextStyle(fontSize: responsiveFontSize(context, 20)),
+                  ),
+                  Text(
+                    "Upload a profile picture",
+                    style: TextStyle(fontSize: responsiveFontSize(context, 20)),
+                  ),
+                  const _AddProfilePicture(),
+                  appThemedButton(_signOut, "Click here to sign out"),
+                ],
+              ),
             ),
           ),
         ],
@@ -85,6 +88,7 @@ class _AddProfilePictureState extends State<_AddProfilePicture> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      spacing: 10,
       children: [
         if (_profilePic != null) const Text("Current Profile picture:"),
         if (_profilePic != null)
@@ -108,7 +112,14 @@ class _AddProfilePictureState extends State<_AddProfilePicture> {
             });
             _tryFetchProfilePic();
           },
-          child: const Text("Submit your profile picture"),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: mint,
+            side: const BorderSide(color: darkGreen, width: 2),
+          ),
+          child: const Text(
+            "Submit your profile picture",
+            style: TextStyle(color: darkGreen),
+          ),
         ),
       ],
     );

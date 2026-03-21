@@ -4,10 +4,10 @@ import "../../../../data/models/review_info.dart";
 import "../../../widgets/review_card.dart";
 import "package:flutter/material.dart";
 
-class ViewReview extends StatelessWidget {
+class Review extends StatelessWidget {
   final ReviewInfo review;
 
-  const ViewReview(this.review, {super.key});
+  const Review(this.review, {super.key});
 
   @override
   Widget build(BuildContext context) {

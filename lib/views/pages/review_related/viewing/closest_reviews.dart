@@ -6,8 +6,8 @@ import "package:adventure_log/views/widgets/reviews_list.dart";
 import "package:flutter/material.dart";
 import "package:geolocator/geolocator.dart";
 
-class ViewClosestReviews extends StatelessWidget {
-  const ViewClosestReviews({super.key});
+class ClosestReviews extends StatelessWidget {
+  const ClosestReviews({super.key});
 
   @override
   Widget build(BuildContext context) {

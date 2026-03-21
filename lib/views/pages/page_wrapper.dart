@@ -2,7 +2,7 @@ import "../../controllers/utils/constants.dart";
 import "review_related/creating/add_review.dart";
 import "explore.dart";
 import "profile.dart";
-import "review_related/viewing/view_reviews.dart";
+import "review_related/viewing/reviews.dart";
 import "package:flutter/material.dart";
 
 enum Page { explore, viewReviews, addReview, profile }
@@ -19,7 +19,7 @@ class PageWrapper extends StatefulWidget {
 class _PageWrapperState extends State<PageWrapper> {
   final List<Widget> _pages = [
     const Explore(),
-    const ViewReviews(),
+    const Reviews(),
     const AddReview(),
     const Profile(),
   ];

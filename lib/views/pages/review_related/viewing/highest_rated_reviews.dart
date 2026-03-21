@@ -4,12 +4,11 @@ import "package:adventure_log/data/review_queries.dart";
 import "package:adventure_log/views/widgets/reviews_list.dart";
 import "package:flutter/material.dart";
 
-class ViewNewestReviews extends StatelessWidget {
-  const ViewNewestReviews({super.key});
+class HighestRatedReviews extends StatelessWidget {
+  const HighestRatedReviews({super.key});
 
   @override
   Widget build(BuildContext context) {
-    print(fetchReviewsNewestFirst());
     return Scaffold(
       backgroundColor: constants.teal,
       body: Padding(
@@ -36,7 +35,7 @@ class ViewNewestReviews extends StatelessWidget {
               SizedBox(
                 height: responsiveHeight(context, 600),
                 width: responsiveWidth(context, 800),
-                child: ReviewsList(fetchReviewsNewestFirst()),
+                child: ReviewsList(fetchReviewsHighestRatedFirst()),
               ),
             ],
           ),
