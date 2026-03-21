@@ -1,4 +1,5 @@
 import "package:adventure_log/controllers/utils/constants.dart";
+import "package:adventure_log/data/user_queries.dart";
 import "../../controllers/utils/responsiveness.dart";
 import "../../data/models/review_info.dart";
 import "package:flutter/material.dart";
@@ -16,25 +17,8 @@ class ReviewCard extends StatelessWidget {
       child: Column(
         mainAxisSize: .min,
         children: [
-          Row(
-            spacing: 10,
-            mainAxisAlignment: .center,
-            children: [
-              Text(
-                review.locationName,
-                style: TextStyle(
-                  fontSize: responsiveFontSize(context, 20),
-                  fontWeight: .bold,
-                ),
-              ),
-              if (!review.isPublic)
-                const Tooltip(
-                  message: "Private: Only you can see this review",
-                  child: Icon(Icons.lock),
-                ),
-            ],
-          ),
-          Text("Review by: ${review.posterUsername}"),
+          _ReviewTitle(review),
+          _PosterInfo(review),
           Text(review.locationCoordinates),
           if (review.imageURL != null)
             ConstrainedBox(
@@ -42,16 +26,86 @@ class ReviewCard extends StatelessWidget {
               child: Image(image: NetworkImage(review.imageURL!)),
             ),
           _StarRating(review.locationRating),
-          if (review.reasonForRating != null)
-            Text(review.reasonForRating!, overflow: TextOverflow.ellipsis),
+          Text(review.reasonForRating ?? "", overflow: TextOverflow.ellipsis),
         ],
       ),
     );
   }
 }
 
+class _PosterInfo extends StatefulWidget {
+  final ReviewInfo review;
+
+  const _PosterInfo(this.review);
+
+  @override
+  State<_PosterInfo> createState() => _PosterInfoState();
+}
+
+class _PosterInfoState extends State<_PosterInfo> {
+  String? _profPicURL;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text("Review by: ${widget.review.posterUsername}"),
+        if (_profPicURL != null)
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: responsiveHeight(context, 50),
+              maxWidth: responsiveWidth(context, 50),
+            ),
+            child: Image(image: NetworkImage(_profPicURL!)),
+          ),
+      ],
+    );
+  }
+
+  void _getCurUserData() async {
+    final userData = await getCurUserData();
+    setState(() {
+      _profPicURL = userData.profilePictureURL;
+    });
+  }
+}
+
+class _ReviewTitle extends StatelessWidget {
+  final ReviewInfo review;
+
+  const _ReviewTitle(this.review);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      spacing: 10,
+      mainAxisAlignment: .center,
+      children: [
+        Text(
+          review.locationName,
+          style: TextStyle(
+            fontSize: responsiveFontSize(context, 20),
+            fontWeight: .bold,
+          ),
+        ),
+        if (!review.isPublic)
+          const Tooltip(
+            message: "Private: Only you can see this review",
+            child: Icon(Icons.lock),
+          ),
+      ],
+    );
+  }
+}
+
 class _StarRating extends StatelessWidget {
   final int _ratingOutOfFive;
+
   const _StarRating(this._ratingOutOfFive);
 
   @override
