@@ -5,6 +5,7 @@ class ReviewInfo {
   final String locationName;
   final String locationCoordinates;
   final int locationRating;
+  final bool isPublic;
   Timestamp timePosted;
   final String? imageURL;
   final String? reasonForRating;
@@ -16,6 +17,7 @@ class ReviewInfo {
     this.locationName,
     this.locationCoordinates,
     this.locationRating,
+    this.isPublic,
     this.timePosted, {
     this.imageURL,
     this.reasonForRating,
@@ -28,10 +30,11 @@ class ReviewInfo {
       "posterUsername": posterUsername,
       "locationName": locationName,
       "locationCoordinates": locationCoordinates,
-      "imageURL": imageURL,
       "locationRating": locationRating,
-      "reasonForRating": reasonForRating,
+      "isPublic": isPublic,
       "timePosted": timePosted,
+      "imageURL": imageURL,
+      "reasonForRating": reasonForRating,
       "profilePictureURL": profilePictureURL,
     };
   }
@@ -42,6 +45,7 @@ class ReviewInfo {
       json["locationName"] as String,
       json["locationCoordinates"] as String,
       (json["locationRating"] as num).toInt(),
+      json["isPublic"] as bool,
       json["timePosted"] as Timestamp,
       imageURL: json["imageURL"] as String?,
       reasonForRating: json["reasonForRating"] as String?,

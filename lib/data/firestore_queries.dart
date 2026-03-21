@@ -18,6 +18,17 @@ Future<List<ReviewInfo>> fetchAllReviews() async {
       .toList();
 }
 
+Future<List<ReviewInfo>> fetchAllPublicReviews() async {
+  final querySnapshot = await FirebaseFirestore.instance
+      .collection("reviews")
+      .where("isPublic", isEqualTo: true)
+      .get();
+
+  return querySnapshot.docs
+      .map((doc) => ReviewInfo.fromJSON(doc.data()))
+      .toList();
+}
+
 Future<List<ReviewInfo>> fetchAllReviewsFromUser(String username) async {
   final querySnapshot = await FirebaseFirestore.instance
       .collection("reviews")

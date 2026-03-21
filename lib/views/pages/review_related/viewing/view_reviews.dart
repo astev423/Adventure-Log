@@ -28,7 +28,7 @@ class ViewReviews extends StatelessWidget {
               SizedBox(
                 width: responsiveWidth(context, 900),
                 height: responsiveHeight(context, 500),
-                child: ReviewsList(fetchAllReviews()),
+                child: ReviewsList(fetchAllPublicReviews()),
               ),
             ],
           ),

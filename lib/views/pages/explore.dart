@@ -45,7 +45,7 @@ class _ExploreState extends State<Explore> {
   }
 
   void _getReviewsForMap() async {
-    _reviews = await fetchAllReviews();
+    _reviews = await fetchAllPublicReviews();
     setState(() {
       _reviews = _reviews;
       _isFetchingDone = true;

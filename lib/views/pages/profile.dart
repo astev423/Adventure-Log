@@ -54,6 +54,7 @@ class AccountInfo extends StatelessWidget {
                   "Upload a profile picture",
                   style: TextStyle(fontSize: responsiveFontSize(context, 20)),
                 ),
+                const _AddProfilePicture(),
                 appThemedButton(_signOut, "Click here to sign out"),
               ],
             ),
@@ -86,7 +87,14 @@ class _AddProfilePictureState extends State<_AddProfilePicture> {
     return Column(
       children: [
         if (_profilePic != null) const Text("Current Profile picture:"),
-        if (_profilePic != null) Image(image: _profilePic!),
+        if (_profilePic != null)
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: responsiveWidth(context, 100),
+              maxHeight: responsiveHeight(context, 100),
+            ),
+            child: Image(image: _profilePic!),
+          ),
         UploadImage(_onFileAttached),
         ElevatedButton(
           onPressed: () async {
@@ -105,6 +113,7 @@ class _AddProfilePictureState extends State<_AddProfilePicture> {
             await userQuery.docs.first.reference.update({
               "profilePictureURL": profPicURL,
             });
+            _tryFetchProfilePic();
           },
           child: const Text("Submit your profile picture"),
         ),
@@ -125,11 +134,13 @@ class _AddProfilePictureState extends State<_AddProfilePicture> {
         .where("displayName", isEqualTo: displayName)
         .limit(1)
         .get();
+    final profPicUrl = userQuery.docs.first.get("profilePictureURL") as String?;
+    if (profPicUrl == null) {
+      return;
+    }
 
     setState(() {
-      _profilePic = NetworkImage(
-        userQuery.docs.first.get("profilePictureURL") as String,
-      );
+      _profilePic = NetworkImage(profPicUrl);
     });
   }
 }
