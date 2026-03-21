@@ -1,6 +1,6 @@
 import "package:adventure_log/views/pages/review_related/viewing/closest_reviews.dart";
 import "package:adventure_log/views/pages/review_related/viewing/highest_rated_reviews.dart";
-import "package:adventure_log/views/pages/review_related/viewing/newest_reviews_first.dart";
+import "package:adventure_log/views/pages/review_related/viewing/newest_reviews.dart";
 import "package:adventure_log/views/pages/review_related/viewing/specific_user_reviews.dart";
 import "controllers/auth/require_login_for_page_wrapper.dart";
 import "controllers/utils/constants.dart";

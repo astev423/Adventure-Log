@@ -102,7 +102,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
         _locationRatingReasonCtl,
         "Justify your rating",
       ),
-      _MakeReviewPrivateOption((boxValue) => _isReviewPublic = boxValue!),
+      _MakeReviewPrivateOption(_isReviewPublic, _onPrivateBoxClicked),
       appThemedButton(_submitForm, "Submit"),
     ];
   }
@@ -118,6 +118,12 @@ class _AddReviewFormState extends State<_AddReviewForm> {
         ),
       ),
     );
+  }
+
+  void _onPrivateBoxClicked(bool? boxValue) {
+    setState(() {
+      _isReviewPublic = boxValue!;
+    });
   }
 
   void _onFileAttached(PlatformFile file) {
@@ -165,10 +171,10 @@ class _AddReviewFormState extends State<_AddReviewForm> {
 }
 
 class _MakeReviewPrivateOption extends StatelessWidget {
-  final bool _isReviewPublic = true;
+  final bool _isReviewPublic;
   final ValueChanged<bool?> _onBoxClicked;
 
-  const _MakeReviewPrivateOption(this._onBoxClicked);
+  const _MakeReviewPrivateOption(this._isReviewPublic, this._onBoxClicked);
 
   @override
   Widget build(BuildContext context) {

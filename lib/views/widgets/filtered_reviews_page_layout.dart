@@ -1,11 +1,12 @@
 import "package:adventure_log/controllers/utils/constants.dart" as constants;
 import "package:adventure_log/controllers/utils/responsiveness.dart";
-import "package:adventure_log/data/review_queries.dart";
-import "package:adventure_log/views/widgets/reviews_list.dart";
 import "package:flutter/material.dart";
 
-class NewestReviews extends StatelessWidget {
-  const NewestReviews({super.key});
+class FilteredReviewsPageLayout extends StatelessWidget {
+  final Align header;
+  final Widget body;
+
+  const FilteredReviewsPageLayout(this.header, this.body, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +27,13 @@ class NewestReviews extends StatelessWidget {
                       "Click here to go back!",
                     ),
                   ),
-                  Align(
-                    alignment: .topCenter,
-                    child: constants.headerText("Newest reviews:", context),
-                  ),
+                  header,
                 ],
               ),
               SizedBox(
                 height: responsiveHeight(context, 600),
                 width: responsiveWidth(context, 800),
-                child: ReviewsList(fetchReviewsNewestFirst()),
+                child: body,
               ),
             ],
           ),
