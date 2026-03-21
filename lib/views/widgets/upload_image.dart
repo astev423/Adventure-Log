@@ -1,5 +1,4 @@
 import "package:adventure_log/controllers/utils/constants.dart";
-import "package:adventure_log/controllers/utils/responsiveness.dart";
 import "package:file_picker/file_picker.dart";
 import "package:flutter/material.dart";
 
@@ -19,16 +18,6 @@ class _UploadImageState extends State<UploadImage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Center(
-          child: Text(
-            "Location Image (optional):",
-            style: TextStyle(
-              color: darkGreen,
-              fontWeight: .w600,
-              fontSize: responsiveFontSize(context, 20),
-            ),
-          ),
-        ),
         appThemedButton(_pickFile, "Pick a file"),
         if (_selectedFile != null) ...[
           const SizedBox(height: 12),

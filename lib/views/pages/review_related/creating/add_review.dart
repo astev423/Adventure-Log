@@ -1,16 +1,15 @@
 import "package:adventure_log/controllers/utils/helpers.dart";
+import "package:adventure_log/data/cloud_storage_funcs.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:geolocator/geolocator.dart";
-
-import "../../controllers/utils/constants.dart";
-import "../../controllers/utils/responsiveness.dart";
-import "../../controllers/utils/validators.dart";
-import "../../data/firestore_queries.dart";
-import "../../data/models/review_info.dart";
-import "../widgets/upload_image.dart";
+import "../../../../controllers/utils/constants.dart";
+import "../../../../controllers/utils/responsiveness.dart";
+import "../../../../controllers/utils/validators.dart";
+import "../../../../data/firestore_queries.dart";
+import "../../../../data/models/review_info.dart";
+import "../../../widgets/upload_image.dart";
 import "package:file_picker/file_picker.dart";
 import "package:firebase_auth/firebase_auth.dart";
-import "package:firebase_storage/firebase_storage.dart";
 import "package:flutter/material.dart";
 
 class AddReview extends StatelessWidget {
@@ -104,6 +103,16 @@ class _AddReviewFormState extends State<_AddReviewForm> {
           ),
         ],
       ),
+      Center(
+        child: Text(
+          "Location Image (optional):",
+          style: TextStyle(
+            color: darkGreen,
+            fontWeight: .w600,
+            fontSize: responsiveFontSize(context, 20),
+          ),
+        ),
+      ),
       UploadImage(_onFileAttached),
       _StarRatingInteraction(
         rating: _locationRating,
@@ -129,26 +138,13 @@ class _AddReviewFormState extends State<_AddReviewForm> {
     });
   }
 
-  Future<String> _uploadImageAndGetUrl(PlatformFile file) async {
-    final fileName = "${DateTime.now().millisecondsSinceEpoch}_${file.name}";
-    final ref = FirebaseStorage.instance.ref().child(fileName);
-    final metadata = SettableMetadata(
-      contentType: 'image/${file.extension ?? 'jpeg'}',
-    );
-
-    await ref.putData(file.bytes!, metadata);
-
-    final url = await ref.getDownloadURL();
-    return url;
-  }
-
   void _submitForm() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
     String? imageURL = _selectedFile != null
-        ? await _uploadImageAndGetUrl(_selectedFile!)
+        ? await uploadImageAndGetUrl(_selectedFile!)
         : null;
     ReviewInfo review = ReviewInfo(
       FirebaseAuth.instance.currentUser!.displayName!,

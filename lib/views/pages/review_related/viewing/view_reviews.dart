@@ -1,8 +1,8 @@
 import "package:adventure_log/views/widgets/reviews_list.dart";
 import "package:firebase_auth/firebase_auth.dart";
-import "../../controllers/utils/constants.dart";
-import "../../controllers/utils/responsiveness.dart";
-import "../../data/firestore_queries.dart";
+import "../../../../controllers/utils/constants.dart";
+import "../../../../controllers/utils/responsiveness.dart";
+import "../../../../data/firestore_queries.dart";
 import "package:flutter/material.dart";
 
 class ViewReviews extends StatelessWidget {

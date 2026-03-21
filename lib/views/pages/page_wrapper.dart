@@ -1,8 +1,8 @@
 import "../../controllers/utils/constants.dart";
-import "add_review.dart";
+import "review_related/creating/add_review.dart";
 import "explore.dart";
 import "profile.dart";
-import "view_reviews.dart";
+import "review_related/viewing/view_reviews.dart";
 import "package:flutter/material.dart";
 
 enum Page { explore, viewReviews, addReview, profile }

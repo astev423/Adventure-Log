@@ -1,7 +1,7 @@
-import "../../controllers/utils/constants.dart";
-import "../../controllers/utils/responsiveness.dart";
-import "../../data/models/review_info.dart";
-import "../widgets/review_card.dart";
+import "../../../../controllers/utils/constants.dart";
+import "../../../../controllers/utils/responsiveness.dart";
+import "../../../../data/models/review_info.dart";
+import "../../../widgets/review_card.dart";
 import "package:flutter/material.dart";
 
 class ViewReview extends StatelessWidget {

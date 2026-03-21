@@ -1,13 +1,13 @@
-import "package:adventure_log/views/pages/view_closest_reviews.dart";
-import "package:adventure_log/views/pages/view_newest_reviews_first.dart";
-import "package:adventure_log/views/pages/view_specific_user_reviews.dart";
+import "package:adventure_log/views/pages/review_related/viewing/view_closest_reviews.dart";
+import "package:adventure_log/views/pages/review_related/viewing/view_newest_reviews_first.dart";
+import "package:adventure_log/views/pages/review_related/viewing/view_specific_user_reviews.dart";
 import "controllers/auth/require_login_for_page_wrapper.dart";
 import "controllers/utils/constants.dart";
 import "data/models/review_info.dart";
 import "../firebase_options.dart";
 import "views/pages/home.dart";
 import "views/pages/page_wrapper.dart" as wrapper;
-import "views/pages/view_review.dart";
+import "views/pages/review_related/viewing/view_review.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
 

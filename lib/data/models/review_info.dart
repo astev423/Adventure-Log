@@ -8,6 +8,8 @@ class ReviewInfo {
   Timestamp timePosted;
   final String? imageURL;
   final String? reasonForRating;
+  // Why not put this in user? Because joins are not as good in NoSQL so denormalization is prefered
+  final String? profilePictureURL;
 
   ReviewInfo(
     this.posterUsername,
@@ -17,6 +19,7 @@ class ReviewInfo {
     this.timePosted, {
     this.imageURL,
     this.reasonForRating,
+    this.profilePictureURL,
   });
 
   /// Example req: final response = await http.post(url, headers, body: jsonEncode(model.toJson()));
@@ -29,6 +32,7 @@ class ReviewInfo {
       "locationRating": locationRating,
       "reasonForRating": reasonForRating,
       "timePosted": timePosted,
+      "profilePictureURL": profilePictureURL,
     };
   }
 
@@ -41,6 +45,7 @@ class ReviewInfo {
       json["timePosted"] as Timestamp,
       imageURL: json["imageURL"] as String?,
       reasonForRating: json["reasonForRating"] as String?,
+      profilePictureURL: json["profilePictureURL"] as String?,
     );
   }
 }
