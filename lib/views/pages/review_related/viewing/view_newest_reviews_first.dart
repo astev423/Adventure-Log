@@ -9,6 +9,7 @@ class ViewNewestReviews extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(fetchReviewsNewestFirst());
     return Scaffold(
       backgroundColor: constants.teal,
       body: Padding(

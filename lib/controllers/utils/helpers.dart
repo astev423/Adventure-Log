@@ -71,3 +71,9 @@ String getCoordsStrFromPos(Position pos) {
 
   return "$latitudeStr, $longitudeStr";
 }
+
+List<ReviewInfo> sortReviewsByNewestFirst(List<ReviewInfo> reviews) {
+  final sortedReviews = List<ReviewInfo>.from(reviews);
+  sortedReviews.sort((a, b) => b.timePosted.compareTo(a.timePosted));
+  return sortedReviews;
+}

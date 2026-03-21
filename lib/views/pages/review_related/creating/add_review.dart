@@ -186,6 +186,9 @@ class _AddReviewFormState extends State<_AddReviewForm> {
     addReview(review);
 
     _formKey.currentState!.reset();
+    setState(() {
+      _locationRating = 0;
+    });
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(

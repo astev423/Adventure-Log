@@ -107,12 +107,10 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () async {
-                final username = getCurUserAuth();
-
                 Navigator.pushNamed(
                   context,
                   "/view-specific-user-reviews",
-                  arguments: username,
+                  arguments: getCurUserAuth().displayName,
                 );
               },
               child: const Text("My reviews"),

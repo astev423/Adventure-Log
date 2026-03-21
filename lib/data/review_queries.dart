@@ -31,11 +31,10 @@ Future<List<ReviewInfo>> fetchAllReviewsFromUser(String username) async {
 }
 
 Future<List<ReviewInfo>> fetchReviewsNewestFirst() async {
-  final querySnapshot = await _queryOfAllVisibleReviewsToCurUser()
-      .orderBy("timePosted", descending: true)
-      .get();
+  final querySnapshot = await _queryOfAllVisibleReviewsToCurUser().get();
+  final reviews = _turnReviewSnapshotIntoList(querySnapshot);
 
-  return _turnReviewSnapshotIntoList(querySnapshot);
+  return sortReviewsByNewestFirst(reviews);
 }
 
 Future<List<ReviewInfo>> fetchReviewsClosestFirst(Position userCoords) async {
