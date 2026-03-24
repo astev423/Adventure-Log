@@ -1,6 +1,2 @@
-https://coolors.co/palette/6b9080-a4c3b2-cce3de-eaf4f4-f6fff8
-
-# For Android
--Need to enable location permission in the android/app/src/main/AndroidManifest.xml
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+# Adventure Log
+An app semi-inspired by Yelp. Users can see reviews of places and add their own review. Google Maps integration is used to display reviews as markers on a map. Reviews can also be viewed as a list and users have many filter options to specify which reviews they want to see. 
