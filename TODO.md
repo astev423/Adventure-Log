@@ -1,3 +1,8 @@
+# For Android
+-Need to enable location permission in the android/app/src/main/AndroidManifest.xml
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
 # Stretch
 -Update README and make it look professional with some images of the app
 -Add likes and dislikes to reviews
