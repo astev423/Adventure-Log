@@ -52,7 +52,7 @@ class _ExploreState extends State<Explore> {
     });
   }
 
-  Set<Marker> _convertReviewsToMarkers(
+  Set<AdvancedMarker> _convertReviewsToMarkers(
     List<ReviewInfo> reviews,
     BuildContext context,
   ) {
@@ -63,7 +63,7 @@ class _ExploreState extends State<Explore> {
       final lat = double.parse(coords[0].trim());
       final lng = double.parse(coords[1].trim());
 
-      return Marker(
+      return AdvancedMarker(
         markerId: MarkerId("marker_$index"),
         position: LatLng(lat, lng),
         infoWindow: InfoWindow(
@@ -98,7 +98,7 @@ class _ExploreState extends State<Explore> {
 
 class _EmbeddedMap extends StatelessWidget {
   final Position? _coordinates;
-  final Set<Marker> _markers;
+  final Set<AdvancedMarker> _markers;
 
   const _EmbeddedMap(this._coordinates, this._markers);
 
@@ -110,6 +110,8 @@ class _EmbeddedMap extends StatelessWidget {
     );
 
     return GoogleMap(
+      markerType: GoogleMapMarkerType.advancedMarker,
+      mapId: "76b37d917388d0c97f40e867",
       initialCameraPosition: cameraPosition,
       myLocationButtonEnabled: false,
       zoomControlsEnabled: true,

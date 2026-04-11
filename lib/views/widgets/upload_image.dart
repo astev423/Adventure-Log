@@ -28,7 +28,7 @@ class _UploadImageState extends State<UploadImage> {
   }
 
   Future<void> _pickFile() async {
-    final FilePickerResult? result = await FilePicker.platform.pickFiles(
+    final FilePickerResult? result = await FilePicker.pickFiles(
       type: FileType.image,
       withData: true,
     );
