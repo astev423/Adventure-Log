@@ -48,6 +48,10 @@ Future<List<ReviewInfo>> fetchReviewsHighestRatedFirst() async {
   return sortReviewsByHighestRatedFirst(reviews);
 }
 
+Future<void> tryDeleteReview(String reviewId) async {
+  await _fetchReviewsCollection().doc(reviewId).delete();
+}
+
 CollectionReference<Map<String, dynamic>> _fetchReviewsCollection() {
   return FirebaseFirestore.instance.collection("reviews");
 }

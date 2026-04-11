@@ -52,6 +52,7 @@ class ReviewInfo {
       imageURL: json["imageURL"] as String?,
       reasonForRating: json["reasonForRating"] as String?,
       profilePictureURL: json["profilePictureURL"] as String?,
+      id: id,
     );
   }
 }

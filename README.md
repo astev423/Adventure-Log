@@ -10,7 +10,21 @@ with layout, etc
 
 -Dealing with the unique quirks and functionalities of all the dependancies
 
+# Project progress update #2
+
+## What I've worked on
+-Showing user profile pictures on their review posts
+-Added delete button + modal popup for deletion confirmation
+
+## Challenges
+
 -Working with google cloud which has lots of updates meaning old methods for doing things don't work
 anymore and having to find up to date documentation
 
 -Upgrading packages and finding out functions I once used don't work anymore
+
+## Goals for next time
+
+## Resources used
+-I asked ChatGPT for help debugging outdated functions when I upgraded my packages, one prompt I asked
+was "why can't i see the google map?" and then the error message + my code for displaying the google map

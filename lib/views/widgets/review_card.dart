@@ -1,4 +1,6 @@
 import "package:adventure_log/controllers/utils/constants.dart";
+import "package:adventure_log/data/models/user.dart";
+import "package:adventure_log/data/review_queries.dart";
 import "package:adventure_log/data/user_queries.dart";
 import "../../controllers/utils/responsiveness.dart";
 import "../../data/models/review_info.dart";
@@ -17,7 +19,7 @@ class ReviewCard extends StatelessWidget {
       child: Column(
         mainAxisSize: .min,
         children: [
-          _ReviewTitle(review),
+          _ReviewHeader(review),
           _PosterInfo(review),
           Text(review.locationCoordinates),
           if (review.imageURL != null)
@@ -43,8 +45,6 @@ class _PosterInfo extends StatefulWidget {
 }
 
 class _PosterInfoState extends State<_PosterInfo> {
-  String? _profPicURL;
-
   @override
   void initState() {
     super.initState();
@@ -53,53 +53,81 @@ class _PosterInfoState extends State<_PosterInfo> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      spacing: 10,
       children: [
         Text("Review by: ${widget.review.posterUsername}"),
-        if (_profPicURL != null)
+        if (widget.review.profilePictureURL != null)
           ConstrainedBox(
             constraints: BoxConstraints(
               maxHeight: responsiveHeight(context, 50),
               maxWidth: responsiveWidth(context, 50),
             ),
-            child: Image(image: NetworkImage(_profPicURL!)),
+            child: Image(image: NetworkImage(widget.review.profilePictureURL!)),
           ),
       ],
     );
   }
-
-  void _getCurUserData() async {
-    final userData = await getCurUserData();
-    setState(() {
-      _profPicURL = userData.profilePictureURL;
-    });
-  }
 }
 
-class _ReviewTitle extends StatelessWidget {
+class _ReviewHeader extends StatefulWidget {
   final ReviewInfo review;
 
-  const _ReviewTitle(this.review);
+  const _ReviewHeader(this.review);
+
+  @override
+  State<_ReviewHeader> createState() => __ReviewHeaderState();
+}
+
+class __ReviewHeaderState extends State<_ReviewHeader> {
+  User? _userData;
+
+  @override
+  void initState() {
+    setCurUserData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      spacing: 10,
-      mainAxisAlignment: .center,
+      mainAxisAlignment: .spaceBetween,
       children: [
-        Text(
-          review.locationName,
-          style: TextStyle(
-            fontSize: responsiveFontSize(context, 20),
-            fontWeight: .bold,
-          ),
+        const Spacer(),
+        Row(
+          children: [
+            Text(
+              widget.review.locationName,
+              style: TextStyle(
+                fontSize: responsiveFontSize(context, 20),
+                fontWeight: .bold,
+              ),
+            ),
+            if (!widget.review.isPublic)
+              const Tooltip(
+                message: "Private: Only you can see this review",
+                child: Icon(Icons.lock),
+              ),
+          ],
         ),
-        if (!review.isPublic)
-          const Tooltip(
-            message: "Private: Only you can see this review",
-            child: Icon(Icons.lock),
-          ),
+        if (_userData != null &&
+            _userData!.username == widget.review.posterUsername)
+          Expanded(
+            child: Row(
+              mainAxisAlignment: .end,
+              children: [_DeletePostButton(widget.review.id!)],
+            ),
+          )
+        else
+          const Spacer(),
       ],
     );
+  }
+
+  void setCurUserData() async {
+    _userData = await getCurUserData();
+    setState(() {
+      _userData = _userData;
+    });
   }
 }
 
@@ -121,5 +149,49 @@ class _StarRating extends StatelessWidget {
           ),
       ],
     );
+  }
+}
+
+class _DeletePostButton extends StatelessWidget {
+  final String _reviewId;
+
+  const _DeletePostButton(this._reviewId);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        _confirmDeletion(context);
+      },
+      icon: const Icon(Icons.cancel, color: Colors.red),
+      iconSize: 25,
+    );
+  }
+
+  Future<void> _confirmDeletion(BuildContext context) async {
+    final bool? shouldDelete = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Delete review?"),
+          content: const Text("Are you sure you want to delete this review?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text("No"),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text("Yes"),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldDelete == true) {
+      tryDeleteReview(_reviewId);
+    }
   }
 }
