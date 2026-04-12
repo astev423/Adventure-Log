@@ -8,8 +8,9 @@ import "package:flutter/material.dart";
 
 class ReviewCard extends StatelessWidget {
   final ReviewInfo review;
+  final void Function() refetchReviews;
 
-  const ReviewCard(this.review, {super.key});
+  const ReviewCard(this.review, this.refetchReviews, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class ReviewCard extends StatelessWidget {
       child: Column(
         mainAxisSize: .min,
         children: [
-          _ReviewHeader(review),
+          _ReviewHeader(review, refetchReviews),
           _PosterInfo(review),
           Text(review.locationCoordinates),
           if (review.imageURL != null)
@@ -71,8 +72,9 @@ class _PosterInfoState extends State<_PosterInfo> {
 
 class _ReviewHeader extends StatefulWidget {
   final ReviewInfo review;
+  final void Function() refetchReviews;
 
-  const _ReviewHeader(this.review);
+  const _ReviewHeader(this.review, this.refetchReviews);
 
   @override
   State<_ReviewHeader> createState() => __ReviewHeaderState();
@@ -114,7 +116,9 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
           Expanded(
             child: Row(
               mainAxisAlignment: .end,
-              children: [_DeletePostButton(widget.review.id!)],
+              children: [
+                _DeletePostButton(widget.review.id!, widget.refetchReviews),
+              ],
             ),
           )
         else
@@ -154,8 +158,9 @@ class _StarRating extends StatelessWidget {
 
 class _DeletePostButton extends StatelessWidget {
   final String _reviewId;
+  final void Function() refetchReviews;
 
-  const _DeletePostButton(this._reviewId);
+  const _DeletePostButton(this._reviewId, this.refetchReviews);
 
   @override
   Widget build(BuildContext context) {
@@ -192,6 +197,7 @@ class _DeletePostButton extends StatelessWidget {
 
     if (shouldDelete == true) {
       tryDeleteReview(_reviewId);
+      refetchReviews();
     }
   }
 }

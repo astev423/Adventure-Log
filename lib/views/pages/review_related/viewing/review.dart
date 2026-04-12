@@ -1,13 +1,27 @@
+import "package:adventure_log/data/review_queries.dart";
 import "../../../../controllers/utils/constants.dart";
 import "../../../../controllers/utils/responsiveness.dart";
 import "../../../../data/models/review_info.dart";
 import "../../../widgets/review_card.dart";
 import "package:flutter/material.dart";
 
-class Review extends StatelessWidget {
+class Review extends StatefulWidget {
   final ReviewInfo review;
 
   const Review(this.review, {super.key});
+
+  @override
+  State<Review> createState() => _ReviewState();
+}
+
+class _ReviewState extends State<Review> {
+  late Future<ReviewInfo?> reviewFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    reviewFuture = fetchReviewById(widget.review.id!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +44,37 @@ class Review extends StatelessWidget {
               SizedBox(
                 height: responsiveHeight(context, 600),
                 width: responsiveWidth(context, 800),
-                child: SingleChildScrollView(child: ReviewCard(review)),
+                child: FutureBuilder<ReviewInfo?>(
+                  future: reviewFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState != ConnectionState.done) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (!snapshot.hasData) {
+                      return Row(
+                        mainAxisAlignment: .center,
+                        crossAxisAlignment: .start,
+                        children: [headerText("Review not found", context)],
+                      );
+                    }
+
+                    return SingleChildScrollView(
+                      child: ReviewCard(snapshot.data!, refreshReview),
+                    );
+                  },
+                ),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> refreshReview() async {
+    setState(() {
+      reviewFuture = fetchReviewById(widget.review.id!);
+    });
   }
 }

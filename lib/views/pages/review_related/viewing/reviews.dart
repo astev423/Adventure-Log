@@ -1,12 +1,26 @@
 import "package:adventure_log/controllers/auth/utils.dart";
+import "package:adventure_log/data/models/review_info.dart";
 import "package:adventure_log/views/widgets/reviews_list.dart";
 import "../../../../controllers/utils/constants.dart";
 import "../../../../controllers/utils/responsiveness.dart";
 import "package:adventure_log/data/review_queries.dart";
 import "package:flutter/material.dart";
 
-class Reviews extends StatelessWidget {
+class Reviews extends StatefulWidget {
   const Reviews({super.key});
+
+  @override
+  State<Reviews> createState() => _ReviewsState();
+}
+
+class _ReviewsState extends State<Reviews> {
+  Future<List<ReviewInfo>> reviews = Future.value(<ReviewInfo>[]);
+
+  @override
+  void initState() {
+    super.initState();
+    fetchReviews();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +42,7 @@ class Reviews extends StatelessWidget {
               SizedBox(
                 width: responsiveWidth(context, 900),
                 height: responsiveHeight(context, 500),
-                child: ReviewsList(fetchAllVisibleReviewsForCurUser()),
+                child: ReviewsList(reviews, fetchReviews),
               ),
             ],
           ),
@@ -36,9 +50,14 @@ class Reviews extends StatelessWidget {
       ),
     );
   }
-}
 
-enum ReviewsToSee { all, specificUser, closestFirst, newestFirst, saved }
+  void fetchReviews() {
+    reviews = fetchAllVisibleReviewsForCurUser();
+    setState(() {
+      reviews = reviews;
+    });
+  }
+}
 
 class _ViewReviewsHeader extends StatelessWidget {
   const _ViewReviewsHeader();

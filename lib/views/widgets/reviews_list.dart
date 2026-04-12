@@ -6,8 +6,9 @@ import "package:flutter/material.dart";
 
 class ReviewsList extends StatefulWidget {
   final Future<List<ReviewInfo>> reviews;
+  final void Function() refetchReviews;
 
-  const ReviewsList(this.reviews, {super.key});
+  const ReviewsList(this.reviews, this.refetchReviews, {super.key});
 
   @override
   State<ReviewsList> createState() => ReviewsListState();
@@ -51,7 +52,7 @@ class ReviewsListState extends State<ReviewsList> {
                   "/view-review",
                   arguments: review,
                 ),
-                child: ReviewCard(review),
+                child: ReviewCard(review, widget.refetchReviews),
               ),
             );
           },

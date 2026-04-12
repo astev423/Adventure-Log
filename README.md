@@ -14,7 +14,8 @@ with layout, etc
 
 ## What I've worked on
 -Showing user profile pictures on their review posts
--Added delete button + modal popup for deletion confirmation
+
+-Added delete button + modal popup for deletion confirmation, and reloading posts upon deletion (tricky)
 
 ## Challenges
 
@@ -22,6 +23,9 @@ with layout, etc
 anymore and having to find up to date documentation
 
 -Upgrading packages and finding out functions I once used don't work anymore
+
+-Refetching posts upon deletion, required me to think deeply about how i structure my project and 
+it needed a lot of prop drilling, some kind of global state management would help
 
 ## Goals for next time
 

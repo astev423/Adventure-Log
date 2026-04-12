@@ -52,6 +52,21 @@ Future<void> tryDeleteReview(String reviewId) async {
   await _fetchReviewsCollection().doc(reviewId).delete();
 }
 
+Future<ReviewInfo?> fetchReviewById(String reviewId) async {
+  final docSnapshot = await _fetchReviewsCollection().doc(reviewId).get();
+
+  if (!docSnapshot.exists) {
+    return null;
+  }
+
+  final data = docSnapshot.data();
+  if (data == null) {
+    return null;
+  }
+
+  return ReviewInfo.fromJSON(data, docSnapshot.id);
+}
+
 CollectionReference<Map<String, dynamic>> _fetchReviewsCollection() {
   return FirebaseFirestore.instance.collection("reviews");
 }
