@@ -1,5 +1,6 @@
 import "package:adventure_log/controllers/auth/utils.dart";
 import "package:adventure_log/data/models/review_info.dart";
+import "package:adventure_log/views/pages/review_related/viewing/review.dart";
 import "package:adventure_log/views/widgets/reviews_list.dart";
 import "../../../../controllers/utils/constants.dart";
 import "../../../../controllers/utils/responsiveness.dart";
@@ -52,9 +53,8 @@ class _ReviewsState extends State<Reviews> {
   }
 
   void fetchReviews() {
-    reviews = fetchAllVisibleReviewsForCurUser();
     setState(() {
-      reviews = reviews;
+      reviews = fetchAllVisibleReviewsForCurUser();
     });
   }
 }
@@ -74,9 +74,24 @@ class _ViewReviewsHeader extends StatelessWidget {
           ),
         ),
         Align(alignment: .topCenter, child: headerText("Reviews", context)),
-        const SizedBox(),
+        Align(
+          alignment: .topRight,
+          child: appThemedButton(
+            () => switchToRandomReviewPage(context),
+            "View a random review",
+          ),
+        ),
       ],
     );
+  }
+
+  void switchToRandomReviewPage(BuildContext context) async {
+    final randomReview = await fetchRandomReview();
+    if (randomReview == null || !context.mounted) {
+      return;
+    }
+
+    Navigator.pushNamed(context, "/view-review", arguments: randomReview);
   }
 }
 

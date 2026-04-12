@@ -38,9 +38,8 @@ class _SpecificUserReviewsState extends State<SpecificUserReviews> {
   }
 
   void fetchReviews() {
-    reviews = fetchAllReviewsFromUser(widget.usernameToSeePostsFrom);
     setState(() {
-      reviews = reviews;
+      reviews = fetchAllReviewsFromUser(widget.usernameToSeePostsFrom);
     });
   }
 }

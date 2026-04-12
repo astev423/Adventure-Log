@@ -1,3 +1,5 @@
+import "dart:math";
+
 import "package:adventure_log/controllers/auth/utils.dart";
 import "package:adventure_log/controllers/utils/helpers.dart";
 import "package:geolocator/geolocator.dart";
@@ -50,6 +52,19 @@ Future<List<ReviewInfo>> fetchReviewsHighestRatedFirst() async {
 
 Future<void> tryDeleteReview(String reviewId) async {
   await _fetchReviewsCollection().doc(reviewId).delete();
+}
+
+Future<ReviewInfo?> fetchRandomReview() async {
+  final querySnapshot = await _queryOfAllVisibleReviewsToCurUser().get();
+
+  if (querySnapshot.docs.isEmpty) {
+    return null;
+  }
+
+  final randomDoc =
+      querySnapshot.docs[Random().nextInt(querySnapshot.docs.length)];
+
+  return ReviewInfo.fromJSON(randomDoc.data(), randomDoc.id);
 }
 
 Future<ReviewInfo?> fetchReviewById(String reviewId) async {

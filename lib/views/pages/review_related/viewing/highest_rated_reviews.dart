@@ -33,9 +33,8 @@ class _HighestRatedReviewsState extends State<HighestRatedReviews> {
   }
 
   void fetchReviews() {
-    reviews = fetchReviewsHighestRatedFirst();
     setState(() {
-      reviews = reviews;
+      reviews = fetchReviewsHighestRatedFirst();
     });
   }
 }

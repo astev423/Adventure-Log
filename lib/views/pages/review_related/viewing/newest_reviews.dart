@@ -33,9 +33,8 @@ class _NewestReviewsState extends State<NewestReviews> {
   }
 
   void fetchReviews() {
-    reviews = fetchReviewsNewestFirst();
     setState(() {
-      reviews = reviews;
+      reviews = fetchReviewsNewestFirst();
     });
   }
 }

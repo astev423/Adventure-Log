@@ -76,9 +76,8 @@ class _NeedLocationReviewsListState extends State<_NeedLocationReviewsList> {
   }
 
   void fetchReviews() {
-    reviews = _getPosAndFetchClosestReviews();
     setState(() {
-      reviews = reviews;
+      reviews = _getPosAndFetchClosestReviews();
     });
   }
 }
