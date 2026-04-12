@@ -94,7 +94,15 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
     return Row(
       mainAxisAlignment: .spaceBetween,
       children: [
-        const Spacer(),
+        Expanded(
+          child: IconButton(
+            onPressed: () => print(
+              """Attempting to save review, this goes to savedReviews document and stores foreign key to 
+              this specific document plus id of user it is saved for""",
+            ),
+            icon: const Icon(Icons.save, color: Colors.greenAccent, size: 30),
+          ),
+        ),
         Row(
           children: [
             Text(
