@@ -13,30 +13,9 @@ with layout, etc
 # Project progress update #2
 
 ## What I've worked on
--Showing user profile pictures on their review posts
-
--Added delete button + modal popup for deletion confirmation, and reloading posts upon deletion (tricky)
-
--Add select random review button to see a random review
 
 ## Challenges
-
--Working with google cloud which has lots of updates meaning old methods for doing things don't work
-anymore and having to find up to date documentation
-
--Upgrading packages and finding out functions I once used don't work anymore
-
--Refetching posts upon deletion, required me to think deeply about how i structure my project and 
-it needed a lot of prop drilling, some kind of global state management would help
 
 ## Goals for next time
 
 ## Resources used
--I asked AI for help debugging outdated functions when I upgraded my packages, one prompt I asked
-was "why can't i see the google map?" and then the error message + my code for displaying the google map.
-
--I also asked AI for help with what widgets to use. Like if I had a future I would ask
-"Is there a widget I can use that does a spinning icon while loading?". Unlike HTML + CSS I find
-that flutter widgets lock you into a certain path. Widgets can have unintended side effects so knowing 
-which one to use is very important, and instead of memorizing them all I look up or ask AI which
-one would be ideal for my situation 
