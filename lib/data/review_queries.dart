@@ -82,6 +82,24 @@ Future<ReviewInfo?> fetchReviewById(String reviewId) async {
   return ReviewInfo.fromJSON(data, docSnapshot.id);
 }
 
+Future<void> addSavedReview(ReviewInfo review, String userId) async {
+  await FirebaseFirestore.instance.collection("savedReviews").add({
+    "userId": userId,
+    ...review.toJson(),
+  });
+}
+
+Future<List<ReviewInfo>> fetchAllReviewsUserSaved(String userId) async {
+  final query = await FirebaseFirestore.instance
+      .collection("savedReviews")
+      .where("userId", isEqualTo: userId)
+      .get();
+
+  return query.docs.map((doc) {
+    return ReviewInfo.fromJSON(doc.data(), doc.id);
+  }).toList();
+}
+
 CollectionReference<Map<String, dynamic>> _fetchReviewsCollection() {
   return FirebaseFirestore.instance.collection("reviews");
 }
