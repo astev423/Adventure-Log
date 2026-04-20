@@ -100,7 +100,7 @@ Future<List<ReviewInfo>> fetchAllReviewsUserSaved(String userId) async {
       .get();
 
   return query.docs.map((doc) {
-    return ReviewInfo.fromJSON(doc.data(), doc.id);
+    return ReviewInfo.fromJSON(doc.data(), doc.data()["reviewId"] as String);
   }).toList();
 }
 
