@@ -158,6 +158,7 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
     }
 
     bool saved = _isReviewSaved!;
+    print(saved);
 
     return IconButton(
       onPressed: () {
