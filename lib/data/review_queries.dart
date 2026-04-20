@@ -70,23 +70,25 @@ Future<ReviewInfo?> fetchRandomReview() async {
 }
 
 Future<ReviewInfo?> fetchReviewById(String reviewId) async {
-  final docSnapshot = await _fetchReviewsCollection().doc(reviewId).get();
+  final doc = await _fetchReviewsCollection().doc(reviewId).get();
 
-  if (!docSnapshot.exists) {
+  if (!doc.exists) {
     return null;
   }
 
-  final data = docSnapshot.data();
+  final data = doc.data();
   if (data == null) {
     return null;
   }
 
-  return ReviewInfo.fromJSON(data, docSnapshot.id);
+  return ReviewInfo.fromJSON(data, doc.id);
 }
 
 Future<void> addSavedReview(ReviewInfo review, String userId) async {
+  // Instead of storing foreign keys denormalize since this is NoSQL
   await FirebaseFirestore.instance.collection("savedReviews").add({
     "userId": userId,
+    "reviewId": review.id!,
     ...review.toJson(),
   });
 }
@@ -100,6 +102,24 @@ Future<List<ReviewInfo>> fetchAllReviewsUserSaved(String userId) async {
   return query.docs.map((doc) {
     return ReviewInfo.fromJSON(doc.data(), doc.id);
   }).toList();
+}
+
+Future<bool> isReviewSaved(String reviewId, String userId) async {
+  final query = await FirebaseFirestore.instance
+      .collection("savedReviews")
+      .where("reviewId", isEqualTo: reviewId)
+      .where("userId", isEqualTo: userId)
+      .get();
+
+  return query.docs.isEmpty;
+}
+
+Future<void> tryRemovingSavedReview(String reviewId, String userId) async {
+  // This needs to consider USER ID as well
+  await FirebaseFirestore.instance
+      .collection("savedReviews")
+      .doc(reviewId)
+      .delete();
 }
 
 CollectionReference<Map<String, dynamic>> _fetchReviewsCollection() {

@@ -83,11 +83,13 @@ class _ReviewHeader extends StatefulWidget {
 
 class __ReviewHeaderState extends State<_ReviewHeader> {
   User? _userData;
+  bool? _isReviewSaved;
 
   @override
   void initState() {
-    setCurUserData();
     super.initState();
+    _setCurUserData();
+    _checkIfReviewIsSaved();
   }
 
   @override
@@ -96,10 +98,9 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
       mainAxisAlignment: .spaceBetween,
       children: [
         Expanded(
-          child: IconButton(
-            onPressed: () =>
-                addSavedReview(widget.review, getCurUserAuth().uid),
-            icon: const Icon(Icons.save, color: Colors.greenAccent, size: 30),
+          child: Center(
+            // If review saved show green icon, if not saved show red, if loading show nothing
+            child: _reviewSaveButton(),
           ),
         ),
         Row(
@@ -134,11 +135,41 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
     );
   }
 
-  void setCurUserData() async {
+  void _setCurUserData() async {
     _userData = await getCurUserData();
     setState(() {
       _userData = _userData;
     });
+  }
+
+  void _checkIfReviewIsSaved() async {
+    _isReviewSaved = await isReviewSaved(
+      widget.review.id!,
+      getCurUserAuth().uid,
+    );
+    setState(() {
+      _isReviewSaved = _isReviewSaved;
+    });
+  }
+
+  Widget _reviewSaveButton() {
+    if (_isReviewSaved == null) {
+      return const SizedBox();
+    }
+
+    bool saved = _isReviewSaved!;
+
+    return IconButton(
+      onPressed: () => saved
+          ? tryRemovingSavedReview(widget.review.id!, getCurUserAuth().uid)
+          : addSavedReview(widget.review, getCurUserAuth().uid),
+      icon: Icon(
+        Icons.save,
+        color: saved ? Colors.greenAccent : Colors.red,
+        size: 30,
+      ),
+      tooltip: saved ? "Unsave review" : "Save review",
+    );
   }
 }
 
