@@ -1,3 +1,4 @@
+import "package:adventure_log/controllers/auth/utils.dart";
 import "package:adventure_log/controllers/utils/constants.dart";
 import "package:adventure_log/data/models/user.dart";
 import "package:adventure_log/data/review_queries.dart";
@@ -96,10 +97,8 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
       children: [
         Expanded(
           child: IconButton(
-            onPressed: () => print(
-              """Attempting to save review, this goes to savedReviews document and stores foreign key to 
-              this specific document plus id of user it is saved for""",
-            ),
+            onPressed: () =>
+                addSavedReview(widget.review, getCurUserAuth().uid),
             icon: const Icon(Icons.save, color: Colors.greenAccent, size: 30),
           ),
         ),

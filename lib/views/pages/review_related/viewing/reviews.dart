@@ -1,6 +1,5 @@
 import "package:adventure_log/controllers/auth/utils.dart";
 import "package:adventure_log/data/models/review_info.dart";
-import "package:adventure_log/views/pages/review_related/viewing/review.dart";
 import "package:adventure_log/views/widgets/reviews_list.dart";
 import "../../../../controllers/utils/constants.dart";
 import "../../../../controllers/utils/responsiveness.dart";
@@ -192,6 +191,15 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
                 Navigator.pushNamed(context, "/view-highest-rated-reviews"),
               },
               child: const Text("Highest rated reviews"),
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () => {
+                Navigator.pushNamed(context, "/view-saved-reviews"),
+              },
+              child: const Text("Saved reviews"),
             ),
           ),
         ],

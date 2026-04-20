@@ -51,6 +51,8 @@ Future<List<ReviewInfo>> fetchReviewsHighestRatedFirst() async {
 }
 
 Future<void> tryDeleteReview(String reviewId) async {
+  // Firestore settings performs backend validation for this so we don't need to worry about
+  // users deleting posts that aren't theres
   await _fetchReviewsCollection().doc(reviewId).delete();
 }
 
