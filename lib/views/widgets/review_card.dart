@@ -160,9 +160,15 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
     bool saved = _isReviewSaved!;
 
     return IconButton(
-      onPressed: () => saved
-          ? tryRemovingSavedReview(widget.review.id!, getCurUserAuth().uid)
-          : addSavedReview(widget.review, getCurUserAuth().uid),
+      onPressed: () {
+        if (saved == true) {
+          tryRemovingSavedReview(widget.review.id!, getCurUserAuth().uid);
+        } else {
+          addSavedReview(widget.review, getCurUserAuth().uid);
+        }
+
+        widget.refetchReviews();
+      },
       icon: Icon(
         Icons.save,
         color: saved ? Colors.greenAccent : Colors.red,
