@@ -111,15 +111,23 @@ Future<bool> isReviewSaved(String reviewId, String userId) async {
       .where("userId", isEqualTo: userId)
       .get();
 
-  return query.docs.isEmpty;
+  return query.docs.isNotEmpty;
 }
 
-Future<void> tryRemovingSavedReview(String reviewId, String userId) async {
-  // This needs to consider USER ID as well
-  await FirebaseFirestore.instance
+Future<bool> tryRemovingSavedReview(String reviewId, String userId) async {
+  final query = await FirebaseFirestore.instance
       .collection("savedReviews")
-      .doc(reviewId)
-      .delete();
+      .where("reviewId", isEqualTo: reviewId)
+      .where("userId", isEqualTo: userId)
+      .get();
+
+  if (query.docs.isEmpty) {
+    return false;
+  }
+
+  query.docs.first.reference.delete();
+
+  return true;
 }
 
 CollectionReference<Map<String, dynamic>> _fetchReviewsCollection() {
