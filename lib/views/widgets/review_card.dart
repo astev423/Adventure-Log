@@ -158,7 +158,6 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
     }
 
     bool saved = _isReviewSaved!;
-    print("${widget.review.id!}, ${getCurUserAuth().uid}");
 
     return IconButton(
       onPressed: () {

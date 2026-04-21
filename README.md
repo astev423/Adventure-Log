@@ -11,8 +11,10 @@ An app semi-inspired by Yelp. Users can see reviews of places and add their own 
 utilizing and showing that data in the UI.
 
 ## Challenges
--Working with NoSQL and firestore which doesn't like foreign keys and instead focuses on denormalizing data,
-coming from SQL this is tricky to get used to.
+-I found it challenging working with NoSQL and firestore which doesn't like foreign keys and instead focuses 
+on denormalizing data. Coming from SQL this is tricky to get used to. Also the document id is handled
+differently than a normal field which caused me some confusion, especially when working with data that 
+has both id fields and a non field id.
 
 -My review code is a bit intertangled and I have to be careful not to make breaking changes or else it might
 affect all my pages that use reviews.
