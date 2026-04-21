@@ -202,6 +202,15 @@ Future<dynamic> _showReviewsFilterModal(BuildContext context) {
               child: const Text("Saved reviews"),
             ),
           ),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () => {
+                Navigator.pushNamed(context, "/view-ignored-reviews"),
+              },
+              child: const Text("Ignored reviews"),
+            ),
+          ),
         ],
       ),
       actions: [

@@ -199,7 +199,7 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
     return IconButton(
       onPressed: () {
         if (_isReviewIgnored! == true) {
-          //tryRemovingIgnoredReview(widget.review.id!, getCurUserAuth().uid);
+          tryRemovingIgnoredReview(widget.review.id!, getCurUserAuth().uid);
         } else {
           addIgnoredReview(widget.review, getCurUserAuth().uid);
         }

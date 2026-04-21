@@ -10,6 +10,8 @@ An app semi-inspired by Yelp. Users can see reviews of places and add their own 
 -Saving reviews, adding the firestore query functionalities for working with that data and also
 utilizing and showing that data in the UI.
 
+-Hidden reviews, similar to saved reviews
+
 ## Challenges
 -I found it challenging working with NoSQL and firestore which doesn't like foreign keys and instead focuses 
 on denormalizing data. Coming from SQL this is tricky to get used to. Also the document id is handled

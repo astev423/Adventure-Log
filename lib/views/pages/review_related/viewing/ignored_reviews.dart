@@ -26,7 +26,7 @@ class _IgnoredReviewsState extends State<IgnoredReviews> {
   Widget build(BuildContext context) {
     var header = Align(
       alignment: .topCenter,
-      child: constants.headerText("Saved reviews:", context),
+      child: constants.headerText("Ignored reviews:", context),
     );
     var reviewsList = ReviewsList(reviews, fetchReviews);
 
@@ -35,7 +35,7 @@ class _IgnoredReviewsState extends State<IgnoredReviews> {
 
   void fetchReviews() {
     setState(() {
-      //reviews = fetchAllReviewsUserIgnored(getCurUserAuth().uid);
+      reviews = fetchAllReviewsUserIgnored(getCurUserAuth().uid);
     });
   }
 }

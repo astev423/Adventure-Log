@@ -1,5 +1,6 @@
 import "package:adventure_log/views/pages/review_related/viewing/closest_reviews.dart";
 import "package:adventure_log/views/pages/review_related/viewing/highest_rated_reviews.dart";
+import "package:adventure_log/views/pages/review_related/viewing/ignored_reviews.dart";
 import "package:adventure_log/views/pages/review_related/viewing/newest_reviews.dart";
 import "package:adventure_log/views/pages/review_related/viewing/saved_reviews.dart";
 import "package:adventure_log/views/pages/review_related/viewing/specific_user_reviews.dart";
@@ -56,6 +57,11 @@ MaterialPageRoute<dynamic> _handleRoute(RouteSettings settings) {
     case "/view-saved-reviews":
       return MaterialPageRoute(
         builder: (_) => const ProtectedPage(child: SavedReviews()),
+      );
+
+    case "/view-ignored-reviews":
+      return MaterialPageRoute(
+        builder: (_) => const ProtectedPage(child: IgnoredReviews()),
       );
 
     case "/view-highest-rated-reviews":
