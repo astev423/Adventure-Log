@@ -130,6 +130,25 @@ Future<bool> tryRemovingSavedReview(String reviewId, String userId) async {
   return true;
 }
 
+Future<void> addIgnoredReview(ReviewInfo review, String userId) async {
+  // Instead of storing foreign keys denormalize since this is NoSQL
+  await FirebaseFirestore.instance.collection("ignoredReviews").add({
+    "userId": userId,
+    "reviewId": review.id!,
+    ...review.toJson(),
+  });
+}
+
+Future<bool> isReviewIgnored(String reviewId, String userId) async {
+  final query = await FirebaseFirestore.instance
+      .collection("ignoredReviews")
+      .where("reviewId", isEqualTo: reviewId)
+      .where("userId", isEqualTo: userId)
+      .get();
+
+  return query.docs.isNotEmpty;
+}
+
 CollectionReference<Map<String, dynamic>> _fetchReviewsCollection() {
   return FirebaseFirestore.instance.collection("reviews");
 }

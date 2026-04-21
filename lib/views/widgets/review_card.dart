@@ -84,12 +84,14 @@ class _ReviewHeader extends StatefulWidget {
 class __ReviewHeaderState extends State<_ReviewHeader> {
   User? _userData;
   bool? _isReviewSaved;
+  bool? _isReviewIgnored;
 
   @override
   void initState() {
     super.initState();
     _setCurUserData();
     _checkIfReviewIsSaved();
+    _checkIfReviewIsIgnored();
   }
 
   @override
@@ -100,7 +102,10 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
         Expanded(
           child: Center(
             // If review saved show green icon, if not saved show red, if loading show nothing
-            child: _reviewSaveButton(),
+            child: Row(
+              mainAxisSize: .min,
+              children: [_reviewSaveButton(), _reviewIgnoreButton()],
+            ),
           ),
         ),
         Row(
@@ -152,16 +157,24 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
     });
   }
 
+  void _checkIfReviewIsIgnored() async {
+    _isReviewIgnored = await isReviewIgnored(
+      widget.review.id!,
+      getCurUserAuth().uid,
+    );
+    setState(() {
+      _isReviewIgnored = _isReviewIgnored;
+    });
+  }
+
   Widget _reviewSaveButton() {
     if (_isReviewSaved == null) {
       return const SizedBox();
     }
 
-    bool saved = _isReviewSaved!;
-
     return IconButton(
       onPressed: () {
-        if (saved == true) {
+        if (_isReviewSaved! == true) {
           tryRemovingSavedReview(widget.review.id!, getCurUserAuth().uid);
         } else {
           addSavedReview(widget.review, getCurUserAuth().uid);
@@ -171,10 +184,32 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
       },
       icon: Icon(
         Icons.save,
-        color: saved ? Colors.greenAccent : Colors.red,
+        color: _isReviewSaved! ? Colors.greenAccent : Colors.red,
         size: 30,
       ),
-      tooltip: saved ? "Unsave review" : "Save review",
+      tooltip: _isReviewSaved! ? "Unsave review" : "Save review",
+    );
+  }
+
+  Widget _reviewIgnoreButton() {
+    if (_isReviewIgnored == null) {
+      return const SizedBox();
+    }
+
+    return IconButton(
+      onPressed: () {
+        if (_isReviewIgnored! == true) {
+          //tryRemovingIgnoredReview(widget.review.id!, getCurUserAuth().uid);
+        } else {
+          addIgnoredReview(widget.review, getCurUserAuth().uid);
+        }
+
+        widget.refetchReviews();
+      },
+      icon: _isReviewIgnored!
+          ? const Icon(Icons.visibility_off, color: Colors.red, size: 30)
+          : const Icon(Icons.visibility, color: Colors.greenAccent, size: 30),
+      tooltip: _isReviewIgnored! ? "Review ignored" : "Review is visible",
     );
   }
 }
