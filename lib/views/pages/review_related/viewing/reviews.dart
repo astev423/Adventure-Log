@@ -31,7 +31,7 @@ class _ReviewsState extends State<Reviews> {
         child: Center(
           child: Column(
             children: [
-              const _ViewReviewsHeader(),
+              _ViewReviewsHeader(fetchReviews),
               Text(
                 "Click on a review to see it in more detail",
                 style: TextStyle(
@@ -59,19 +59,15 @@ class _ReviewsState extends State<Reviews> {
 }
 
 class _ViewReviewsHeader extends StatelessWidget {
-  const _ViewReviewsHeader();
+  final void Function() refetchReviews;
+
+  const _ViewReviewsHeader(this.refetchReviews);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Align(
-          alignment: .topLeft,
-          child: appThemedButton(
-            () => _showReviewsFilterModal(context),
-            "Filter reviews",
-          ),
-        ),
+        Align(alignment: .topLeft, child: _FilterReviewsOption(refetchReviews)),
         Align(alignment: .topCenter, child: headerText("Reviews", context)),
         Align(
           alignment: .topRight,
@@ -91,6 +87,143 @@ class _ViewReviewsHeader extends StatelessWidget {
     }
 
     Navigator.pushNamed(context, "/view-review", arguments: randomReview);
+  }
+}
+
+class _FilterReviewsOption extends StatefulWidget {
+  final void Function() refetchReviews;
+
+  const _FilterReviewsOption(this.refetchReviews);
+
+  @override
+  State<_FilterReviewsOption> createState() => _FilterReviewsOptionState();
+}
+
+class _FilterReviewsOptionState extends State<_FilterReviewsOption> {
+  @override
+  Widget build(BuildContext context) {
+    return appThemedButton(
+      () => _showReviewsFilterModal(context),
+      "Filter reviews",
+    );
+  }
+
+  Future<dynamic> _showReviewsFilterModal(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: grey,
+        title: const Text("Filter by:"),
+        content: Column(
+          mainAxisSize: .min,
+          spacing: 5,
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await Navigator.pushNamed(
+                    context,
+                    "/view-specific-user-reviews",
+                    arguments: getCurUserAuth().displayName,
+                  );
+                  setState(() {
+                    widget.refetchReviews();
+                  });
+                },
+                child: const Text("My reviews"),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  final username = await _showTextInputDialog(context);
+
+                  if (username != null && username.isNotEmpty) {
+                    await Navigator.pushNamed(
+                      context,
+                      "/view-specific-user-reviews",
+                      arguments: username,
+                    );
+                    setState(() {
+                      widget.refetchReviews();
+                    });
+                  }
+                },
+                child: const Text("Specific user"),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await Navigator.pushNamed(context, "/view-closest-reviews");
+                  setState(() {
+                    widget.refetchReviews();
+                  });
+                },
+                child: const Text("Closest to me"),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await Navigator.pushNamed(context, "/view-newest-reviews");
+                  setState(() {
+                    widget.refetchReviews();
+                  });
+                },
+                child: const Text("Newest posts first"),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  Navigator.pushNamed(context, "/view-highest-rated-reviews");
+                  setState(() {
+                    widget.refetchReviews();
+                  });
+                },
+                child: const Text("Highest rated reviews"),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  Navigator.pushNamed(context, "/view-saved-reviews");
+                  setState(() {
+                    widget.refetchReviews();
+                  });
+                },
+                child: const Text("Saved reviews"),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await Navigator.pushNamed(context, "/view-ignored-reviews");
+                  setState(() {
+                    widget.refetchReviews();
+                  });
+                },
+                child: const Text("Ignored reviews"),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Close"),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -123,102 +256,5 @@ Future<String?> _showTextInputDialog(BuildContext context) async {
         ],
       );
     },
-  );
-}
-
-Future<dynamic> _showReviewsFilterModal(BuildContext context) {
-  return showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      backgroundColor: grey,
-      title: const Text("Filter by:"),
-      content: Column(
-        mainAxisSize: .min,
-        spacing: 5,
-        children: [
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () async {
-                Navigator.pushNamed(
-                  context,
-                  "/view-specific-user-reviews",
-                  arguments: getCurUserAuth().displayName,
-                );
-              },
-              child: const Text("My reviews"),
-            ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () async {
-                final username = await _showTextInputDialog(context);
-
-                if (username != null && username.isNotEmpty) {
-                  Navigator.pushNamed(
-                    context,
-                    "/view-specific-user-reviews",
-                    arguments: username,
-                  );
-                }
-              },
-              child: const Text("Specific user"),
-            ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => {
-                Navigator.pushNamed(context, "/view-closest-reviews"),
-              },
-              child: const Text("Closest to me"),
-            ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => {
-                Navigator.pushNamed(context, "/view-newest-reviews"),
-              },
-              child: const Text("Newest posts first"),
-            ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => {
-                Navigator.pushNamed(context, "/view-highest-rated-reviews"),
-              },
-              child: const Text("Highest rated reviews"),
-            ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => {
-                Navigator.pushNamed(context, "/view-saved-reviews"),
-              },
-              child: const Text("Saved reviews"),
-            ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => {
-                Navigator.pushNamed(context, "/view-ignored-reviews"),
-              },
-              child: const Text("Ignored reviews"),
-            ),
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text("Close"),
-        ),
-      ],
-    ),
   );
 }

@@ -7,7 +7,9 @@ An app semi-inspired by Yelp. Users can see reviews of places and add their own 
 # Project progress update #3
 
 ## What I've worked on
--I worked on
+-I worked on refetching the reviews on the homepage when the user returns from a filtered review page
+because the user might update the reviews in the filtered page and that should show when they return to
+the homepage
 
 ## Challenges
 -One challenge I faced was
