@@ -68,6 +68,7 @@ class _AuthPageState extends State<AuthPage> {
                     if (_error != null)
                       Text(_error!, style: const TextStyle(color: Colors.red)),
                     appThemedButton(
+                      context,
                       _submit,
                       _isSignedIn ? "Sign In" : "Sign Up",
                     ),

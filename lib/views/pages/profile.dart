@@ -57,7 +57,7 @@ class AccountInfo extends StatelessWidget {
                     style: TextStyle(fontSize: responsiveFontSize(context, 20)),
                   ),
                   const _AddProfilePicture(),
-                  appThemedButton(_signOut, "Click here to sign out"),
+                  appThemedButton(context, _signOut, "Click here to sign out"),
                 ],
               ),
             ),
@@ -116,9 +116,12 @@ class _AddProfilePictureState extends State<_AddProfilePicture> {
             backgroundColor: mint,
             side: const BorderSide(color: darkGreen, width: 2),
           ),
-          child: const Text(
+          child: Text(
             "Submit your profile picture",
-            style: TextStyle(color: darkGreen),
+            style: TextStyle(
+              color: darkGreen,
+              fontSize: responsiveFontSize(context, 10),
+            ),
           ),
         ),
       ],

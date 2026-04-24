@@ -18,7 +18,7 @@ class _UploadImageState extends State<UploadImage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        appThemedButton(_pickFile, "Pick a file"),
+        appThemedButton(context, _pickFile, "Pick a file"),
         if (_selectedFile != null) ...[
           const SizedBox(height: 12),
           Text("Selected: ${_selectedFile!.name}"),

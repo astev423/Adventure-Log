@@ -103,7 +103,7 @@ class _AddReviewFormState extends State<_AddReviewForm> {
         "Justify your rating",
       ),
       _MakeReviewPrivateOption(_isReviewPublic, _onPrivateBoxClicked),
-      appThemedButton(_submitForm, "Submit"),
+      appThemedButton(context, _submitForm, "Submit"),
     ];
   }
 
@@ -214,7 +214,7 @@ class _LocationCoordsField extends StatelessWidget {
     return Column(
       children: [
         Text("Location Coordinates", style: _formBoldText(context)),
-        appThemedButton(() async {
+        appThemedButton(context, () async {
           try {
             final curLocation = await Geolocator.getCurrentPosition();
             locationCoordsCtl.text = getCoordsStrFromPos(curLocation);

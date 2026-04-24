@@ -23,6 +23,7 @@ class FilteredReviewsPageLayout extends StatelessWidget {
                   Align(
                     alignment: .topLeft,
                     child: constants.appThemedButton(
+                      context,
                       () => Navigator.pop(context),
                       "Click here to go back!",
                     ),

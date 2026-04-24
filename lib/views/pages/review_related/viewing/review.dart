@@ -36,6 +36,7 @@ class _ReviewState extends State<Review> {
               Row(
                 children: [
                   appThemedButton(
+                    context,
                     () => Navigator.pop(context),
                     "Click here to go back!",
                   ),

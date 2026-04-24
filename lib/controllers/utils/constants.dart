@@ -18,13 +18,23 @@ Text headerText(String text, BuildContext context) {
   );
 }
 
-ElevatedButton appThemedButton(VoidCallback onPressed, String buttonText) {
+ElevatedButton appThemedButton(
+  BuildContext context,
+  VoidCallback onPressed,
+  String buttonText,
+) {
   return ElevatedButton(
     onPressed: onPressed,
     style: ElevatedButton.styleFrom(
       backgroundColor: mint,
-      side: const BorderSide(color: darkGreen, width: 2),
+      side: const BorderSide(color: darkGreen, width: 1),
     ),
-    child: Text(buttonText, style: const TextStyle(color: darkGreen)),
+    child: Text(
+      buttonText,
+      style: TextStyle(
+        color: darkGreen,
+        fontSize: responsiveFontSize(context, 10),
+      ),
+    ),
   );
 }

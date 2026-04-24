@@ -72,6 +72,7 @@ class _ViewReviewsHeader extends StatelessWidget {
         Align(
           alignment: .topRight,
           child: appThemedButton(
+            context,
             () => switchToRandomReviewPage(context),
             "View a random review",
           ),
@@ -103,6 +104,7 @@ class _FilterReviewsOptionState extends State<_FilterReviewsOption> {
   @override
   Widget build(BuildContext context) {
     return appThemedButton(
+      context,
       () => _showReviewsFilterModal(context),
       "Filter reviews",
     );
