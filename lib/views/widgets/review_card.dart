@@ -96,6 +96,45 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
 
   @override
   Widget build(BuildContext context) {
+    if (MediaQuery.sizeOf(context).width < 850) {
+      return Column(
+        children: [
+          Row(
+            mainAxisAlignment: .center,
+            children: [
+              Text(
+                widget.review.locationName,
+                style: TextStyle(
+                  fontSize: responsiveFontSize(context, 20),
+                  fontWeight: .bold,
+                ),
+              ),
+              if (!widget.review.isPublic)
+                const Tooltip(
+                  message: "Private: Only you can see this review",
+                  child: Icon(Icons.lock),
+                ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: .center,
+            children: [
+              _reviewSaveButton(),
+              _reviewIgnoreButton(),
+              if (_userData != null &&
+                  _userData!.username == widget.review.posterUsername)
+                Row(
+                  mainAxisAlignment: .end,
+                  children: [
+                    _DeletePostButton(widget.review.id!, widget.refetchReviews),
+                  ],
+                ),
+            ],
+          ),
+        ],
+      );
+    }
+
     return Row(
       mainAxisAlignment: .spaceBetween,
       children: [

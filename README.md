@@ -11,7 +11,9 @@ An app semi-inspired by Yelp. Users can see reviews of places and add their own 
 because the user might update the reviews in the filtered page and that should show when they return to
 the homepage
 
--My app is web first but I still worked on how the UI looks on android and improved it a good amount
+-My app is web first but I still worked on how the UI looks on android and improved it a good amount. One
+thing I did was add a separate UI depending on the user's screen size as even with scaling the review cards
+still did not look good on mobile.
 
 ## Challenges
 -One challenge I faced was
