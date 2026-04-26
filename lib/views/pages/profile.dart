@@ -1,7 +1,7 @@
 import "package:adventure_log/controllers/auth/utils.dart";
 import "package:adventure_log/data/cloud_storage_funcs.dart";
 import "package:adventure_log/data/user_queries.dart";
-import "package:adventure_log/views/widgets/upload_image.dart";
+import "package:adventure_log/views/component_widgets/upload_image.dart";
 import "package:file_picker/file_picker.dart";
 import "../../controllers/utils/constants.dart";
 import "../../controllers/utils/responsiveness.dart";

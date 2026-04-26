@@ -1,6 +1,6 @@
 import "package:adventure_log/controllers/auth/utils.dart";
 import "package:adventure_log/data/models/review_info.dart";
-import "package:adventure_log/views/widgets/reviews_list.dart";
+import "package:adventure_log/views/component_widgets/reviews_list.dart";
 import "../../../../controllers/utils/constants.dart";
 import "../../../../controllers/utils/responsiveness.dart";
 import "package:adventure_log/data/review_queries.dart";

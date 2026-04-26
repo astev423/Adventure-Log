@@ -11,7 +11,7 @@ Text headerText(String text, BuildContext context) {
   return Text(
     text,
     style: TextStyle(
-      fontSize: responsiveFontSize(context, 40),
+      fontSize: responsiveFontSize(context, 30),
       fontWeight: .bold,
       color: darkGreen,
     ),

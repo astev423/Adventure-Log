@@ -16,7 +16,7 @@ class ReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 20, bottom: 20, left: 80, right: 80),
+      padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
       color: mint,
       child: Column(
         mainAxisSize: .min,
@@ -26,7 +26,10 @@ class ReviewCard extends StatelessWidget {
           Text(review.locationCoordinates),
           if (review.imageURL != null)
             ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 600, maxHeight: 400),
+              constraints: BoxConstraints(
+                maxWidth: 600,
+                maxHeight: responsiveHeight(context, 300),
+              ),
               child: Image(image: NetworkImage(review.imageURL!)),
             ),
           _StarRating(review.locationRating),
@@ -56,6 +59,7 @@ class _PosterInfoState extends State<_PosterInfo> {
   Widget build(BuildContext context) {
     return Row(
       spacing: 10,
+      mainAxisSize: .min,
       children: [
         Text("Review by: ${widget.review.posterUsername}"),
         if (widget.review.profilePictureURL != null)
@@ -105,7 +109,7 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
               Text(
                 widget.review.locationName,
                 style: TextStyle(
-                  fontSize: responsiveFontSize(context, 20),
+                  fontSize: responsiveFontSize(context, 14),
                   fontWeight: .bold,
                 ),
               ),

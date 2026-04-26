@@ -7,7 +7,7 @@ import "package:adventure_log/data/cloud_storage_funcs.dart";
 import "package:adventure_log/data/models/review_info.dart";
 import "package:adventure_log/data/review_queries.dart";
 import "package:adventure_log/data/user_queries.dart";
-import "package:adventure_log/views/widgets/upload_image.dart";
+import "package:adventure_log/views/component_widgets/upload_image.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:geolocator/geolocator.dart";
 import "package:file_picker/file_picker.dart";

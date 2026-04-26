@@ -2,7 +2,7 @@ import "package:adventure_log/data/review_queries.dart";
 import "../../../../controllers/utils/constants.dart";
 import "../../../../controllers/utils/responsiveness.dart";
 import "../../../../data/models/review_info.dart";
-import "../../../widgets/review_card.dart";
+import "../../../component_widgets/review_card.dart";
 import "package:flutter/material.dart";
 
 class Review extends StatefulWidget {

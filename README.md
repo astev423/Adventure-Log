@@ -18,6 +18,9 @@ still did not look good on mobile.
 ## Challenges
 -One challenge I faced was
 
+-Getting the UI right for mobile, very difficult when theres so many nested widgets and one affects
+the other
+
 ## Goals for next time
 -Next time I want to
 

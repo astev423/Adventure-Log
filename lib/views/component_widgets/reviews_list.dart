@@ -1,7 +1,7 @@
 import "package:adventure_log/controllers/utils/constants.dart";
 import "package:adventure_log/controllers/utils/responsiveness.dart";
 import "package:adventure_log/data/models/review_info.dart";
-import "package:adventure_log/views/widgets/review_card.dart";
+import "package:adventure_log/views/component_widgets/review_card.dart";
 import "package:flutter/material.dart";
 
 class ReviewsList extends StatefulWidget {
@@ -41,19 +41,13 @@ class ReviewsListState extends State<ReviewsList> {
           itemBuilder: (context, index) {
             final review = reviews[index];
 
-            return ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: responsiveWidth(context, 800),
-                maxHeight: responsiveHeight(context, 600),
+            return InkWell(
+              onTap: () => Navigator.pushNamed(
+                context,
+                "/view-review",
+                arguments: review,
               ),
-              child: InkWell(
-                onTap: () => Navigator.pushNamed(
-                  context,
-                  "/view-review",
-                  arguments: review,
-                ),
-                child: ReviewCard(review, widget.refetchReviews),
-              ),
+              child: ReviewCard(review, widget.refetchReviews),
             );
           },
         );
