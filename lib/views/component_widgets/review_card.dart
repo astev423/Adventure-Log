@@ -16,7 +16,12 @@ class ReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+      padding: EdgeInsets.only(
+        top: 10,
+        bottom: 10,
+        left: responsiveWidth(context, 3),
+        right: responsiveWidth(context, 3),
+      ),
       color: mint,
       child: Column(
         mainAxisSize: .min,
