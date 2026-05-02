@@ -16,12 +16,7 @@ class ReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(
-        top: 10,
-        bottom: 10,
-        left: responsiveWidth(context, 3),
-        right: responsiveWidth(context, 3),
-      ),
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
       color: mint,
       child: Column(
         mainAxisSize: .min,
@@ -29,18 +24,28 @@ class ReviewCard extends StatelessWidget {
           _ReviewHeader(review, refetchReviews),
           _PosterInfo(review),
           Text(review.locationCoordinates),
-          if (review.imageURL != null)
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: 600,
-                maxHeight: responsiveHeight(context, 300),
-              ),
-              child: Image(image: NetworkImage(review.imageURL!)),
-            ),
+          if (review.imageURL != null) _ReviewPhoto(review),
           _StarRating(review.locationRating),
           Text(review.reasonForRating ?? "", overflow: TextOverflow.ellipsis),
         ],
       ),
+    );
+  }
+}
+
+class _ReviewPhoto extends StatelessWidget {
+  const _ReviewPhoto(this.review);
+
+  final ReviewInfo review;
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: 600,
+        maxHeight: responsiveHeight(context, 300),
+      ),
+      child: Image(image: NetworkImage(review.imageURL!)),
     );
   }
 }
@@ -106,62 +111,70 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.sizeOf(context).width < 850) {
-      return Column(
-        children: [
-          Row(
-            mainAxisAlignment: .center,
-            children: [
-              Text(
-                widget.review.locationName,
-                style: TextStyle(
-                  fontSize: responsiveFontSize(context, 14),
-                  fontWeight: .bold,
-                ),
-              ),
-              if (!widget.review.isPublic)
-                const Tooltip(
-                  message: "Private: Only you can see this review",
-                  child: Icon(Icons.lock),
-                ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: .center,
-            children: [
-              _reviewSaveButton(),
-              _reviewIgnoreButton(),
-              if (_userData != null &&
-                  _userData!.username == widget.review.posterUsername)
-                Row(
-                  mainAxisAlignment: .end,
-                  children: [
-                    _DeletePostButton(widget.review.id!, widget.refetchReviews),
-                  ],
-                ),
-            ],
-          ),
-        ],
-      );
+      return _mobileReviewHeader(context);
     }
 
-    return Row(
-      mainAxisAlignment: .spaceBetween,
-      children: [
-        Expanded(
-          child: Center(
-            // If review saved show green icon, if not saved show red, if loading show nothing
+    return _desktopReviewHeader(context);
+  }
+
+  Padding _desktopReviewHeader(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: responsiveWidth(context, 40),
+        right: responsiveWidth(context, 40),
+      ),
+      child: Stack(
+        children: [
+          Align(
+            alignment: .centerLeft,
             child: Row(
               mainAxisSize: .min,
               children: [_reviewSaveButton(), _reviewIgnoreButton()],
             ),
           ),
-        ),
+          Align(
+            alignment: .center,
+            child: Row(
+              mainAxisSize: .min,
+              children: [
+                Text(
+                  widget.review.locationName,
+                  style: TextStyle(
+                    fontSize: responsiveFontSize(context, 20),
+                    fontWeight: .bold,
+                  ),
+                ),
+                if (!widget.review.isPublic)
+                  const Tooltip(
+                    message: "Private: Only you can see this review",
+                    child: Icon(Icons.lock),
+                  ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child:
+                (_userData != null &&
+                    _userData!.username == widget.review.posterUsername)
+                ? _DeletePostButton(widget.review.id!, widget.refetchReviews)
+                : const SizedBox(height: 10, width: 10),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Column _mobileReviewHeader(BuildContext context) {
+    return Column(
+      children: [
         Row(
+          mainAxisAlignment: .center,
           children: [
             Text(
               widget.review.locationName,
               style: TextStyle(
-                fontSize: responsiveFontSize(context, 20),
+                fontSize: responsiveFontSize(context, 14),
                 fontWeight: .bold,
               ),
             ),
@@ -172,18 +185,16 @@ class __ReviewHeaderState extends State<_ReviewHeader> {
               ),
           ],
         ),
-        if (_userData != null &&
-            _userData!.username == widget.review.posterUsername)
-          Expanded(
-            child: Row(
-              mainAxisAlignment: .end,
-              children: [
-                _DeletePostButton(widget.review.id!, widget.refetchReviews),
-              ],
-            ),
-          )
-        else
-          const Spacer(),
+        Row(
+          mainAxisAlignment: .center,
+          children: [
+            _reviewSaveButton(),
+            _reviewIgnoreButton(),
+            if (_userData != null &&
+                _userData!.username == widget.review.posterUsername)
+              _DeletePostButton(widget.review.id!, widget.refetchReviews),
+          ],
+        ),
       ],
     );
   }

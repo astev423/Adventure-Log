@@ -4,25 +4,18 @@ An app semi-inspired by Yelp. Users can see reviews of places and add their own 
 <img width="1848" height="955" alt="Screenshot_20260325_035810" src="https://github.com/user-attachments/assets/e77e0d19-d15d-4533-9ba3-8874c0f132b4" />
 <img width="1848" height="955" alt="Screenshot_20260325_035830" src="https://github.com/user-attachments/assets/b154e348-c484-4e4e-b806-0a8f642ba60d" />
 
-# Project progress update #3
+# Project progress update #5
 
 ## What I've worked on
--I worked on refetching the reviews on the homepage when the user returns from a filtered review page
-because the user might update the reviews in the filtered page and that should show when they return to
-the homepage
-
--My app is web first but I still worked on how the UI looks on android and improved it a good amount. One
-thing I did was add a separate UI depending on the user's screen size as even with scaling the review cards
-still did not look good on mobile.
+- I worked a lot on making my code more readable. I had problems where widgets were competing with each other to show in the UI, so I tried cutting out all the unnessecary code and widgets and simplify things. I found the stack widget to be very helpful with this as it allows me to define the layout rather than the layout being decided by the widgets
 
 ## Challenges
--One challenge I faced was
+- It was challenging to think about how I could simplify/refactor my project
 
--Getting the UI right for mobile, very difficult when theres so many nested widgets and one affects
-the other
+- I am working on another project in HTML + CSS + JS and switching between how CSS works for styling and how Flutter works caught me off guard at times.
 
 ## Goals for next time
--Next time I want to
+-
 
 ## Resources used
--I used
+- https://api.flutter.dev/flutter/widgets/Stack-class.html
