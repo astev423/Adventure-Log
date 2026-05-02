@@ -13,56 +13,69 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: AccountInfo());
-  }
-}
-
-class AccountInfo extends StatelessWidget {
-  final _userAuthInfo = getCurUserAuth();
-
-  AccountInfo({super.key});
-  Future<void> _signOut() async {
-    await FirebaseAuth.instance.signOut();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Center(
       child: Column(
         spacing: 20,
         children: [
           headerText("Account information", context),
-          Container(
-            height: responsiveHeight(context, 470),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              color: mint,
+          Padding(
+            padding: EdgeInsets.only(
+              left: responsiveWidth(context, 80),
+              right: responsiveWidth(context, 80),
             ),
-            padding: const EdgeInsets.all(10),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: .min,
-                spacing: 25,
-                children: [
-                  Text(
-                    "Username: ${_userAuthInfo.displayName}",
-                    style: TextStyle(fontSize: responsiveFontSize(context, 20)),
-                  ),
-                  Text(
-                    "Email: ${_userAuthInfo.email}",
-                    style: TextStyle(fontSize: responsiveFontSize(context, 20)),
-                  ),
-                  Text(
-                    "Upload a profile picture",
-                    style: TextStyle(fontSize: responsiveFontSize(context, 20)),
-                  ),
-                  const _AddProfilePicture(),
-                  appThemedButton(context, _signOut, "Click here to sign out"),
-                ],
-              ),
+            child: Stack(
+              children: [
+                Align(alignment: .center, child: _ProfileDetails()),
+                const Align(alignment: .centerRight, child: _ReviewStats()),
+              ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _ProfileDetails extends StatelessWidget {
+  final _userAuthInfo = getCurUserAuth();
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
+  _ProfileDetails();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: responsiveHeight(context, 470),
+      width: responsiveWidth(context, 300),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        color: mint,
+      ),
+      padding: const EdgeInsets.all(10),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: .min,
+          spacing: 25,
+          children: [
+            Text(
+              "Username: ${_userAuthInfo.displayName}",
+              style: TextStyle(fontSize: responsiveFontSize(context, 20)),
+            ),
+            Text(
+              "Email: ${_userAuthInfo.email}",
+              style: TextStyle(fontSize: responsiveFontSize(context, 20)),
+            ),
+            Text(
+              "Upload a profile picture",
+              style: TextStyle(fontSize: responsiveFontSize(context, 20)),
+            ),
+            const _AddProfilePicture(),
+            appThemedButton(context, _signOut, "Click here to sign out"),
+          ],
+        ),
       ),
     );
   }
@@ -143,5 +156,37 @@ class _AddProfilePictureState extends State<_AddProfilePicture> {
     setState(() {
       _profilePic = NetworkImage(curUserData.profilePictureURL!);
     });
+  }
+}
+
+class _ReviewStats extends StatelessWidget {
+  const _ReviewStats();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: responsiveHeight(context, 470),
+      width: responsiveWidth(context, 300),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        color: mint,
+      ),
+      padding: const EdgeInsets.all(10),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: .min,
+          spacing: 25,
+          children: [
+            Text(
+              "Profile stats:",
+              style: TextStyle(fontSize: responsiveFontSize(context, 20)),
+            ),
+            const Text("Total reviews posted: "),
+            const Text("Total reviews saved: "),
+            const Text("Total reviews ignored: "),
+          ],
+        ),
+      ),
+    );
   }
 }

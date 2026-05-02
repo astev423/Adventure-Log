@@ -32,60 +32,62 @@ class _AuthPageState extends State<AuthPage> {
             spacing: 50,
             children: [
               headerText("You must sign in to access this app", context),
-              Container(
-                width: responsiveWidth(context, 800),
-                padding: const EdgeInsets.all(20),
-                color: mint,
-                child: Column(
-                  spacing: 20,
-                  children: [
-                    const SizedBox(height: 20),
-                    if (!_isSignedIn)
-                      TextFormField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          labelText: "Display name",
-                        ),
-                        validator: requireNonEmptyString,
-                      ),
-                    TextFormField(
-                      controller: _emailController,
-                      decoration: const InputDecoration(labelText: "Email"),
-                      validator: requireNonEmptyString,
-                    ),
-                    TextFormField(
-                      controller: _passwordController,
-                      decoration: const InputDecoration(labelText: "Password"),
-                      obscureText: true,
-                      validator: (value) {
-                        if (value == null || value.length < 6) {
-                          return "Password must be at least 6 characters";
-                        }
-
-                        return null;
-                      },
-                    ),
-                    if (_error != null)
-                      Text(_error!, style: const TextStyle(color: Colors.red)),
-                    appThemedButton(
-                      context,
-                      _submit,
-                      _isSignedIn ? "Sign In" : "Sign Up",
-                    ),
-                    TextButton(
-                      onPressed: _toggleMode,
-                      child: Text(
-                        _isSignedIn
-                            ? "No account? Sign up"
-                            : "Already have an account? Sign in",
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              _formFields(context),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Container _formFields(BuildContext context) {
+    return Container(
+      width: responsiveWidth(context, 800),
+      padding: const EdgeInsets.all(20),
+      color: mint,
+      child: Column(
+        spacing: 20,
+        children: [
+          const SizedBox(height: 20),
+          if (!_isSignedIn)
+            TextFormField(
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: "Display name"),
+              validator: requireNonEmptyString,
+            ),
+          TextFormField(
+            controller: _emailController,
+            decoration: const InputDecoration(labelText: "Email"),
+            validator: requireNonEmptyString,
+          ),
+          TextFormField(
+            controller: _passwordController,
+            decoration: const InputDecoration(labelText: "Password"),
+            obscureText: true,
+            validator: (value) {
+              if (value == null || value.length < 6) {
+                return "Password must be at least 6 characters";
+              }
+
+              return null;
+            },
+          ),
+          if (_error != null)
+            Text(_error!, style: const TextStyle(color: Colors.red)),
+          appThemedButton(
+            context,
+            _submit,
+            _isSignedIn ? "Sign In" : "Sign Up",
+          ),
+          TextButton(
+            onPressed: _toggleMode,
+            child: Text(
+              _isSignedIn
+                  ? "No account? Sign up"
+                  : "Already have an account? Sign in",
+            ),
+          ),
+        ],
       ),
     );
   }
