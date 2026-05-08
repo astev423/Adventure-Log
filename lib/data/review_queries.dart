@@ -30,25 +30,6 @@ Future<List<ReviewInfo>> fetchAllVisibleReviewsForCurUser(String userId) async {
   return visibleReviews;
 }
 
-Future<List<ReviewInfo>> fetchAllPublicReviews(String userId) async {
-  final querySnapshot = await _fetchReviewsCollection()
-      .where("isPublic", isEqualTo: true)
-      .get();
-
-  var reviews = querySnapshot.docs
-      .map((doc) => ReviewInfo.fromJSON(doc.data(), doc.id))
-      .toList();
-
-  List<ReviewInfo> visibleReviews = [];
-  reviews.forEach((review) async {
-    if (!await isReviewIgnored(review.id!, userId)) {
-      visibleReviews.add(review);
-    }
-  });
-
-  return visibleReviews;
-}
-
 Future<List<ReviewInfo>> fetchAllReviewsFromUser(String username) async {
   final querySnapshot = await _fetchReviewsCollection()
       .where("posterUsername", isEqualTo: username)

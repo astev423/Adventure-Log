@@ -223,7 +223,9 @@ class _ReviewStatsState extends State<_ReviewStats> {
 
   void _fetchStats() async {
     final user = getCurUserAuth();
-    _totalReviewsPosted = (await fetchAllReviewsFromUser(user.uid)).length;
+    _totalReviewsPosted = (await fetchAllReviewsFromUser(
+      (await getCurUserData()).username,
+    )).length;
     _totalReviewsIgnored = (await fetchAllReviewsUserIgnored(user.uid)).length;
     _totalReviewsSaved = (await fetchAllReviewsUserSaved(user.uid)).length;
 

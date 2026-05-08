@@ -8,7 +8,9 @@ An app semi-inspired by Yelp. Users can see reviews of places and add their own 
 ## What I've worked on
 - I finished the profile stats page for displaying review related stats for a user's account. I also added a mobile view to the profile page so it works on different screen sizes.
 
-- 
+- I also fixed a tricky bug where ignored reviews were still visible even though they shouldn't be
+
+- I finished my presentation and deployed my site on github pages so I am now ready to present.
 
 ## Challenges
 - I find adding mobile views difficult. I usually just copy and paste my computer view code but change some things around, but that means there is a lot of duplicated code. I am not sure how to avoid all this duplication.
@@ -17,3 +19,6 @@ An app semi-inspired by Yelp. Users can see reviews of places and add their own 
 - I feel like the project is complete and I am happy with it and ready to turn it in
 
 ## Resources used
+- I had to reference how to use features of the future type, I used these resources: 
+https://dart.dev/libraries/async/async-await
+https://api.flutter.dev/flutter/dart-async/Future-class.html
