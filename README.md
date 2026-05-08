@@ -6,8 +6,12 @@ An app semi-inspired by Yelp. Users can see reviews of places and add their own 
 
 
 ## What I've worked on
+- I finished the profile stats page for displaying review related stats for a user's account. I also added a mobile view to the profile page so it works on different screen sizes.
+
+- 
 
 ## Challenges
+- I find adding mobile views difficult. I usually just copy and paste my computer view code but change some things around, but that means there is a lot of duplicated code. I am not sure how to avoid all this duplication.
 
 ## Goals for next time
 - I feel like the project is complete and I am happy with it and ready to turn it in

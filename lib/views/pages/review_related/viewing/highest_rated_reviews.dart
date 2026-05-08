@@ -1,3 +1,4 @@
+import "package:adventure_log/controllers/auth/utils.dart";
 import "package:adventure_log/controllers/utils/constants.dart" as constants;
 import "package:adventure_log/data/models/review_info.dart";
 import "package:adventure_log/data/review_queries.dart";
@@ -34,7 +35,7 @@ class _HighestRatedReviewsState extends State<HighestRatedReviews> {
 
   void fetchReviews() {
     setState(() {
-      reviews = fetchReviewsHighestRatedFirst();
+      reviews = fetchReviewsHighestRatedFirst(getCurUserAuth().uid);
     });
   }
 }

@@ -10,18 +10,43 @@ void addReview(ReviewInfo review) async {
   FirebaseFirestore.instance.collection("reviews").add(review.toJson());
 }
 
-Future<List<ReviewInfo>> fetchAllVisibleReviewsForCurUser() async {
+Future<List<ReviewInfo>> fetchAllVisibleReviewsForCurUser(String userId) async {
   final querySnapshot = await _queryOfAllVisibleReviewsToCurUser().get();
+  var reviews = querySnapshot.docs
+      .map((doc) => ReviewInfo.fromJSON(doc.data(), doc.id))
+      .toList();
 
-  return _turnReviewSnapshotIntoList(querySnapshot);
+  final ignoredReviews = await Future.wait(
+    reviews.map((review) => isReviewIgnored(review.id!, userId)),
+  );
+
+  final visibleReviews = <ReviewInfo>[];
+  for (var i = 0; i < reviews.length; i++) {
+    if (!ignoredReviews[i]) {
+      visibleReviews.add(reviews[i]);
+    }
+  }
+
+  return visibleReviews;
 }
 
-Future<List<ReviewInfo>> fetchAllPublicReviews() async {
+Future<List<ReviewInfo>> fetchAllPublicReviews(String userId) async {
   final querySnapshot = await _fetchReviewsCollection()
       .where("isPublic", isEqualTo: true)
       .get();
 
-  return _turnReviewSnapshotIntoList(querySnapshot);
+  var reviews = querySnapshot.docs
+      .map((doc) => ReviewInfo.fromJSON(doc.data(), doc.id))
+      .toList();
+
+  List<ReviewInfo> visibleReviews = [];
+  reviews.forEach((review) async {
+    if (!await isReviewIgnored(review.id!, userId)) {
+      visibleReviews.add(review);
+    }
+  });
+
+  return visibleReviews;
 }
 
 Future<List<ReviewInfo>> fetchAllReviewsFromUser(String username) async {
@@ -32,20 +57,23 @@ Future<List<ReviewInfo>> fetchAllReviewsFromUser(String username) async {
   return _turnReviewSnapshotIntoList(querySnapshot);
 }
 
-Future<List<ReviewInfo>> fetchReviewsNewestFirst() async {
-  final reviews = await fetchAllVisibleReviewsForCurUser();
+Future<List<ReviewInfo>> fetchReviewsNewestFirst(String userId) async {
+  final reviews = await fetchAllVisibleReviewsForCurUser(userId);
 
   return sortReviewsByNewestFirst(reviews);
 }
 
-Future<List<ReviewInfo>> fetchReviewsClosestFirst(Position userCoords) async {
-  final reviews = await fetchAllVisibleReviewsForCurUser();
+Future<List<ReviewInfo>> fetchReviewsClosestFirst(
+  Position userCoords,
+  String userId,
+) async {
+  final reviews = await fetchAllVisibleReviewsForCurUser(userId);
 
   return sortReviewsByClosestToUser(userCoords, reviews);
 }
 
-Future<List<ReviewInfo>> fetchReviewsHighestRatedFirst() async {
-  final reviews = await fetchAllVisibleReviewsForCurUser();
+Future<List<ReviewInfo>> fetchReviewsHighestRatedFirst(String userId) async {
+  final reviews = await fetchAllVisibleReviewsForCurUser(userId);
 
   return sortReviewsByHighestRatedFirst(reviews);
 }

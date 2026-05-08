@@ -53,7 +53,7 @@ class _ReviewsState extends State<Reviews> {
 
   void fetchReviews() {
     setState(() {
-      reviews = fetchAllVisibleReviewsForCurUser();
+      reviews = fetchAllVisibleReviewsForCurUser(getCurUserAuth().uid);
     });
   }
 }

@@ -1,3 +1,4 @@
+import "package:adventure_log/controllers/auth/utils.dart";
 import "package:adventure_log/data/review_queries.dart";
 import "../../controllers/utils/constants.dart";
 import "../../data/models/review_info.dart";
@@ -45,7 +46,7 @@ class _ExploreState extends State<Explore> {
   }
 
   void _getReviewsForMap() async {
-    _reviews = await fetchAllVisibleReviewsForCurUser();
+    _reviews = await fetchAllVisibleReviewsForCurUser(getCurUserAuth().uid);
     setState(() {
       _reviews = _reviews;
       _isFetchingDone = true;

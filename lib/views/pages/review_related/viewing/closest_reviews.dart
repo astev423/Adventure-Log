@@ -1,3 +1,4 @@
+import "package:adventure_log/controllers/auth/utils.dart";
 import "package:adventure_log/controllers/utils/constants.dart" as constants;
 import "package:adventure_log/data/review_queries.dart";
 import "package:adventure_log/data/models/review_info.dart";
@@ -72,7 +73,7 @@ class _NeedLocationReviewsListState extends State<_NeedLocationReviewsList> {
       return [];
     }
 
-    return fetchReviewsClosestFirst(_userLocation!);
+    return fetchReviewsClosestFirst(_userLocation!, getCurUserAuth().uid);
   }
 
   void fetchReviews() {

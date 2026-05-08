@@ -1,4 +1,0 @@
-- Finish details for profile page
-- Make mobile view for profile page using columns instead of rows
-- Ignored reviews not hiding properly, fix
-- Also test on android horizontol + vertical screen mode
