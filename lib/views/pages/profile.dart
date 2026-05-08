@@ -1,5 +1,6 @@
 import "package:adventure_log/controllers/auth/utils.dart";
 import "package:adventure_log/data/cloud_storage_funcs.dart";
+import "package:adventure_log/data/review_queries.dart";
 import "package:adventure_log/data/user_queries.dart";
 import "package:adventure_log/views/component_widgets/upload_image.dart";
 import "package:file_picker/file_picker.dart";
@@ -13,6 +14,21 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (MediaQuery.sizeOf(context).width < 850) {
+      return Center(
+        child: SingleChildScrollView(
+          child: Column(
+            spacing: 20,
+            children: [
+              headerText("Account information", context),
+              _ProfileDetails(),
+              const _ReviewStats(),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Center(
       child: Column(
         spacing: 20,
@@ -159,8 +175,23 @@ class _AddProfilePictureState extends State<_AddProfilePicture> {
   }
 }
 
-class _ReviewStats extends StatelessWidget {
+class _ReviewStats extends StatefulWidget {
   const _ReviewStats();
+
+  @override
+  State<_ReviewStats> createState() => _ReviewStatsState();
+}
+
+class _ReviewStatsState extends State<_ReviewStats> {
+  int? _totalReviewsPosted;
+  int? _totalReviewsSaved;
+  int? _totalReviewsIgnored;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchStats();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -181,12 +212,25 @@ class _ReviewStats extends StatelessWidget {
               "Profile stats:",
               style: TextStyle(fontSize: responsiveFontSize(context, 20)),
             ),
-            const Text("Total reviews posted: "),
-            const Text("Total reviews saved: "),
-            const Text("Total reviews ignored: "),
+            Text("Total reviews posted: ${_totalReviewsPosted ?? ""}"),
+            Text("Total reviews ignored: ${_totalReviewsIgnored ?? ""}"),
+            Text("Total reviews saved: ${_totalReviewsSaved ?? ""}"),
           ],
         ),
       ),
     );
+  }
+
+  void _fetchStats() async {
+    final user = getCurUserAuth();
+    _totalReviewsPosted = (await fetchAllReviewsFromUser(user.uid)).length;
+    _totalReviewsIgnored = (await fetchAllReviewsUserIgnored(user.uid)).length;
+    _totalReviewsSaved = (await fetchAllReviewsUserSaved(user.uid)).length;
+
+    setState(() {
+      _totalReviewsPosted = _totalReviewsPosted;
+      _totalReviewsIgnored = _totalReviewsIgnored;
+      _totalReviewsSaved = _totalReviewsSaved;
+    });
   }
 }
