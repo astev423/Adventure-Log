@@ -1,20 +1,31 @@
+# This is for the display name that shows in the github actions tab
 name: Deploy Flutter Web to GitHub Pages
 
+# On is for adding events that will trigger this github action, here we run on push and also use 
+# workflow dispatch to allow us to manually run this action from github website
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
+# Permissions are for what our workflow can do, we use id-token: write for auth, pages to allow
+# us to deploy to github, and contents: read which allows cloning the contents of our repo
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Here we defined that we don't allow multiple deployments from running at same time by giving this
+# deployment a group and cancel in progress false to prevent this deployment from being interrupted
 concurrency:
   group: pages
   cancel-in-progress: false
 
+# The actual work part is down here now, this work gets run each time action runs
 jobs:
+  # Define how to build the project, use ubuntu virtual machine and use actions/checkout to
+  # run things. We install flutter and then get the dependencies, build the project, then 
+  # upload the artifact to github servers with upload pages action
   build:
     runs-on: ubuntu-latest
 
@@ -33,6 +44,8 @@ jobs:
         with:
           path: build/web
 
+  # Deploy using github pages to given url and use ubuntu and wait for build to complete 
+  # so github can use it
   deploy:
     environment:
       name: github-pages

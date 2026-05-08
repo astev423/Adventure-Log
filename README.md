@@ -23,4 +23,6 @@ An app semi-inspired by Yelp. Users can see reviews of places and add their own 
 https://dart.dev/libraries/async/async-await
 https://api.flutter.dev/flutter/dart-async/Future-class.html
 
-- I also used Gemini AI to help make the GitHub pages deploy.yml file. Prompt asked: How to make a yml file for GitHub pages deployment with a flutter app 
+- I used Gemini AI to help make the GitHub pages deploy.yml file. Prompt asked: How to make a yml file for GitHub pages deployment with a flutter app 
+
+- I ran into several error messages in the GitHub pages actions console while trying to deploy the app and I copy and pasted the error message into Gemini AI to try to see what was wrong. The problems were that I wasn't including enough files. For example, I needed my web/ folder but that was in gitignore and I needed the firebase options file so I had to include both of those and remove them from gitignore
