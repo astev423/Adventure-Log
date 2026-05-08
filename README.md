@@ -22,3 +22,5 @@ An app semi-inspired by Yelp. Users can see reviews of places and add their own 
 - I had to reference how to use features of the future type, I used these resources: 
 https://dart.dev/libraries/async/async-await
 https://api.flutter.dev/flutter/dart-async/Future-class.html
+
+- I also used Gemini AI to help make the GitHub pages deploy.yml file. Prompt asked: How to make a yml file for GitHub pages deployment with a flutter app 
